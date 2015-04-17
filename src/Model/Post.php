@@ -25,7 +25,7 @@ class Post extends Model {
 
     function findContent($name){
 
-        return $this
+        $c = $this
             ->contents()
             ->whereIn(
                 'item_id',
@@ -33,7 +33,13 @@ class Post extends Model {
                     ->items()
                     ->where('name','=',$name)
                     ->lists('id'))
-            ->get()
             ->first();
+
+        if(!isset($c)){
+            $c = new Content();
+            $c->value = '';
+        }
+
+        return $c;
     }
 }

@@ -72,13 +72,13 @@ class EditPagesPosts extends Table2 {
         return [
             "view" => [
                 'id'=>$this->getHeaderSingular()."-view",
-                'text'=>'Edit Section',
+                'text'=>'Edit Post',
                 'requiresSelect'=>'true',
                 'url'=>$this->getViewPartialRoute()
             ],
             "create" => [
                 'id'=>$this->getHeaderSingular()."-create",
-                'text'=>'Add Section',
+                'text'=>'Create Post',
                 'requiresSelect'=>'false',
                 'url'=>$this->getCreateUrl(),
                 'float'=>'left'

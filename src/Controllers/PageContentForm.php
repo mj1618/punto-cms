@@ -100,7 +100,7 @@ class PageContentForm extends FormController {
                             ->id($item->id)
                             ->valueField('value')
                             ->label($item->name)
-                            ->defaultValue($content?$content->value:'');
+                            ->selected($content?$content->value:0);
                     break;
                 case "image":
                     $is[] =
@@ -158,7 +158,7 @@ class PageContentForm extends FormController {
         }
 
 
-        return Redirect::to(URL::previous());
+        return Redirect::to("/admin/edit-pages/".Request::route("id1")."/view");
     }
 
 }

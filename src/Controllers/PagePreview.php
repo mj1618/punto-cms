@@ -16,7 +16,7 @@ class PagePreview extends Controller {
 
     function show(){
         $page = Page::find(Request::route('id1'));
-        return View::make('aui/pages/page-preview')->with('page',$page);
+        return View::make('punto-cms::page-preview')->with('page',$page);
     }
 
     public static function routes(){
