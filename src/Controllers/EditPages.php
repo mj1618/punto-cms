@@ -71,7 +71,7 @@ class EditPages extends Table2 {
                 'url' => (new TextBox())
                     ->id('url')
                     ->label('URL')
-                    ->defaultValue($row ? $row->url : ''),
+                    ->defaultValue($row ? $row->url : "/".substr( md5(rand()), 0, 6)),
                 'template_id' => (new DropDown())
                     ->id('template_id')
                     ->nullable(false)
@@ -93,6 +93,12 @@ class EditPages extends Table2 {
                 'requiresSelect'=>'true',
                 'newTab'=>'true',
                 'url'=>$this->getBaseUrl()."/{id}/open"
+            ],
+            "copy" => [
+                'id'=>$this->getHeaderSingular()."-copy",
+                'text'=>'Copy Page',
+                'requiresSelect'=>'true',
+                'url'=>$this->getBaseUrl()."/{id}/copy"
             ],
             "view" => [
                 'id'=>$this->getHeaderSingular()."-view",

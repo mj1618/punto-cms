@@ -50,6 +50,7 @@ class TemplateSections extends Table2 {
                 ];
         });
         $this->parentHeader='Template';
+        $this->foreignKeyField="template_id";
         parent::tableName('section');
     }
     function getViewViews(){

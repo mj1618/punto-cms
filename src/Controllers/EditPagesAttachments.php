@@ -151,6 +151,12 @@ class EditPagesAttachments extends Table2 {
     }
 
     function dataAll(){
-        return $this->table->with('post')->with('itemType')->get();
+        return $this->table
+            ->whereIn(
+                "post_id",
+                Post::where('page_id','=',Request::route("id".($this->level-1)))->lists('id'))
+            ->with('post')
+            ->with('itemType')
+            ->get();
     }
 }

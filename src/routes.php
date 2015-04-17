@@ -12,6 +12,7 @@ use App\AUI\Controllers\Base64Image;
 use App\AUI\Controllers\DevelopTemplateForm;
 use App\AUI\Controllers\EditPagesAttachments;
 use App\AUI\Controllers\EditPagesPosts;
+use App\AUI\Controllers\PageCopyForm;
 use App\AUI\Controllers\PagePreview;
 use App\AUI\Controllers\Sections;
 use App\AUI\Controllers\DevelopTemplates;
@@ -58,6 +59,7 @@ Route::group(['middleware' => ['editorauth']], function(){
     (new EditPagesPosts())->breadcrumbs();
 
     (new PagePreview())->routes();
+    (new PageCopyForm())->routes();
 });
 
 Route::group(['middleware' => ['developerauth']], function(){

@@ -23,7 +23,11 @@ class Post extends Model {
         return $this->hasMany('App\AUI\Model\Content');
     }
 
-    function findContent($name){
+    function attachments(){
+        return $this->hasMany('App\AUI\Model\Attachment');
+    }
+
+    function findContent($name,$def=''){
 
         $c = $this
             ->contents()
@@ -35,9 +39,9 @@ class Post extends Model {
                     ->lists('id'))
             ->first();
 
-        if(!isset($c)){
+        if(!isset($c) || $c->value===''){
             $c = new Content();
-            $c->value = '';
+            $c->value = $def;
         }
 
         return $c;

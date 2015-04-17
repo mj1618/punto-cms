@@ -29,7 +29,7 @@ class PageRoute extends Controller {
         $ps = Post::where('page_id','=',$page->id)->get();
 
         $posts = [];
-        foreach($page->sections() as $sec){
+        foreach($page->template()->first()->sections() as $sec){
             $posts[$sec->name] = [];
         }
         foreach($ps as $p){

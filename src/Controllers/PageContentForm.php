@@ -57,7 +57,7 @@ class PageContentForm extends FormController {
         $sectionId = Post::find(Request::route('id2'))->section()->first()->id;
         
         foreach(Item::where('section_id','=',$sectionId)->get() as $item){
-            $content = $item->content()->where('page_id','=',Request::route('id1'))->where('post_id','=',Request::route('id2'))->get()->first();
+            $content = $item->content()->where('post_id','=',Request::route('id2'))->get()->first();
             switch($item->itemType()->first()->short_name){
                 case "textbox":
                     $is[] =
@@ -139,13 +139,12 @@ class PageContentForm extends FormController {
 
         foreach($this->definition()["Inputs"] as $input){
             $item = Item::find($input->id);
-            $content = $item->content()->where('page_id','=',Request::route('id1'))->where('post_id','=',Request::route('id2'))->get()->first();
+            $content = $item->content()->where('post_id','=',Request::route('id2'))->get()->first();
 
 
             if(isset($content)===false){
                 $content = new Content();
                 $content->item_id = $item->id;
-                $content->page_id = Request::route('id1');
                 $content->post_id = Request::route('id2');
                 $input->insert($content, Input::get("$item->id"));
             } else {

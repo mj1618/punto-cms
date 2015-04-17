@@ -13,4 +13,7 @@ class Template extends Model {
 
     protected $table = 'template';
 
+    function sections(){
+        return $this->hasMany('App\AUI\Model\Section');
+    }
 }

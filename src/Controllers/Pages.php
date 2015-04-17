@@ -46,6 +46,10 @@ class Pages extends Table2 {
                 'id'=>'name'
             ],
             [
+                'title'=>'Description',
+                'id'=>'description'
+            ],
+            [
                 'title'=>'URL',
                 'id'=>'url'
             ],

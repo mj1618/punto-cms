@@ -96,6 +96,6 @@ class EditPagesPosts extends Table2 {
     }
 
     function dataAll(){
-        return $this->table->with('section')->get();
+        return $this->table->where('page_id','=',Request::route('id1'))->with('section')->get();
     }
 }
