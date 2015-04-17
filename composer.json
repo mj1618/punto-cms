@@ -1,0 +1,21 @@
+{
+    "name": "mj1618/punto-cms",
+    "require": {
+      "php": ">=5.4.0",
+      "illuminate/support": "5.*",
+      "illuminate/view": "5.*",
+      "intervention/image": "~2.1",
+      "mj1618/admin-ui":"*"
+    },
+    "authors": [
+        {
+            "name": "Matt James",
+            "email": "matthew.stephen.james@gmail.com"
+        }
+    ],
+    "autoload": {
+      "psr-4": {
+        "App\\AUI\\": "src/"
+      }
+    }
+}

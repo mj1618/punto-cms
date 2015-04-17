@@ -1,0 +1,83 @@
+<?php namespace App\AUI;
+/**
+ * Created by PhpStorm.
+ * User: MattUpstairs
+ * Date: 17/03/2015
+ * Time: 1:08 AM
+ */
+
+
+use App\AUI\Controllers\AdminLogin;
+use App\AUI\Controllers\Base64Image;
+use App\AUI\Controllers\DevelopTemplateForm;
+use App\AUI\Controllers\EditPagesAttachments;
+use App\AUI\Controllers\EditPagesPosts;
+use App\AUI\Controllers\PagePreview;
+use App\AUI\Controllers\Sections;
+use App\AUI\Controllers\DevelopTemplates;
+use App\AUI\Controllers\EditPages;
+use App\AUI\Controllers\EditPagesSections;
+use App\AUI\Controllers\PageRoute;
+use App\AUI\Controllers\Pages;
+use App\AUI\Controllers\RootUrl;
+use App\AUI\Controllers\TemplateSections;
+use App\AUI\Controllers\TemplateSectionItems;
+use App\AUI\Controllers\Templates;
+use App\AUI\Controllers\UserPages;
+use App\AUI\Controllers\UserRoles;
+use App\AUI\Controllers\Users;
+use App\AUI\Controllers\PageContentForm;
+use App\AUI\Model\Page;
+use Illuminate\Support\Facades\Route;
+use Debugbar;
+use Log;
+\Debugbar::disable();
+
+(new AdminLogin())->routes();
+
+(new PageRoute())->routes();
+
+Route::group(['middleware' => ['adminauth']], function(){
+    (new Users())->routes();
+    (new Users())->breadcrumbs();
+    (new UserRoles())->routes();
+    (new UserRoles())->breadcrumbs();
+    (new UserPages())->routes();
+    (new UserPages())->breadcrumbs();
+});
+
+
+Route::group(['middleware' => ['editorauth']], function(){
+    (new EditPages())->routes();
+    (new EditPages())->breadcrumbs();
+    (new PageContentForm())->routes();
+    (new PageContentForm())->breadcrumbs();
+    (new EditPagesAttachments())->routes();
+    (new EditPagesAttachments())->breadcrumbs();
+    (new EditPagesPosts())->routes();
+    (new EditPagesPosts())->breadcrumbs();
+
+    (new PagePreview())->routes();
+});
+
+Route::group(['middleware' => ['developerauth']], function(){
+    (new TemplateSectionItems())->routes();
+    (new TemplateSectionItems())->breadcrumbs();
+    (new Sections())->routes();
+    (new Sections())->breadcrumbs();
+    (new Templates())->routes();
+    (new Templates())->breadcrumbs();
+    (new TemplateSections())->routes();
+    (new TemplateSections())->breadcrumbs();
+    (new Pages())->routes();
+    (new Pages())->breadcrumbs();
+    (new DevelopTemplateForm())->routes();
+});
+
+//
+//$routeCollection = Route::getRoutes();
+
+//foreach ($routeCollection as $value) {
+//    Log::error( 'r:'.$value->getPath());
+//}
+//Log::info('count:'.count($routeCollection));
