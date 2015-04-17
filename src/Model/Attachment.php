@@ -20,8 +20,7 @@ class Attachment extends Model {
     function itemType(){
         return $this->belongsTo('App\AUI\Model\ItemType');
     }
-
     function base64Image(){
-        return base64_encode(File::get(realpath($this->value)));
+        return base64_encode(File::get(str_replace('\\','/',$this->value)));
     }
 }
