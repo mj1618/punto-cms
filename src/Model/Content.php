@@ -21,6 +21,6 @@ class Content extends Model {
     }
 
     function base64Image(){
-        return base64_encode(File::get($this->value));
+        return base64_encode(File::get(public_path($this->value)));
     }
 }
