@@ -22,6 +22,6 @@ class Attachment extends Model {
     }
 
     function base64Image(){
-        return base64_encode(File::get(public_path($this->value)));
+        return base64_encode(File::get(realpath($this->value)));
     }
 }
