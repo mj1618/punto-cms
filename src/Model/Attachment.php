@@ -21,6 +21,14 @@ class Attachment extends Model {
         return $this->belongsTo('App\AUI\Model\ItemType');
     }
     function base64Image(){
-        return base64_encode(File::get(str_replace('\\','/',$this->value)));
+
+        if (DIRECTORY_SEPARATOR == '/') {
+            return base64_encode(File::get(str_replace('\\','/',$this->value)));
+        } else if (DIRECTORY_SEPARATOR == '\\') {
+            return base64_encode(File::get(str_replace('/','\\',$this->value)));
+        } else {
+            return base64_encode(File::get(str_replace('\\','/',$this->value)));
+        }
+        
     }
 }
