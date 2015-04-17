@@ -39,18 +39,18 @@ class PuntoCMSServiceProvider extends BaseServiceProvider {
         $this->loadViewsFrom($viewPath, 'punto-cms');
         $this->publishes([
             $viewPath => base_path('resources/views/vendor/punto-cms')
-        ],'views');
+        ],'punto-cms-views');
 
         $publicPath = __DIR__.'/../public';
         $this->publishes([
             $publicPath => public_path('')
-        ],'public');
+        ],'punto-cms-public');
 
         $configFile = __DIR__ . '/../config/punto-cms.php';
         $this->mergeConfigFrom($configFile, 'punto-cms');
         $this->publishes([
             $configFile => config_path('punto-cms.php')
-        ],'config');
+        ],'punto-cms-config');
 
 
 
