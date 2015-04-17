@@ -7,6 +7,7 @@ use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Log;
 use Zizaco\Entrust\Traits\EntrustUserTrait;
 
 class Page extends Model {
@@ -18,6 +19,11 @@ class Page extends Model {
     }
     function posts(){
         return $this->hasMany('App\AUI\Model\Post');
+    }
+
+    function findPosts($name){
+        Log::info($this->posts()->where('name','=',$name)->toSql());
+        return $this->posts()->where('name','=',$name)->get();
     }
 
     function copy($name, $desc, $url){

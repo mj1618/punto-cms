@@ -26,6 +26,9 @@ class PageRoute extends Controller {
         })->orWhere(function($query){
             $query->where('url', '=', Request::url());
         })->get()->first();
+
+//        Log::info(json_encode($page));
+
         $ps = Post::where('page_id','=',$page->id)->get();
 
         $posts = [];
@@ -36,8 +39,13 @@ class PageRoute extends Controller {
             $posts[$p->section()->first()->name][] = $p;
         }
 
+        $pages = [];
+        foreach(Page::all() as $pi){
+            $pages[$pi->name] = $pi;
+        }
+
         $fn = str_replace('.blade.php','',$page->template()->first()->filename);
-        return View::make("aui/templates/".$fn)->with('posts',$posts);
+        return View::make("aui/templates/".$fn)->with('posts',$posts)->with('pages',$pages)->with('page',$page);
     }
 
     public static function routes(){
