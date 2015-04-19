@@ -7,6 +7,8 @@ use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 use Zizaco\Entrust\Traits\EntrustUserTrait;
 use File;
 class Content extends Model {
@@ -30,5 +32,21 @@ class Content extends Model {
             return base64_encode(File::get(str_replace('\\','/',$this->value)));
         }
 
+    }
+
+    function events(){
+
+        $events = '';
+
+        if(Cache::has($this->value)){
+            $events = Cache::get($this->value);
+        } else {
+            $cal = new \om\IcalParser();
+            $cal->parseFile($this->value);
+            $events = $cal->getEvents();
+            Cache::put($this->value, $events, 10);
+        }
+
+        return $events;
     }
 }

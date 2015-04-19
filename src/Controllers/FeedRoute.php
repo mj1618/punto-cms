@@ -30,15 +30,15 @@ class FeedRoute extends Controller {
         })->get()->first();
 
         $feed = \Feed::make();
-
+        $feed->setView('punto-cms::rss');
         // cache the feed for 60 minutes (second parameter is optional)
-        $feed->setCache(60, $feed->name);
+//        $feed->setCache(0, $puntoFeed->name);
 
         // check if there is cached feed and build new only if is not
-        if (!$feed->isCached())
-        {
+//        if (!$feed->isCached())
+//        {
             // creating rss feed with our most recent 20 posts
-            $posts = Post::where('page_id','=',$puntoFeed->page_id)->where('section_id','=',$puntoFeed->section_id)->get();
+            $posts = Post::where('page_id','=',$puntoFeed->page_id)->where('section_id','=',$puntoFeed->section_id)->orderBy('created_at', 'desc')->get();
 
             // set your feed's title, description, link, pubdate and language
             $feed->title = $puntoFeed->name;
@@ -55,10 +55,10 @@ class FeedRoute extends Controller {
             foreach ($posts as $post)
             {
                 // set item's title, author, url, pubdate, description and content
-                $feed->add($post->name, '', '', $post->created_at, $post->name, '');
+                $feed->add($post->name, null, null, $post->created_at, $post->name, null);
             }
 
-        }
+//        }
 
         // first param is the feed format
         // optional: second param is cache duration (value of 0 turns off caching)
@@ -69,7 +69,8 @@ class FeedRoute extends Controller {
     public static function routes(){
 
         foreach(Feed::get() as $feed){
-            Route::get($feed->url,'FeedRoute@show');
+            if(isset($feed->url) && $feed->url!=='')
+                Route::get($feed->url,'FeedRoute@show');
         }
 
     }

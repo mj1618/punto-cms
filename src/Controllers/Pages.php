@@ -74,7 +74,7 @@ class Pages extends Table2 {
                     ->defaultValue($row ? $row->url : ''),
                 'template_id' => (new DropDown())
                     ->id('template_id')
-                    ->nullable(true)
+                    ->nullable(false)
                     ->label('Template')
                     ->idField('id')
                     ->nameField('name')

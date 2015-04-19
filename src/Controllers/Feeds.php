@@ -15,6 +15,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\Route;
 use Log;
 use MJ1618\AdminUI\Controller\Table2;
 use MJ1618\AdminUI\Form\DropDown;
@@ -66,6 +69,10 @@ class Feeds extends Table2 {
                     ->id('name')
                     ->label('Name')
                     ->defaultValue($row ? $row->name : ''),
+                'url' => (new TextBox)
+                    ->id('url')
+                    ->label('URL')
+                    ->defaultValue($row ? $row->url : ''),
                 'page_id' => (new DropDown())
                     ->id('page_id')
                     ->nullable(false)
@@ -85,6 +92,47 @@ class Feeds extends Table2 {
             ];
         });
         parent::tableName('feed');
+    }
+
+    function buttons(){
+        return [
+            "open" => [
+                'id'=>$this->getHeaderSingular()."-open",
+                'text'=>'Open Feed',
+                'requiresSelect'=>'true',
+                'newTab'=>'true',
+                'url'=>$this->getBaseUrl()."/{id}/open"
+            ],
+            "edit" => [
+                'id'=>$this->getHeaderSingular()."-edit",
+                'text'=>'Edit',
+                'requiresSelect'=>'true',
+                'url'=>$this->getEditPartialRoute()
+            ],
+            "view" => [
+                'id'=>$this->getHeaderSingular()."-view",
+                'text'=>'View',
+                'requiresSelect'=>'true',
+                'url'=>$this->getViewPartialRoute()
+            ],
+            "create" => [
+                'id'=>$this->getHeaderSingular()."-create",
+                'text'=>'Create',
+                'requiresSelect'=>'false',
+                'url'=>$this->getCreateUrl(),
+                'float'=>'left'
+            ]
+        ];
+    }
+
+    function routes(){
+        parent::routes();
+        Route::get("$this->baseRoute/{id$this->level}/open","Feeds@openPage");
+    }
+
+    function openPage(){
+        $url = Feed::find(Request::route("id$this->level"))->url;
+        return Redirect::to($url);
     }
 
     function getViewViews(){

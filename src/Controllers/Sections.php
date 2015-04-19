@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Password;
 use Log;
+use MJ1618\AdminUI\Form\Checkbox;
 use MJ1618\AdminUI\Form\DropDown;
 use MJ1618\AdminUI\Form\HiddenInput;
 use MJ1618\AdminUI\Form\MetaItem;
@@ -46,6 +47,10 @@ class Sections extends Table {
             [
                 'title'=>'Template',
                 'id'=>'template.name'
+            ],
+            [
+                'title'=>'Single Post',
+                'id'=>'single'
             ]
         ]);
         parent::inputs(function($row) {
@@ -65,7 +70,11 @@ class Sections extends Table {
                     ->idField('id')
                     ->nameField('name')
                     ->rows(Template::get())
-                    ->defaultValue($row?$row->template_id:'')
+                    ->defaultValue($row?$row->template_id:''),
+                'single'=>(new Checkbox())
+                    ->id('single')
+                    ->label('Single Post?')
+                    ->defaultValue($row?$row->single:'')
             ];
 
         });

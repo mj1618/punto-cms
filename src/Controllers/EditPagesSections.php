@@ -17,14 +17,14 @@ use MJ1618\AdminUI\Form\TextBox;
 use MJ1618\AdminUI\Utils\ViewUtils;
 use MJ1618\AdminUI\Controller\ChildTable;
 use Request;
-class EditPagesPosts extends Table2 {
+class EditPagesSections extends Table2 {
 
     function __construct(){
-        parent::controllerClass('EditPagesPosts');
-        parent::headerPlural('Page Posts');
-        parent::headerSingular('Page Post');
-        parent::baseRoute('/admin/edit-pages/{id1}/posts');
-        parent::ajaxBaseRoute('/ajax/admin/edit-pages/{id1}/posts');
+        parent::controllerClass('EditPagesSections');
+        parent::headerPlural('Page Sections');
+        parent::headerSingular('Page Section');
+        parent::baseRoute('/admin/edit-pages/{id1}/sections');
+        parent::ajaxBaseRoute('/ajax/admin/edit-pages/{id1}/sections');
         parent::table(new Post());
         $this->level=2;
         $this->useEditButton=false;
@@ -34,7 +34,7 @@ class EditPagesPosts extends Table2 {
                     'id'=>'id'
                 ],
                 [
-                    'title'=>'Post Name',
+                    'title'=>'Section Name',
                     'id'=>'name'
                 ],
                 [
@@ -64,12 +64,12 @@ class EditPagesPosts extends Table2 {
                         ->label('Category')
                         ->idField('id')
                         ->nameField('name')
-                        ->rows(Section::where('single','=',0)->where('template_id','=',$page->template()->first()->id)->get())
+                        ->rows(Section::where('single','=',1)->where('template_id','=',$page->template()->first()->id)->get())
                         ->defaultValue($row?$row->section_id:'')
                 ];
         });
         $this->parentHeader='Edit Page';
-        parent::tableName('post-section');
+        parent::tableName('post');
     }
 
 
@@ -77,13 +77,13 @@ class EditPagesPosts extends Table2 {
         return [
             "view" => [
                 'id'=>$this->getHeaderSingular()."-view",
-                'text'=>'Edit Post',
+                'text'=>'Edit Section',
                 'requiresSelect'=>'true',
                 'url'=>$this->getViewPartialRoute()
             ],
             "create" => [
                 'id'=>$this->getHeaderSingular()."-create",
-                'text'=>'Create Post',
+                'text'=>'Create Section',
                 'requiresSelect'=>'false',
                 'url'=>$this->getCreateUrl(),
                 'float'=>'left'
@@ -101,6 +101,6 @@ class EditPagesPosts extends Table2 {
     }
 
     function dataAll(){
-        return $this->table->where('page_id','=',Request::route('id1'))->whereIn('section_id',Section::where('single','=',0)->lists('id'))->with('section')->get();
+        return $this->table->where('page_id','=',Request::route('id1'))->whereIn('section_id',Section::where('single','=',1)->lists('id'))->with('section')->get();
     }
 }

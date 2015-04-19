@@ -108,7 +108,6 @@ class PageContentForm extends FormController {
                             ->id($item->id)
                             ->valueField('value')
                             ->label($item->name)
-                            ->filenameField('filename')
                             ->filename($content?$content->filename:'')
                             ->defaultValue($content?$content->value:'');
                     break;
@@ -118,8 +117,7 @@ class PageContentForm extends FormController {
                             ->id($item->id)
                             ->valueField('value')
                             ->label($item->name)
-                            ->filenameField('filename')
-                            ->filename($content?$content->filename:'')
+                            ->filename($content?$content->value:'')
                             ->defaultValue($content?$content->value:'');
                     break;
             }

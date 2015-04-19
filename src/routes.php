@@ -12,6 +12,7 @@ use App\AUI\Controllers\Base64Image;
 use App\AUI\Controllers\DevelopTemplateForm;
 use App\AUI\Controllers\EditPagesAttachments;
 use App\AUI\Controllers\EditPagesPosts;
+use App\AUI\Controllers\FeedRoute;
 use App\AUI\Controllers\Feeds;
 use App\AUI\Controllers\PageCopyForm;
 use App\AUI\Controllers\PagePreview;
@@ -38,6 +39,7 @@ use Log;
 (new AdminLogin())->routes();
 
 (new PageRoute())->routes();
+(new FeedRoute())->routes();
 
 Route::group(['middleware' => ['adminauth']], function(){
     (new Users())->routes();
@@ -58,7 +60,8 @@ Route::group(['middleware' => ['editorauth']], function(){
     (new EditPagesAttachments())->breadcrumbs();
     (new EditPagesPosts())->routes();
     (new EditPagesPosts())->breadcrumbs();
-
+    (new EditPagesSections())->routes();
+    (new EditPagesSections())->breadcrumbs();
     (new PagePreview())->routes();
     (new PageCopyForm())->routes();
 

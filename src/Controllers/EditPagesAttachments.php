@@ -26,8 +26,8 @@ class EditPagesAttachments extends Table2 {
 
     function __construct(){
         parent::controllerClass('EditPagesAttachments');
-        parent::headerPlural('Page Attachments');
-        parent::headerSingular('Page Attachment');
+        parent::headerPlural('Page Documents');
+        parent::headerSingular('Page Document');
         parent::baseRoute('/admin/edit-pages/{id1}/attachments');
         parent::ajaxBaseRoute('/ajax/admin/edit-pages/{id1}/attachments');
         parent::table(new Attachment());
@@ -42,8 +42,8 @@ class EditPagesAttachments extends Table2 {
                     'id'=>'post.name'
                 ],
                 [
-                    'title'=>'File Name',
-                    'id'=>'filename'
+                    'title'=>'Name',
+                    'id'=>'name'
                 ],
                 [
                     'title'=>'Type',
@@ -56,9 +56,13 @@ class EditPagesAttachments extends Table2 {
                 $page = Page::find($parentId);
 
                 return [
+                    'name' => (new TextBox)
+                        ->id('name')
+                        ->label('Name')
+                        ->defaultValue($row?$row->name:''),
                     'post_id' => (new DropDown())
                         ->id('post_id')
-                        ->nullable(false)
+                        ->nullable(true)
                         ->label('Post')
                         ->idField('id')
                         ->nameField('name')
@@ -66,11 +70,10 @@ class EditPagesAttachments extends Table2 {
                         ->defaultValue($row?$row->post_id:''),
                     'file' =>
                         (new FileInput())
-                            ->id('filename')
+                            ->id('value')
                             ->valueField('value')
-                            ->label($row?$row->filename:'')
-                            ->filenameField('filename')
-                            ->filename($row?$row->filename:'')
+                            ->label('File')
+                            ->filename($row?$row->value:'')
                             ->defaultValue($row?$row->value:''),
                     'item_type_id' => (new DropDown())
                         ->id('item_type_id')

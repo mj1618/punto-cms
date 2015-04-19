@@ -6,6 +6,7 @@ use App\AUI\Model\RoleUser;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use MJ1618\AdminUI\Controller\Table2;
+use MJ1618\AdminUI\Form\Checkbox;
 use MJ1618\AdminUI\Form\DropDown;
 use MJ1618\AdminUI\Form\MetaItem;
 use MJ1618\AdminUI\Form\PlainTextAreaBox;
@@ -31,7 +32,11 @@ class TemplateSections extends Table2 {
                 [
                     'title'=>'Name',
                     'id'=>'name'
-                ]
+                ],
+            [
+                'title'=>'Single Post',
+                'id'=>'single'
+            ]
             ]);
         parent::inputs(function($row) {
                 $parentId = Request::route("id".($this->level-1));
@@ -47,6 +52,10 @@ class TemplateSections extends Table2 {
                         ->id('description')
                         ->label('Description')
                         ->defaultValue($row?$row->description:''),
+                    'single'=>(new Checkbox())
+                        ->id('single')
+                        ->label('Single Post?')
+                        ->selected($row?$row->single:0)
                 ];
         });
         $this->parentHeader='Template';

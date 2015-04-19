@@ -51,7 +51,8 @@ class PageRoute extends Controller {
     public static function routes(){
 
         foreach(Page::get() as $page){
-            Route::get($page->url,'PageRoute@show');
+            if(isset($page->url) && $page->url!=='')
+                Route::get($page->url,'PageRoute@show');
         }
 
     }

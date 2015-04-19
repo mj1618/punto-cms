@@ -74,7 +74,7 @@ class EditPages extends Table2 {
                     ->defaultValue($row ? $row->url : "/".substr( md5(rand()), 0, 6)),
                 'template_id' => (new DropDown())
                     ->id('template_id')
-                    ->nullable(true)
+                    ->nullable(false)
                     ->label('Template')
                     ->idField('id')
                     ->nameField('name')
@@ -130,6 +130,7 @@ class EditPages extends Table2 {
         return [
 //            (new UserRoles())->showAllView($id)
 //            (new TemplateCategories())->showAllView()
+            (new EditPagesSections())->showAllView(),
             (new EditPagesPosts())->showAllView(),
             (new EditPagesAttachments())->showAllView(),
             (new PagePreview())->show()

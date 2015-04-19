@@ -75,7 +75,7 @@ class Templates extends Table2 {
                     ->defaultValue($row?$row->description:''),
                 'file' => (new DropDown())
                     ->id('filename')
-                    ->nullable(false)
+                    ->nullable(true)
                     ->label('Filename')
                     ->idField('filename')
                     ->nameField('filename')
