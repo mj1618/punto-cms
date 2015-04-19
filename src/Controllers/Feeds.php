@@ -4,9 +4,11 @@
 use App\AUI\Model\Category;
 use App\AUI\Model\Coach;
 use App\AUI\Model\Family;
+use App\AUI\Model\Feed;
 use App\AUI\Model\Page;
 use App\AUI\Model\Role;
 use App\AUI\Model\RoleUser;
+use App\AUI\Model\Section;
 use App\AUI\Model\Template;
 use App\AUI\Model\User;
 use Illuminate\Support\Facades\Auth;
@@ -26,16 +28,16 @@ use MJ1618\AdminUI\Form\TextBox;
 use MJ1618\AdminUI\Utils\ViewUtils;
 use MJ1618\AdminUI\Controller\Table;
 
-class Pages extends Table2 {
+class Feeds extends Table2 {
 
 
     function __construct(){
-        parent::controllerClass('Pages');
-        parent::headerPlural('Pages');
-        parent::headerSingular('Page');
-        parent::baseRoute('/admin/pages');
-        parent::ajaxBaseRoute('/ajax/admin/pages');
-        parent::table(new Page());
+        parent::controllerClass('Feeds');
+        parent::headerPlural('Feeds');
+        parent::headerSingular('Feed');
+        parent::baseRoute('/admin/feeds');
+        parent::ajaxBaseRoute('/ajax/admin/feeds');
+        parent::table(new Feed());
         parent::attributes([
             [
                 'title'=>'ID',
@@ -46,16 +48,16 @@ class Pages extends Table2 {
                 'id'=>'name'
             ],
             [
-                'title'=>'Description',
-                'id'=>'description'
-            ],
-            [
                 'title'=>'URL',
                 'id'=>'url'
             ],
             [
-                'title'=>'Template',
-                'id'=>'template.name'
+                'title'=>'Page',
+                'id'=>'page.name'
+            ],
+            [
+                'title'=>'Section',
+                'id'=>'section.name'
             ]
         ]);
         parent::inputs(function($row) {
@@ -64,25 +66,25 @@ class Pages extends Table2 {
                     ->id('name')
                     ->label('Name')
                     ->defaultValue($row ? $row->name : ''),
-                'description' => (new PlainTextAreaBox())
-                    ->id('description')
-                    ->label('Description')
-                    ->defaultValue($row ? $row->description : ''),
-                'url' => (new TextBox())
-                    ->id('url')
-                    ->label('URL')
-                    ->defaultValue($row ? $row->url : ''),
-                'template_id' => (new DropDown())
-                    ->id('template_id')
-                    ->nullable(true)
-                    ->label('Template')
+                'page_id' => (new DropDown())
+                    ->id('page_id')
+                    ->nullable(false)
+                    ->label('Page')
                     ->idField('id')
                     ->nameField('name')
-                    ->rows(Template::get())
-                    ->defaultValue($row ? $row->template_id : '')
+                    ->rows(Page::get())
+                    ->defaultValue($row ? $row->page_id : ''),
+                'section_id' => (new DropDown())
+                    ->id('section_id')
+                    ->nullable(false)
+                    ->label('Section')
+                    ->idField('id')
+                    ->nameField('name')
+                    ->rows(Section::get())
+                    ->defaultValue($row ? $row->section_id : '')
             ];
         });
-        parent::tableName('page');
+        parent::tableName('feed');
     }
 
     function getViewViews(){
@@ -94,7 +96,7 @@ class Pages extends Table2 {
     }
 
     function dataAll(){
-        return $this->table->with('template')->get();
+        return $this->table->with('page')->with('section')->get();
     }
 
 }

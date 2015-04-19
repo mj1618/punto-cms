@@ -74,7 +74,7 @@ class EditPages extends Table2 {
                     ->defaultValue($row ? $row->url : "/".substr( md5(rand()), 0, 6)),
                 'template_id' => (new DropDown())
                     ->id('template_id')
-                    ->nullable(false)
+                    ->nullable(true)
                     ->label('Template')
                     ->idField('id')
                     ->nameField('name')

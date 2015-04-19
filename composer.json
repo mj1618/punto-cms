@@ -5,6 +5,7 @@
       "illuminate/support": "5.*",
       "illuminate/view": "5.*",
       "intervention/image": "~2.1",
+      "roumen/feed": "~2.9",
       "mj1618/admin-ui":"*"
     },
     "authors": [

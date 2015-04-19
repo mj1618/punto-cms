@@ -50,6 +50,10 @@ class AUIMenu implements Menu{
                             'name'=>'Templates',
                             'url'=>'/admin/templates'
                         ],
+                        [
+                            'name'=>'Feeds',
+                            'url'=>'/admin/feeds'
+                        ],
 //                        [
 //                            'name'=>'Develop Templates',
 //                            'url'=>'/admin/develop-templates'

@@ -1,0 +1,78 @@
+<?php namespace App\AUI\Controllers;
+
+use App\AUI\Model\Content;
+use App\AUI\Model\Feed;
+use App\AUI\Model\Page;
+use App\AUI\Model\Post;
+use App\AUI\Model\User;
+use App\AUI\Model\UserCookie;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Session;
+use MJ1618\AdminUI\Controller\Controller;
+use View;
+use Log;
+class FeedRoute extends Controller {
+
+    function show(){
+
+        $puntoFeed = Feed::orWhere(function($query){
+            $query->where('url', '=', Request::path());
+        })->orWhere(function($query){
+            $query->where('url', '=', '/'.Request::path());
+        })->orWhere(function($query){
+            $query->where('url', '=', Request::url());
+        })->get()->first();
+
+        $feed = \Feed::make();
+
+        // cache the feed for 60 minutes (second parameter is optional)
+        $feed->setCache(60, $feed->name);
+
+        // check if there is cached feed and build new only if is not
+        if (!$feed->isCached())
+        {
+            // creating rss feed with our most recent 20 posts
+            $posts = Post::where('page_id','=',$puntoFeed->page_id)->where('section_id','=',$puntoFeed->section_id)->get();
+
+            // set your feed's title, description, link, pubdate and language
+            $feed->title = $puntoFeed->name;
+            $feed->description = '';
+//            $feed->logo = 'http://yoursite.tld/logo.jpg';
+            $feed->link = Request::url();
+            $feed->setDateFormat('datetime'); // 'datetime', 'timestamp' or 'carbon'
+            if(isset($posts[0]))
+                $feed->pubdate = $posts[0]->created_at;
+            $feed->lang = 'en';
+            $feed->setShortening(true); // true or false
+            $feed->setTextLimit(100); // maximum length of description text
+
+            foreach ($posts as $post)
+            {
+                // set item's title, author, url, pubdate, description and content
+                $feed->add($post->name, '', '', $post->created_at, $post->name, '');
+            }
+
+        }
+
+        // first param is the feed format
+        // optional: second param is cache duration (value of 0 turns off caching)
+        // optional: you can set custom cache key with 3rd param as string
+        return $feed->render('rss');
+    }
+
+    public static function routes(){
+
+        foreach(Feed::get() as $feed){
+            Route::get($feed->url,'FeedRoute@show');
+        }
+
+    }
+
+
+}
