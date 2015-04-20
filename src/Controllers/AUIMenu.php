@@ -28,6 +28,10 @@ class AUIMenu implements Menu{
                     'name'=>'Edit Content',
                     'subItems'=>[
                         [
+                            'name'=>'Manage Pages Content',
+                            'url'=>'/admin/page-list'
+                        ],
+                        [
                             'name'=>'Edit Pages',
                             'url'=>'/admin/edit-pages'
                         ]

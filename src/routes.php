@@ -16,6 +16,7 @@ use App\AUI\Controllers\FeedRoute;
 use App\AUI\Controllers\Feeds;
 use App\AUI\Controllers\PageCopyForm;
 use App\AUI\Controllers\PagePreview;
+use App\AUI\Controllers\PagesList;
 use App\AUI\Controllers\Sections;
 use App\AUI\Controllers\DevelopTemplates;
 use App\AUI\Controllers\EditPages;
@@ -67,6 +68,10 @@ Route::group(['middleware' => ['editorauth']], function(){
 
     (new Feeds())->routes();
     (new Feeds())->breadcrumbs();
+
+    (new PagesList())->routes();
+    (new PagesList())->breadcrumbs();
+
 
 });
 
