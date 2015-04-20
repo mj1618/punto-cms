@@ -17,6 +17,9 @@ use App\AUI\Controllers\Feeds;
 use App\AUI\Controllers\PageCopyForm;
 use App\AUI\Controllers\PagePreview;
 use App\AUI\Controllers\PagesList;
+use App\AUI\Controllers\PageSummary;
+use App\AUI\Controllers\PageSummaryPostsDeleteForm;
+use App\AUI\Controllers\PageSummaryPostsForm;
 use App\AUI\Controllers\Sections;
 use App\AUI\Controllers\DevelopTemplates;
 use App\AUI\Controllers\EditPages;
@@ -71,6 +74,12 @@ Route::group(['middleware' => ['editorauth']], function(){
 
     (new PagesList())->routes();
     (new PagesList())->breadcrumbs();
+    (new PageSummary())->routes();
+//    (new PageSummary())->breadcrumbs();
+    (new PageSummaryPostsForm())->routes();
+    (new PageSummaryPostsForm())->breadcrumbs();
+    (new PageSummaryPostsDeleteForm())->routes();
+    (new PageSummaryPostsDeleteForm())->breadcrumbs();
 
 
 });

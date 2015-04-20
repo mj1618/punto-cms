@@ -16,8 +16,11 @@ use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Route;
 use Log;
+use MJ1618\AdminUI\Controller\Controller;
 use MJ1618\AdminUI\Controller\Table2;
+use MJ1618\AdminUI\Form\ButtonItem;
 use MJ1618\AdminUI\Form\DropDown;
+use MJ1618\AdminUI\Form\HeaderItem;
 use MJ1618\AdminUI\Form\HiddenInput;
 use MJ1618\AdminUI\Form\MetaItem;
 use MJ1618\AdminUI\Form\NumberInput;
@@ -28,10 +31,10 @@ use MJ1618\AdminUI\Form\TextBox;
 use MJ1618\AdminUI\Utils\ViewUtils;
 use MJ1618\AdminUI\Controller\Table;
 
-class PageSummary {
+class PageSummary extends Controller{
 
     function routes(){
-        Route::get('/admin/pages/{id1}/summary','PageSummary@show');
+        Route::get('/admin/manage-pages/{id1}/content','PageSummary@show');
     }
 
     function show(){
@@ -40,9 +43,47 @@ class PageSummary {
 
         $views = [];
 
+        foreach($page->template()->first()->sections()->get() as $sec){
+
+            $secViews = [];
+
+            $header="$sec->name";
+
+            $secButtons=[];
+            $icon=null;
+
+            foreach($page->posts()->where('section_id','=',$sec->id)->get() as $post){
+
+                $buttons=[];
+                $buttons[] = ["label"=>'Edit', "href"=>"/admin/manage-pages/".$page->id."/posts/".$post->id."/edit"];
+                $buttons[] = ["label"=>'Delete', "href"=>"/admin/manage-pages/".$page->id."/posts/".$post->id."/delete"];
+
+                if($sec->single===0){
+                    $secViews[] = ViewUtils::box($post->name,(new PageSummaryPostsForm())->postViews($post->id),null,null,true,$buttons,'fa-angle-double-right');
+                } else {
+                    $header = $post->name." - ".$post->section()->first()->name;
 
 
+                    $secViews[] = ViewUtils::plain((new PageSummaryPostsForm())->postViews($post->id));
+                    $secButtons[] = ["label"=>'Edit', "href"=>"/admin/manage-pages/".$page->id."/posts/".$post->id."/edit"];
+                    $secButtons[] = ["label"=>'Delete', "href"=>"/admin/manage-pages/".$page->id."/posts/".$post->id."/delete"];
+                    $icon = 'fa-angle-double-right';
+                }
+            }
 
+            if($sec->single===0){
+                $secButtons[] = ["label"=>'Add Post', "href"=>"/admin/manage-pages/".$page->id."/section/$sec->id/add-post"];
+                $icon = 'fa-bars';
+            }
+
+            $views[] = ViewUtils::box($header,$secViews,null,null,false,$secButtons,$icon);
+
+        }
+
+
+//        dd($page->posts()->first()->name);
+
+        return ViewUtils::page($views);
     }
 
 }

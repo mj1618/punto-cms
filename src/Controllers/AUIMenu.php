@@ -28,12 +28,8 @@ class AUIMenu implements Menu{
                     'name'=>'Edit Content',
                     'subItems'=>[
                         [
-                            'name'=>'Manage Pages Content',
-                            'url'=>'/admin/page-list'
-                        ],
-                        [
-                            'name'=>'Edit Pages',
-                            'url'=>'/admin/edit-pages'
+                            'name'=>'Manage Page Content',
+                            'url'=>'/admin/manage-pages'
                         ]
                     ]
                 ]
@@ -51,7 +47,11 @@ class AUIMenu implements Menu{
                             'url'=>'/admin/pages'
                         ],
                         [
-                            'name'=>'Templates',
+                            'name'=>'Page Content',
+                            'url'=>'/admin/edit-pages'
+                        ],
+                        [
+                            'name'=>'Templates + Structure',
                             'url'=>'/admin/templates'
                         ],
                         [

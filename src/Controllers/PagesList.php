@@ -42,7 +42,7 @@ class PagesList extends ListController {
     function __construct(){
         $this->controllerClass = 'PagesList';
         $this->header = 'Select a Page';
-        $this->baseRoute = '/admin/page-list';
+        $this->baseRoute = '/admin/manage-pages';
         $this->plainPage=false;
 //        $this->infoMessages = ['Registration and Payment Complete!'];
     }
@@ -62,7 +62,7 @@ class PagesList extends ListController {
                 $items["$page->id"] = array_merge([
                     'title'=>$page->name,
                     'description'=>$page->description,
-                    'href'=>"/admin/page-list/$page->id"
+                    'href'=>"/admin/manage-pages/$page->id/content"
                 ],$labels);
         });
 
