@@ -7,6 +7,7 @@ use App\AUI\Model\ItemValue;
 use App\AUI\Model\PageSection;
 use App\AUI\Model\Post;
 use App\AUI\Controllers\PostAttachments;
+use App\AUI\Model\Section;
 use DateTime;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
@@ -39,58 +40,31 @@ use MJ1618\AdminUI\Utils\ViewUtils;
 use MJ1618\AdminUI\Controller\ChildTable;
 use MJ1618\AdminUI\Utils\ViewWrapper;
 
-class PageSummaryPostsForm extends FormController {
+class PageSummaryPostsCreateForm extends FormController {
 
     function __construct(){
-        $this->controllerClass = 'PageSummaryPostsForm';
-        $this->header = 'Edit Post';
-        $this->baseRoute = '/admin/manage-pages/{id1}/posts/{id2}/edit';
+        $this->controllerClass = 'PageSummaryPostsCreateForm';
+        $this->header = 'Create Post';
+        $this->baseRoute = '/admin/manage-pages/{id1}/section/{id2}/add-post';
 //        $this->plainPage=true;
         $this->suffix='';
         $this->infoMessages = [''];
         if(Session::has('error'))$this->errorMessages = [Session::get('error')];
     }
 
-    function postViews($postId){
-        $views = [];
-        $pageId= Request::route('id1');
-        $post = Post::find($postId);
-
-        foreach($this->inputs($post) as $i){
-            $views[] = new ViewWrapper(function() use($i) { return $i->renderView12(); });
-        }
-
-        $attViews=[];
-//        $attViews[] = (new HeaderItem())->label('Attachments');
-        $attViews[] = ViewUtils::col6([(new PostAttachments($postId))->showTable()]);
-        $attViews[] = ViewUtils::col12([(new ButtonItem())->cssClass("btn-default btn-sm")->label('New Attachment')->defaultValue("/admin/manage-pages/".$pageId."/posts/".$post->id."/attachments/create")]);
-        $views[] = ViewUtils::accordion(
-            "".rand(0,100),
-            'Attachments',
-            [
-                [
-                    "header"=> 'Attachments',
-                    "body"=> ViewUtils::row($attViews),
-                    "id"=> "".rand(0,100),
-                    "buttons"=>[(new ButtonItem())->cssClass("btn-default btn-sm")->label('New Attachment')->defaultValue("/admin/manage-pages/".$pageId."/posts/".$post->id."/attachments/create")],
-                    "icon"=>"fa-file"
-                ]
-            ] ,12,0);
-        return [ViewUtils::row($views)];
-    }
-
     function getCrumbs(){
         return ViewUtils::blank();
     }
 
-    function inputs($post){
+    function inputs(){
 
         $is = [];
 
-        $sectionId = $post->section()->first()->id;
+        $sectionId = Request::route('id2');
 
         foreach(Item::where('section_id','=',$sectionId)->get() as $item){
-            $content = $item->content()->where('post_id','=',$post->id)->get()->first();
+//            $content = $item->content()->where('post_id','=',$post->id)->get()->first();
+            $content = null;
             switch($item->itemType()->first()->short_name){
                 case "textbox":
                     $is[] =
@@ -166,20 +140,28 @@ class PageSummaryPostsForm extends FormController {
         return parent::definition([
             'Form ID'=>$this->getHeader()."-form",
             'Submit Button Text'=>'Save',
-            'Inputs' => $this->inputs(Post::find(Request::route('id2')))
+            'Inputs' => $this->inputs()
         ]);
     }
 
     function post(){
-        $post = Post::find(Request::route('id2'));
         $pageId = Request::route('id1');
-        $sectionId = $post->section()->first()->id;
+        $sectionId = Request::route('id2');
+        $section = Section::find($sectionId);
 
-        $inputs = $this->inputs(Post::find(Request::route('id2')));
+        $inputs = $this->inputs();
+
+        $post = new Post();
+        $post->page_id=$pageId;
+        $post->section_id=$sectionId;
+        $post->name=$section->name;
+        $post->description=$section->description;
+        $post->save();
+
 
         foreach($inputs as $input){
             $item = Item::find($input->id);
-            $content = $item->content()->where('post_id','=',$post->id)->get()->first();
+            $content = null;
 
 
             if(isset($content)===false){
@@ -187,9 +169,10 @@ class PageSummaryPostsForm extends FormController {
                 $content->item_id = $item->id;
                 $content->post_id = $post->id;
                 $input->insert($content, Input::get("$item->id"));
-            } else {
-                $input->update($content, Input::get("$item->id"));
             }
+//            else {
+//                $input->update($content, Input::get("$item->id"));
+//            }
 
             $content->save();
         }

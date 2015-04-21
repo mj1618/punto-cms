@@ -18,6 +18,11 @@ use App\AUI\Controllers\PageCopyForm;
 use App\AUI\Controllers\PagePreview;
 use App\AUI\Controllers\PagesList;
 use App\AUI\Controllers\PageSummary;
+use App\AUI\Controllers\PageSummaryAttachments;
+use App\AUI\Controllers\PageSummaryAttachmentsDeleteForm;
+use App\AUI\Controllers\PageSummaryNewAttachmentForm;
+use App\AUI\Controllers\PageSummaryPosts;
+use App\AUI\Controllers\PageSummaryPostsCreateForm;
 use App\AUI\Controllers\PageSummaryPostsDeleteForm;
 use App\AUI\Controllers\PageSummaryPostsForm;
 use App\AUI\Controllers\Sections;
@@ -76,10 +81,21 @@ Route::group(['middleware' => ['editorauth']], function(){
     (new PagesList())->breadcrumbs();
     (new PageSummary())->routes();
 //    (new PageSummary())->breadcrumbs();
+
     (new PageSummaryPostsForm())->routes();
     (new PageSummaryPostsForm())->breadcrumbs();
     (new PageSummaryPostsDeleteForm())->routes();
     (new PageSummaryPostsDeleteForm())->breadcrumbs();
+
+    (new PageSummaryAttachments())->routes();
+    (new PageSummaryAttachments())->breadcrumbs();
+
+    (new PageSummaryAttachmentsDeleteForm())->routes();
+
+    (new PageSummaryPostsCreateForm())->routes();
+
+//    (new PageSummaryNewAttachmentForm())->routes();
+//    (new PageSummaryNewAttachmentForm())->breadcrumbs();
 
 
 });

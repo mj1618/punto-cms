@@ -61,12 +61,12 @@ class PageSummary extends Controller{
                 if($sec->single===0){
                     $secViews[] = ViewUtils::box($post->name,(new PageSummaryPostsForm())->postViews($post->id),null,null,true,$buttons,'fa-angle-double-right');
                 } else {
-                    $header = $post->name." - ".$post->section()->first()->name;
+                    $header = $post->section()->first()->name;//$post->name." - ".
 
 
                     $secViews[] = ViewUtils::plain((new PageSummaryPostsForm())->postViews($post->id));
                     $secButtons[] = ["label"=>'Edit', "href"=>"/admin/manage-pages/".$page->id."/posts/".$post->id."/edit"];
-                    $secButtons[] = ["label"=>'Delete', "href"=>"/admin/manage-pages/".$page->id."/posts/".$post->id."/delete"];
+//                    $secButtons[] = ["label"=>'Delete', "href"=>"/admin/manage-pages/".$page->id."/posts/".$post->id."/delete"];
                     $icon = 'fa-angle-double-right';
                 }
             }
@@ -74,6 +74,8 @@ class PageSummary extends Controller{
             if($sec->single===0){
                 $secButtons[] = ["label"=>'Add Post', "href"=>"/admin/manage-pages/".$page->id."/section/$sec->id/add-post"];
                 $icon = 'fa-bars';
+            } else if( count($secViews) === 0 ){
+                $secButtons[] = ["label"=>'Create', "href"=>"/admin/manage-pages/".$page->id."/section/$sec->id/add-post"];
             }
 
             $views[] = ViewUtils::box($header,$secViews,null,null,false,$secButtons,$icon);
