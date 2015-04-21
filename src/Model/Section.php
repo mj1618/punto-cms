@@ -19,4 +19,5 @@ class Section extends Model {
     function items(){
         return $this->hasMany('App\AUI\Model\Item');
     }
+
 }

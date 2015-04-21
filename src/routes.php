@@ -61,21 +61,6 @@ Route::group(['middleware' => ['adminauth']], function(){
 
 
 Route::group(['middleware' => ['editorauth']], function(){
-    (new EditPages())->routes();
-    (new EditPages())->breadcrumbs();
-    (new PageContentForm())->routes();
-    (new PageContentForm())->breadcrumbs();
-    (new EditPagesAttachments())->routes();
-    (new EditPagesAttachments())->breadcrumbs();
-    (new EditPagesPosts())->routes();
-    (new EditPagesPosts())->breadcrumbs();
-    (new EditPagesSections())->routes();
-    (new EditPagesSections())->breadcrumbs();
-    (new PagePreview())->routes();
-    (new PageCopyForm())->routes();
-
-    (new Feeds())->routes();
-    (new Feeds())->breadcrumbs();
 
     (new PagesList())->routes();
     (new PagesList())->breadcrumbs();
@@ -112,6 +97,24 @@ Route::group(['middleware' => ['developerauth']], function(){
     (new Pages())->routes();
     (new Pages())->breadcrumbs();
     (new DevelopTemplateForm())->routes();
+
+
+    (new EditPages())->routes();
+    (new EditPages())->breadcrumbs();
+    (new PageContentForm())->routes();
+    (new PageContentForm())->breadcrumbs();
+    (new EditPagesAttachments())->routes();
+    (new EditPagesAttachments())->breadcrumbs();
+    (new EditPagesPosts())->routes();
+    (new EditPagesPosts())->breadcrumbs();
+    (new EditPagesSections())->routes();
+    (new EditPagesSections())->breadcrumbs();
+    (new PagePreview())->routes();
+    (new PageCopyForm())->routes();
+
+    (new Feeds())->routes();
+    (new Feeds())->breadcrumbs();
+
 });
 
 //

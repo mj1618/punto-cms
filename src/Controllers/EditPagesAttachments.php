@@ -121,9 +121,8 @@ class EditPagesAttachments extends Table2 {
 
     function download(){
         $att = Attachment::find(Request::route("id2"));
-        File::move($att->value, Config::get('admin-ui.file-upload-dir')."/$att->filename");
 
-        return response()->download(Config::get('admin-ui.file-upload-dir')."/$att->filename")->deleteFileAfterSend(true);
+        return response()->download("$att->value");
     }
 
 //    function buttons(){

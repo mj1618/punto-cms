@@ -55,6 +55,10 @@ class TemplateSections extends Table2 {
                     'single'=>(new Checkbox())
                         ->id('single')
                         ->label('Single Post?')
+                        ->selected($row?$row->single:0),
+                    'has_attachments'=>(new Checkbox())
+                        ->id('has_attachments')
+                        ->label('Has Attachments?')
                         ->selected($row?$row->single:0)
                 ];
         });

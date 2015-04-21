@@ -63,19 +63,21 @@ class PageSummaryPostsForm extends FormController {
         $attViews=[];
 //        $attViews[] = (new HeaderItem())->label('Attachments');
         $attViews[] = ViewUtils::col6([(new PostAttachments($postId))->showTable()]);
-        $attViews[] = ViewUtils::col12([(new ButtonItem())->cssClass("btn-default btn-sm")->label('New Attachment')->defaultValue("/admin/manage-pages/".$pageId."/posts/".$post->id."/attachments/create")]);
-        $views[] = ViewUtils::accordion(
-            "".rand(0,100),
-            'Attachments',
-            [
+//        $attViews[] = ViewUtils::col12([(new ButtonItem())->cssClass("btn-default btn-sm")->label('New Attachment')->defaultValue("/admin/manage-pages/".$pageId."/posts/".$post->id."/attachments/create")]);
+
+        if($post->section()->get()->first()->has_attachments === 1)
+            $views[] = ViewUtils::col12([ViewUtils::accordion(
+                "".rand(0,100),
+                'Attachments',
                 [
-                    "header"=> 'Attachments',
-                    "body"=> ViewUtils::row($attViews),
-                    "id"=> "".rand(0,100),
-                    "buttons"=>[(new ButtonItem())->cssClass("btn-default btn-sm")->label('New Attachment')->defaultValue("/admin/manage-pages/".$pageId."/posts/".$post->id."/attachments/create")],
-                    "icon"=>"fa-file"
-                ]
-            ] ,12,0);
+                    [
+                        "header"=> 'Attachments',
+                        "body"=> ViewUtils::row($attViews),
+                        "id"=> "".rand(0,100),
+                        "buttons"=>[(new ButtonItem())->cssClass("btn-default btn-sm")->label('New Attachment')->defaultValue("/admin/manage-pages/".$pageId."/posts/".$post->id."/attachments/create")],
+                        "icon"=>"fa-file"
+                    ]
+                ] ,12,0)]);
         return [ViewUtils::row($views)];
     }
 
@@ -87,7 +89,7 @@ class PageSummaryPostsForm extends FormController {
 
         $is = [];
 
-        $sectionId = $post->section()->first()->id;
+        $sectionId = $post->section()->get()->first()->id;
 
         foreach(Item::where('section_id','=',$sectionId)->get() as $item){
             $content = $item->content()->where('post_id','=',$post->id)->get()->first();

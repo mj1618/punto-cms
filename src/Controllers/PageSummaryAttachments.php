@@ -120,16 +120,14 @@ class PageSummaryAttachments extends Table2 {
         ];
     }
 
-    function routes(){
-        Route::get($this->getBaseRoute()."/{id3}/download",["as"=>"Download Attachment","uses"=>"EditPagesAttachments@download"]);
-        parent::routes();
-    }
-
     function download(){
         $att = Attachment::find(Request::route("id3"));
-        File::move($att->value, Config::get('admin-ui.file-upload-dir')."/$att->filename");
+        return response()->download("$att->value");
+    }
 
-        return response()->download(Config::get('admin-ui.file-upload-dir')."/$att->filename")->deleteFileAfterSend(true);
+    function routes(){
+        Route::get($this->getBaseRoute()."/{id3}/download",["as"=>"Download Attachment","uses"=>"PageSummaryAttachments@download"]);
+        parent::routes();
     }
 
 //    function buttons(){
