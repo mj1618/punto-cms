@@ -13,4 +13,8 @@ class ItemValue extends Model {
 
     protected $table = 'item_value';
 
+
+    function item(){
+        return $this->belongsTo('App\AUI\Model\Item');
+    }
 }

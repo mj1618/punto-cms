@@ -63,6 +63,17 @@ class TemplateSectionItems extends Table2 {
         parent::tableName('item');
     }
 
+    function getViewViews(){
+
+        if(Item::find(Request::route("id".($this->level)))->itemType()->get()->first()->short_name==='dropdown')
+            return [
+    //            (new UserRoles())->showAllView($id)
+                (new TemplateSectionItemValues())->showAllView()
+
+            ];
+        else return [];
+    }
+
     function dataAll(){
         return $this->table->where("section_id","=",Request::route("id".($this->level-1)))->with('itemType')->with('section')->get();
     }

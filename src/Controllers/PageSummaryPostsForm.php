@@ -127,6 +127,7 @@ class PageSummaryPostsForm extends FormController {
                             ->nameField('value')
                             ->valueField('value')
                             ->rows(ItemValue::where('item_id','=',$item->id)->get())
+                            ->printValue($content&&ItemValue::find($content->value)?ItemValue::find($content->value)->value:'')
                             ->defaultValue($content?$content->value:'');
                     break;
                 case "checkbox":

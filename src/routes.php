@@ -32,6 +32,7 @@ use App\AUI\Controllers\EditPagesSections;
 use App\AUI\Controllers\PageRoute;
 use App\AUI\Controllers\Pages;
 use App\AUI\Controllers\RootUrl;
+use App\AUI\Controllers\TemplateSectionItemValues;
 use App\AUI\Controllers\TemplateSections;
 use App\AUI\Controllers\TemplateSectionItems;
 use App\AUI\Controllers\Templates;
@@ -88,6 +89,8 @@ Route::group(['middleware' => ['editorauth']], function(){
 Route::group(['middleware' => ['developerauth']], function(){
     (new TemplateSectionItems())->routes();
     (new TemplateSectionItems())->breadcrumbs();
+    (new TemplateSectionItemValues())->routes();
+    (new TemplateSectionItemValues())->breadcrumbs();
     (new Sections())->routes();
     (new Sections())->breadcrumbs();
     (new Templates())->routes();
