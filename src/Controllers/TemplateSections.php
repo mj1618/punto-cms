@@ -34,8 +34,12 @@ class TemplateSections extends Table2 {
                     'id'=>'name'
                 ],
             [
-                'title'=>'Single Post',
-                'id'=>'single'
+                'title'=>'Single Post?',
+                'id'=>'single_formatted'
+            ],
+            [
+                'title'=>'Has Attachments?',
+                'id'=>'has_attachments_formatted'
             ]
             ]);
         parent::inputs(function($row) {
@@ -59,7 +63,7 @@ class TemplateSections extends Table2 {
                     'has_attachments'=>(new Checkbox())
                         ->id('has_attachments')
                         ->label('Has Attachments?')
-                        ->selected($row?$row->single:0)
+                        ->selected($row?$row->has_attachments:0)
                 ];
         });
         $this->parentHeader='Template';

@@ -20,4 +20,12 @@ class Section extends Model {
         return $this->hasMany('App\AUI\Model\Item');
     }
 
+    function getHasAttachmentsFormattedAttribute(){
+        return $this->has_attachments === 1?'Yes':'No';
+    }
+    function getSingleFormattedAttribute(){
+        return $this->single === 1?'Yes':'No';
+    }
+
+    protected $appends = array('has_attachments_formatted','single_formatted');
 }
