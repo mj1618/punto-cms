@@ -42,12 +42,12 @@ class AUIMenu implements Menu{
                 [
                     'name'=>'Structure',
                     'subItems'=>[
+//                        [
+//                            'name'=>'Pages',
+//                            'url'=>'/admin/pages'
+//                        ],
                         [
                             'name'=>'Pages',
-                            'url'=>'/admin/pages'
-                        ],
-                        [
-                            'name'=>'Page Content',
                             'url'=>'/admin/edit-pages'
                         ],
                         [

@@ -50,6 +50,10 @@ class EditPages extends Table2 {
                 'id'=>'name'
             ],
             [
+                'title'=>'Description',
+                'id'=>'description'
+            ],
+            [
                 'title'=>'URL',
                 'id'=>'url'
             ],
@@ -87,6 +91,12 @@ class EditPages extends Table2 {
 
     function buttons(){
         return [
+            "edit" => [
+                'id'=>$this->getHeaderSingular()."-edit",
+                'text'=>'Edit',
+                'requiresSelect'=>'true',
+                'url'=>$this->getEditPartialRoute()
+            ],
             "open" => [
                 'id'=>$this->getHeaderSingular()."-open",
                 'text'=>'Open Page',
