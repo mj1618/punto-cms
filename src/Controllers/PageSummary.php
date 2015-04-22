@@ -21,6 +21,7 @@ use MJ1618\AdminUI\Controller\Table2;
 use MJ1618\AdminUI\Form\ButtonItem;
 use MJ1618\AdminUI\Form\DropDown;
 use MJ1618\AdminUI\Form\HeaderItem;
+use MJ1618\AdminUI\Form\HeadingItem;
 use MJ1618\AdminUI\Form\HiddenInput;
 use MJ1618\AdminUI\Form\MetaItem;
 use MJ1618\AdminUI\Form\NumberInput;
@@ -42,6 +43,12 @@ class PageSummary extends Controller{
         $page = Page::find(Request::route('id1'));
 
         $views = [];
+
+        $views[] = (new HeadingItem())
+            ->label($page->name)
+            ->views([(new ButtonItem())->target('_blank')->label("Open Page")->defaultValue($page->url)]);
+
+
 
         foreach($page->template()->first()->sections()->get() as $sec){
 
