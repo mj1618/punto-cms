@@ -51,7 +51,7 @@ class Templates extends Table2 {
         ]);
         parent::inputs(function($row) {
 
-            $path = base_path().'\resources\views\aui\templates';
+            $path = base_path().'/resources/views/aui/templates';
 
             $fs = scandir($path);
             $fs = array_filter( $fs, function($fn){
