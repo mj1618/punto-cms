@@ -50,7 +50,15 @@ class AdminLogin extends Controller {
     }
 
     function forwardAdmin(){
-        return Redirect::to('/admin/users');
+        if(Auth::user()->hasRole('editor')){
+            return Redirect::to('/admin/manage-pages');
+        } else if(Auth::user()->hasRole('developer')){
+            return Redirect::to('/admin/edit-pages');
+        } else if(Auth::user()->hasRole('admin')){
+            return Redirect::to('/admin/users');
+        }
+
+        return Redirect::to('/admin/manage-pages');
     }
 
     public static function routes(){
