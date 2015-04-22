@@ -136,7 +136,7 @@ class PageSummaryPostsForm extends FormController {
                             ->id($item->id)
                             ->valueField('value')
                             ->label($item->name)
-                            ->selected($content?$content->value:0);
+                            ->defaultValue($content?$content->value:0);
                     break;
                 case "image":
                     $is[] =
