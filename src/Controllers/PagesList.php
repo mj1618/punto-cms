@@ -54,9 +54,13 @@ class PagesList extends ListController {
 
     function definition($def=[]){
         $items = [];
+        $pages=null;
+        if(Auth::user()->pages()->count()===0)
+            $pages = Page::get();
+        else
+            $pages = Page::whereIn('page_id',Auth::user()->pages()->lists('id'))->get();
 
-        Page::get()
-            ->each(function($page) use(&$items){
+        $pages->each(function($page) use(&$items){
                 $labels = [];
 
                 $items["$page->id"] = array_merge([

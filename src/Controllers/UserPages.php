@@ -63,13 +63,9 @@ class UserPages extends Table2 {
         ];
     }
 
-//    function dataAll(){
-//        $parentId = Request::route("id".($this->level-1));
-//        return array_map(function($ru){
-//            $ru["id"]=$ru["role_id"];
-//            return $ru;
-//        },RoleUser::where('user_id','=',$parentId)->with('user')->with('role')->get()->toArray());
-//    }
+    function dataAll(){
+        return $this->table->where("user_id","=",Request::route("id".($this->level-1)))->with('user')->with('page')->get();
+    }
 //
 //    function ajaxDelete(){
 //        $parentId = Request::route("id".($this->level-1));

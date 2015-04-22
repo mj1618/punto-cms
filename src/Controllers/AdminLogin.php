@@ -60,7 +60,7 @@ class AdminLogin extends Controller {
                 return Redirect::to('/admin/users');
             }
         }
-        
+
         return Redirect::to('/admin/manage-pages');
     }
 
