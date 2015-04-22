@@ -62,7 +62,10 @@ class PagesList extends ListController {
                 $items["$page->id"] = array_merge([
                     'title'=>$page->name,
                     'description'=>$page->description,
-                    'href'=>"/admin/manage-pages/$page->id/content"
+                    'href'=>"/admin/manage-pages/$page->id/content",
+                    'label1'=>$page->template()->get()->first()->name,
+                    'label2'=>$page->url
+
                 ],$labels);
         });
 
