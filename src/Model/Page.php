@@ -21,9 +21,20 @@ class Page extends Model {
         return $this->hasMany('App\AUI\Model\Post');
     }
 
+    function findPost($name){
+
+        return Post::where('page_id','=',$this->id)->where('name','=',$name)->get()->first();
+    }
     function findPosts($name){
-        Log::info($this->posts()->where('name','=',$name)->toSql());
-        return $this->posts()->where('name','=',$name)->get();
+
+        $ps = Post::where('page_id','=',$this->id)->whereIn('section_id',Section::where('name','=',$name)->lists('id'))->get();
+
+        $posts = [];
+        foreach($ps as $p){
+            $posts[] = $p;
+        }
+
+        return $posts;
     }
 
     function copy($name, $desc, $url){

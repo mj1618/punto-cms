@@ -27,6 +27,22 @@ class Post extends Model {
         return $this->hasMany('App\AUI\Model\Attachment');
     }
 
+
+    function hasContent($name,$def=''){
+
+        $n = $this
+            ->contents()
+            ->whereIn(
+                'item_id',
+                $this->section()->first()
+                    ->items()
+                    ->where('name','=',$name)
+                    ->lists('id'))
+            ->count();
+
+        return $n > 0;
+    }
+
     function findContent($name,$def=''){
 
         $c = $this

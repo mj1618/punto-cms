@@ -19,6 +19,8 @@ use View;
 use Log;
 class FeedRoute extends Controller {
 
+    var $useCache=false;
+
     function show(){
 
         $puntoFeed = Feed::orWhere(function($query){
@@ -32,11 +34,13 @@ class FeedRoute extends Controller {
         $feed = \Feed::make();
         $feed->setView('punto-cms::rss');
         // cache the feed for 60 minutes (second parameter is optional)
-//        $feed->setCache(0, $puntoFeed->name);
+
+        if($this->useCache)
+            $feed->setCache(0, $puntoFeed->name);
 
         // check if there is cached feed and build new only if is not
-//        if (!$feed->isCached())
-//        {
+        if (!$this->useCache || !$feed->isCached())
+        {
             // creating rss feed with our most recent 20 posts
             $posts = Post::where('page_id','=',$puntoFeed->page_id)->where('section_id','=',$puntoFeed->section_id)->orderBy('created_at', 'desc')->get();
 
@@ -58,7 +62,9 @@ class FeedRoute extends Controller {
                 $feed->add($post->name, null, null, $post->created_at, $post->name, null);
             }
 
-//        }
+        } else {
+
+        }
 
         // first param is the feed format
         // optional: second param is cache duration (value of 0 turns off caching)

@@ -66,7 +66,15 @@ class PageSummary extends Controller{
                 $buttons[] = ["label"=>'Delete', "href"=>"/admin/manage-pages/".$page->id."/posts/".$post->id."/delete"];
 
                 if($sec->single===0){
-                    $secViews[] = ViewUtils::box($post->name,(new PageSummaryPostsForm())->postViews($post->id),null,null,true,$buttons,'fa-angle-double-right');
+                    $postName = $post->name;
+
+                    if($post->hasContent("Title")){
+                        $postName = $post->findContent("Title")->value;
+                    } else if($post->hasContent("Name")){
+                        $postName = $post->findContent("Name")->value;
+                    }
+
+                    $secViews[] = ViewUtils::box($postName,(new PageSummaryPostsForm())->postViews($post->id),null,null,true,$buttons,'fa-angle-double-right');
                 } else {
                     $header = $post->section()->first()->name;//$post->name." - ".
 

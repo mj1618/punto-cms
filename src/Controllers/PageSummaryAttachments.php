@@ -26,8 +26,8 @@ class PageSummaryAttachments extends Table2 {
 
     function __construct(){
         parent::controllerClass('PageSummaryAttachments');
-        parent::headerPlural('Page Documents');
-        parent::headerSingular('Page Document');
+        parent::headerPlural('Page Attachments');
+        parent::headerSingular('Page Attachment');
         parent::baseRoute('/admin/manage-pages/{id1}/posts/{id2}/attachments');
         parent::ajaxBaseRoute('/ajax/admin/manage-pages/{id1}/posts/{id2}/attachments');
         parent::table(new Attachment());
@@ -62,7 +62,10 @@ class PageSummaryAttachments extends Table2 {
                         ->id('name')
                         ->label('Name')
                         ->defaultValue($row?$row->name:''),
-                    'post_id' => (new MetaItem())->id('post_id')->defaultValue($post->id),
+                    'post_id' =>
+                        (new MetaItem())
+                            ->id('post_id')
+                            ->defaultValue($post->id),
                     'file' =>
                         (new FileInput())
                             ->id('value')
