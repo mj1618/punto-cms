@@ -55,7 +55,7 @@ class PagesList extends ListController {
     function definition($def=[]){
         $items = [];
         $pages=null;
-        if(Auth::user()->pages()->count()===0)
+        if(Auth::user()->userPages()->count()===0)
             $pages = Page::get();
         else
             $pages = Page::whereIn('page_id',Auth::user()->userPages()->lists('page_id'))->get();
