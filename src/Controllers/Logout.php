@@ -18,7 +18,7 @@ class Logout extends Controller
     {
         $url = '/';
 
-        if(Auth::user()->hasRole('admin'))
+        if(Auth::check() && Auth::user()->hasRole('admin'))
             $url='/admin-login';
 
 
