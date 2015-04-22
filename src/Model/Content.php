@@ -25,6 +25,17 @@ class Content extends Model {
         return $this->belongsTo('App\AUI\Model\Item');
     }
 
+    function url(){
+
+        if (DIRECTORY_SEPARATOR == '/') {
+            return str_replace('\\','/',$this->value);
+        } else if (DIRECTORY_SEPARATOR == '\\') {
+            return str_replace('/','\\',$this->value);
+        } else {
+            return str_replace('\\','/',$this->value);
+        }
+    }
+
     function base64Image(){
 
         if (DIRECTORY_SEPARATOR == '/') {
