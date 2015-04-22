@@ -17,17 +17,17 @@
 {{--        <language>{{ $channel['lang'] }}</language>--}}
         <lastBuildDate>{{ $channel['pubdate'] }}</lastBuildDate>
 {{----}}@foreach($items as $item)
-            <item>
-                <title>{{ $item['title'] }}</title>
-{{--        --}}{{--<link>{{ $item['link'] }}</link>--}}
-{{--        --}}{{--<guid isPermaLink="true">{{ $item['link'] }}</guid>--}}
-                <description>{!! $item['description'] !!}</description>
-{{--        --}}@if (!empty($item['content']))
-                    <content:encoded><![CDATA[{!! $item['content'] !!}]]></content:encoded>
-{{--        --}}@endif
-{{--        --}}{{--<dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">{{ $item['author'] }}</dc:creator>--}}
-                <pubDate>{{ str_replace('+0800','AWST',$item['pubdate']) }}</pubDate>
-            </item>
+        <item>
+            <title>{{ $item['title'] }}</title>
+{{--    --}}{{--<link>{{ $item['link'] }}</link>--}}
+{{--    --}}{{--<guid isPermaLink="true">{{ $item['link'] }}</guid>--}}
+            <description>{!! $item['description'] !!}</description>
+{{--    --}}@if (!empty($item['content']))
+            <content:encoded><![CDATA[{!! $item['content'] !!}]]></content:encoded>
+{{--    --}}@endif
+{{--    --}}{{--<dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">{{ $item['author'] }}</dc:creator>--}}
+            <pubDate>{{ str_replace('+0800','AWST',$item['pubdate']) }}</pubDate>
+        </item>
 {{----}}@endforeach
     </channel>
 </rss>
