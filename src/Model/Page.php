@@ -58,7 +58,6 @@ class Page extends Model {
 
                 $content = new Content();
                 $content->value = $oldContent->value;
-                $content->filename = $oldContent->filename;
                 $content->post_id = $post->id;
                 $content->item_id=$oldContent->item_id;
                 $content->save();
@@ -68,7 +67,7 @@ class Page extends Model {
 
                 $attachment = new Attachment();
                 $attachment->value = $oldAttachment->value;
-                $attachment->filename = $oldAttachment->filename;
+                $attachment->name = $oldAttachment->name;
                 $attachment->post_id = $post->id;
                 $attachment->item_type_id=$oldAttachment->item_type_id;
                 $attachment->save();
