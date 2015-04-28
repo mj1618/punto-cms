@@ -6,7 +6,7 @@
  * Time: 1:08 AM
  */
 
-
+use Config;
 use App\AUI\Controllers\AdminLogin;
 use App\AUI\Controllers\Base64Image;
 use App\AUI\Controllers\DevelopTemplateForm;
@@ -32,6 +32,7 @@ use App\AUI\Controllers\EditPagesSections;
 use App\AUI\Controllers\PageRoute;
 use App\AUI\Controllers\Pages;
 use App\AUI\Controllers\RootUrl;
+use App\AUI\Controllers\SSOLogin;
 use App\AUI\Controllers\TemplateSectionItemValues;
 use App\AUI\Controllers\TemplateSections;
 use App\AUI\Controllers\TemplateSectionItems;
@@ -46,7 +47,10 @@ use Debugbar;
 use Log;
 \Debugbar::disable();
 
-(new AdminLogin())->routes();
+if(Config::get('admin-ui.c2go-login')===true)
+    (new SSOLogin())->routes();
+else
+    (new AdminLogin())->routes();
 
 (new PageRoute())->routes();
 (new FeedRoute())->routes();
