@@ -66,6 +66,7 @@ class AdminLogin extends Controller {
 
     public static function routes(){
 
+        Route::get('/login','AdminLogin@getLogin');
         Route::get('/admin-login','AdminLogin@getLogin');
         Route::get('/admin','AdminLogin@forwardAdmin');
 
