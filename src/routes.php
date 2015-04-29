@@ -47,7 +47,7 @@ use Debugbar;
 use Log;
 \Debugbar::disable();
 
-if(Config::get('admin-ui.c2go-login')===true)
+if(Config::get('punto-cms.c2go-login')===true)
     (new SSOLogin())->routes();
 else
     (new AdminLogin())->routes();

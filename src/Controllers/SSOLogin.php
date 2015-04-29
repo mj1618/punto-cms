@@ -10,19 +10,23 @@ use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\View;
+use jyggen\Curl;
 use MJ1618\AdminUI\Controller\Controller;
-use Redirect;
-use Input;
-use Jyggen\Curl\Curl;
+use Config;
+
 
 class SSOLogin extends Controller {
 
     function getLogin(){
-        return Redirect::to('http://sso.communitytogo.com.au/oauth/authorize?client_id='.Config::get('punto-cms.c2go-client-id').'&redirect_uri='.Config::get('punto-cms.c2go-client-id').'&response_type=code&scope=view-email');
+        return Redirect::to('http://sso.communitytogo.com.au/oauth/authorize?client_id='.Config::get('punto-cms.c2go-client-id').'&redirect_uri='.Config::get('punto-cms.c2go-redirect-uri').'&response_type=code&scope=view-email');
     }
 
     function oauthReturn(){
         $code = Input::get('code');
+
+        if(!isset($code)){
+            return View::make('errors/404');
+        }
 
         $resp = Curl::post("http://sso.communitytogo.com.au/oauth/access_token",
             [
@@ -31,11 +35,21 @@ class SSOLogin extends Controller {
                 "client_id"=>Config::get('punto-cms.c2go-client-id'),
                 "redirect_uri"=>Config::get('punto-cms.c2go-redirect-uri'),
                 "response_type"=>"code",
-                "scope"=>"view-email"
-        ]);
+                "scope"=>"view-email",
+                "grant_type"=>"authorization_code"
+            ]);
+
+        if(!isset(json_decode($resp[0]->getContent())->access_token)){
+            return View::make('errors/404');
+        }
+
+        $tok = json_decode($resp[0]->getContent())->access_token;
 
 
-        return $resp;
+
+
+
+        return $tok;
     }
 
     function forwardAdmin(){
