@@ -4,5 +4,5 @@ return [
     'c2go-client-id'=>'',
     'c2go-client-secret'=>'',
     'c2go-redirect-uri'=>'http://localhost:8000/oauth',
-
+    'c2go-redirect-logout'=>'http://localhost:8000/logout'
 ];

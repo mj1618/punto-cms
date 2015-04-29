@@ -14,11 +14,20 @@ use MJ1618\AdminUI\Controller\Controller;
 
 class Logout extends Controller
 {
-    function getLogout()
+    function get()
     {
         $url = '/';
         Auth::logout();
         UserCookie::where('cookie', '=', Request::cookie('laravel-remember'))->delete();
+
+        if(Config::get('punto-cms.c2go-login')===true){
+            $url = 'http://sso.communitytogo.com.au/logout?redirect_url='.Config::get('c2go-redirect-logout');
+        }
+
         return Redirect::to($url)->withCookie(Cookie::forget('remember'))->withCookie(Cookie::forget('laravel-remember'));
+    }
+
+    function routes(){
+        Route::get('/logout','Logout@get');
     }
 }

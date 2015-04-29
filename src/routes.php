@@ -6,6 +6,7 @@
  * Time: 1:08 AM
  */
 
+use App\AUI\Controllers\Logout;
 use Config;
 use App\AUI\Controllers\AdminLogin;
 use App\AUI\Controllers\Base64Image;
@@ -54,6 +55,8 @@ else
 
 (new PageRoute())->routes();
 (new FeedRoute())->routes();
+
+(new Logout())->routes();
 
 Route::group(['middleware' => ['adminauth']], function(){
     (new Users())->routes();
