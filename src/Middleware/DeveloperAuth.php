@@ -24,7 +24,7 @@ class DeveloperAuth {
             return redirect()->to('/admin-login');
         }
 
-        if(Auth::user()->hasRole('developer')===false){
+        if(Auth::user()->hasRole('developer')===false && Auth::user()->hasRole('admin')===false){
             return (new Logout())->getLogout();
         }
 

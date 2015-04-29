@@ -17,11 +17,6 @@ class Logout extends Controller
     function getLogout()
     {
         $url = '/';
-
-        if(Auth::check() && Auth::user()->hasRole('admin'))
-            $url='/admin-login';
-
-
         Auth::logout();
         UserCookie::where('cookie', '=', Request::cookie('laravel-remember'))->delete();
         return Redirect::to($url)->withCookie(Cookie::forget('remember'))->withCookie(Cookie::forget('laravel-remember'));

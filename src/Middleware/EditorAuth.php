@@ -24,7 +24,7 @@ class EditorAuth {
             return redirect()->to('/admin-login');
         }
 
-        if(Auth::user()->hasRole('editor')===false){
+        if(Auth::user()->hasRole('editor')===false && Auth::user()->hasRole('admin')===false){
             return (new Logout())->getLogout();
         }
 

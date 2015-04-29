@@ -46,10 +46,24 @@ class SSOLogin extends Controller {
         $tok = json_decode($resp[0]->getContent())->access_token;
 
 
+        $resp2 = Curl::post("http://sso.communitytogo.com.au/user/email",
+            [
+                "access_token"=>$tok
+            ]);
 
+        $email = $resp2[0]->getContent();
 
+        if(!isset($email) || User::where('username','=',$email)->count() === 0){
+            return View::make('punto-cms::401');
+        } else {
+            Auth::login(User::where('username','=',$email)->get()->first());
 
-        return $tok;
+            if(Session::has('return_url')){
+                return Redirect::to(Session::get('return_url'));
+            } else {
+                return $this->forwardAdmin();
+            }
+        }
     }
 
     function forwardAdmin(){
