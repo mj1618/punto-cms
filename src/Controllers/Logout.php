@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\View;
 use MJ1618\AdminUI\Controller\Controller;
-
+use Config;
 class Logout extends Controller
 {
     function get()
@@ -21,7 +21,7 @@ class Logout extends Controller
         UserCookie::where('cookie', '=', Request::cookie('laravel-remember'))->delete();
 
         if(Config::get('punto-cms.c2go-login')===true){
-            $url = 'http://sso.communitytogo.com.au/logout?redirect_url='.Config::get('c2go-redirect-logout');
+            $url = 'http://sso.communitytogo.com.au/logout';
         }
 
         return Redirect::to($url)->withCookie(Cookie::forget('remember'))->withCookie(Cookie::forget('laravel-remember'));

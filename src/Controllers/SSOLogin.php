@@ -83,6 +83,7 @@ class SSOLogin extends Controller {
 
     public static function routes(){
 
+        Route::get('/login','SSOLogin@getLogin');
         Route::get('/admin-login','SSOLogin@getLogin');
         Route::get('/oauth','SSOLogin@oauthReturn');
 
