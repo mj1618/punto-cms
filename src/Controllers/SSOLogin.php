@@ -18,7 +18,7 @@ use Config;
 class SSOLogin extends Controller {
 
     function getLogin(){
-        return Redirect::to('http://sso.communitytogo.com.au/oauth/authorize?client_id='.Config::get('punto-cms.c2go-client-id').'&redirect_uri='.Config::get('punto-cms.c2go-redirect-uri').'&response_type=code&scope=view-email');
+        return Redirect::to('https://sso.communitytogo.com.au/oauth/authorize?client_id='.Config::get('punto-cms.c2go-client-id').'&redirect_uri='.Config::get('punto-cms.c2go-redirect-uri').'&response_type=code&scope=view-email');
     }
 
     function oauthReturn(){
@@ -28,7 +28,7 @@ class SSOLogin extends Controller {
             return View::make('errors/404');
         }
 
-        $resp = Curl::post("http://sso.communitytogo.com.au/oauth/access_token",
+        $resp = Curl::post("https://sso.communitytogo.com.au/oauth/access_token",
             [
                 "client_secret"=>Config::get('punto-cms.c2go-client-secret'),
                 "code"=>$code,
@@ -46,7 +46,7 @@ class SSOLogin extends Controller {
         $tok = json_decode($resp[0]->getContent())->access_token;
 
 
-        $resp2 = Curl::post("http://sso.communitytogo.com.au/user/email",
+        $resp2 = Curl::post("https://sso.communitytogo.com.au/user/email",
             [
                 "access_token"=>$tok
             ]);
