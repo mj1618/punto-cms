@@ -21,7 +21,7 @@ class Logout extends Controller
         UserCookie::where('cookie', '=', Request::cookie('laravel-remember'))->delete();
 
         if(Config::get('punto-cms.c2go-login')===true){
-            $url = 'http://sso.communitytogo.com.au/logout';
+            $url = 'https://sso.communitytogo.com.au/logout';
         }
 
         return Redirect::to($url)->withCookie(Cookie::forget('remember'))->withCookie(Cookie::forget('laravel-remember'));
