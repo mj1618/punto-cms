@@ -59,7 +59,8 @@ class FeedRoute extends Controller {
             foreach ($posts as $post)
             {
                 // set item's title, author, url, pubdate, description and content
-                $feed->add($post->name, null, null, $post->created_at, $post->name, null);
+                $desc = $post->findContent("Description")->value;
+                $feed->add($desc, null, null, $post->created_at, $desc, null);
             }
 
         } else {

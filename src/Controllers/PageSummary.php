@@ -72,6 +72,13 @@ class PageSummary extends Controller{
                         $postName = $post->findContent("Title")->value;
                     } else if($post->hasContent("Name")){
                         $postName = $post->findContent("Name")->value;
+                    }else if($post->hasContent("Description")){
+
+                        $desc = $post->findContent("Description")->value;
+                        if (strlen($desc) > 20)
+                            $desc = substr($desc, 0, 17) . '...';
+                        $postName = $desc;
+
                     }
 
                     $secViews[] = ViewUtils::box($postName,(new PageSummaryPostsForm())->postViews($post->id),null,null,true,$buttons,'fa-angle-double-right');
