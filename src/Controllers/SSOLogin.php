@@ -25,33 +25,40 @@ class SSOLogin extends Controller {
         $code = Input::get('code');
 
         if(!isset($code)){
-            return View::make('errors/404');
+            return View::make('ss/error/500');
         }
-
-        $resp = Curl::post("https://sso.communitytogo.com.au/oauth/access_token",
-            [
-                "client_secret"=>Config::get('punto-cms.c2go-client-secret'),
-                "code"=>$code,
-                "client_id"=>Config::get('punto-cms.c2go-client-id'),
-                "redirect_uri"=>Config::get('punto-cms.c2go-redirect-uri'),
-                "response_type"=>"code",
-                "scope"=>"view-email",
-                "grant_type"=>"authorization_code"
-            ]);
-
-        if(!isset(json_decode($resp[0]->getContent())->access_token)){
-            return View::make('errors/404');
+//        Log::info(date('H:i:s')." starting request");
+        $client = new Client();
+        try{
+            $response = $client->post('https://sso.communitytogo.com.au/oauth/access_token',[
+                "body"=>[
+                    "client_secret"=>Config::get('c2go-sso.client-secret'),
+                    "code"=>$code,
+                    "client_id"=>Config::get('c2go-sso.client-id'),
+                    "redirect_uri"=>Config::get('c2go-sso.redirect-uri'),
+                    "response_type"=>"code",
+                    "scope"=>"view-email",
+                    "grant_type"=>"authorization_code"
+                ]]);
+        } catch (ClientException $e) {
+//            return $e->getResponse();
+            Log::error($e->getResponse());
+            return View::make('ss/error/500');
         }
+//        Log::info(date('H:i:s')." finished request");
+        $tok = json_decode($response->getBody())->access_token;
 
-        $tok = json_decode($resp[0]->getContent())->access_token;
-
-
-        $resp2 = Curl::post("https://sso.communitytogo.com.au/user/email",
-            [
-                "access_token"=>$tok
-            ]);
-
-        $email = $resp2[0]->getContent();
+        try{
+            $response2 = $client->post('https://sso.communitytogo.com.au/user/email',[
+                "body"=>[
+                    "access_token"=>$tok
+                ]]);
+        } catch (ClientException $e2) {
+//            return $e2->getResponse();
+            Log::error($e2->getResponse());
+            return View::make('ss/error/500');
+        }
+        $email = $response2->getBody();
 
         if(!isset($email) || User::where('username','=',$email)->count() === 0){
             return View::make('punto-cms::401');
