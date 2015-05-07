@@ -14,6 +14,8 @@ use jyggen\Curl;
 use MJ1618\AdminUI\Controller\Controller;
 use Config;
 
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ClientException;
 
 class SSOLogin extends Controller {
 
