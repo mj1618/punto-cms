@@ -6,6 +6,9 @@
  * Time: 1:08 AM
  */
 
+use App;
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ClientException;
 use App\AUI\Controllers\Logout;
 use Config;
 use App\AUI\Controllers\AdminLogin;
