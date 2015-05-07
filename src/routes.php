@@ -48,6 +48,12 @@ use Debugbar;
 use Log;
 \Debugbar::disable();
 
+
+App::singleton('guzzle-client', function($app)
+{
+    return new Client();
+});
+
 if(Config::get('punto-cms.c2go-login')===true)
     (new SSOLogin())->routes();
 else

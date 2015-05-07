@@ -30,7 +30,7 @@ class SSOLogin extends Controller {
             return View::make('ss/error/500');
         }
 //        Log::info(date('H:i:s')." starting request");
-        $client = new Client();
+        $client = App::make('guzzle-client');
         try{
             $response = $client->post('https://sso.communitytogo.com.au/oauth/access_token',[
                 "body"=>[
