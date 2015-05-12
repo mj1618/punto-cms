@@ -14,6 +14,7 @@ use jyggen\Curl;
 use MJ1618\AdminUI\Controller\Controller;
 use Config;
 use App;
+use Log;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
@@ -35,10 +36,10 @@ class SSOLogin extends Controller {
         try{
             $response = $client->post('https://sso.communitytogo.com.au/oauth/access_token',[
                 "body"=>[
-                    "client_secret"=>Config::get('c2go-sso.client-secret'),
+                    "client_secret"=>Config::get('punto-cms.c2go-client-secret'),
                     "code"=>$code,
-                    "client_id"=>Config::get('c2go-sso.client-id'),
-                    "redirect_uri"=>Config::get('c2go-sso.redirect-uri'),
+                    "client_id"=>Config::get('punto-cms.c2go-client-id'),
+                    "redirect_uri"=>Config::get('punto-cms.c2go-redirect-uri'),
                     "response_type"=>"code",
                     "scope"=>"view-email",
                     "grant_type"=>"authorization_code"
