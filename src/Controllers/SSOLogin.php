@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\View;
 use jyggen\Curl;
 use MJ1618\AdminUI\Controller\Controller;
 use Config;
+use App;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
