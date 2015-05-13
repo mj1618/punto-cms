@@ -21,6 +21,33 @@ use GuzzleHttp\Exception\ClientException;
 
 class SSOLogin extends Controller {
 
+    function __construct(){
+        App::singleton('guzzle-client',function(){
+            return new Client([
+                'defaults' => [
+                    'config' => [
+                        'stream_context' => [
+                            'ssl' => [
+                                'ciphers' => 'DHE-RSA-AES256-SHA:DHE-DSS-AES256-SHA:AES256-SHA:KRB5-DES-CBC3-MD5:'
+                                    . 'KRB5-DES-CBC3-SHA:EDH-RSA-DES-CBC3-SHA:EDH-DSS-DES-CBC3-SHA:DES-CBC3-SHA:DES-CBC3-MD5:'
+                                    . 'DHE-RSA-AES128-SHA:DHE-DSS-AES128-SHA:AES128-SHA:RC2-CBC-MD5:KRB5-RC4-MD5:KRB5-RC4-SHA:'
+                                    . 'RC4-SHA:RC4-MD5:RC4-MD5:KRB5-DES-CBC-MD5:KRB5-DES-CBC-SHA:EDH-RSA-DES-CBC-SHA:'
+                                    . 'EDH-DSS-DES-CBC-SHA:DES-CBC-SHA:DES-CBC-MD5:EXP-KRB5-RC2-CBC-MD5:EXP-KRB5-DES-CBC-MD5:'
+                                    . 'EXP-KRB5-RC2-CBC-SHA:EXP-KRB5-DES-CBC-SHA:EXP-EDH-RSA-DES-CBC-SHA:EXP-EDH-DSS-DES-CBC-SHA:'
+                                    . 'EXP-DES-CBC-SHA:EXP-RC2-CBC-MD5:EXP-RC2-CBC-MD5:EXP-KRB5-RC4-MD5:EXP-KRB5-RC4-SHA'
+                                    . ':EXP-RC4-MD5:EXP-RC4-MD5',
+                            ]
+                        ],
+//                'curl' => [
+//                    'CURLOPT_SSLVERSION' => 2,
+//                    'CURLOPT_SSL_CIPHER_LIST' => 'TLSv1'
+//                ]
+                    ]
+                ]
+            ]);
+        });
+    }
+
     function getLogin(){
         return Redirect::to('https://sso.communitytogo.com.au/oauth/authorize?client_id='.Config::get('punto-cms.c2go-client-id').'&redirect_uri='.Config::get('punto-cms.c2go-redirect-uri').'&response_type=code&scope=view-email');
     }
