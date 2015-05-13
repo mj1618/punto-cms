@@ -27,13 +27,15 @@ class Content extends Model {
 
     function url(){
 
-        if (DIRECTORY_SEPARATOR == '/') {
-            return str_replace('\\','/',$this->value);
-        } else if (DIRECTORY_SEPARATOR == '\\') {
-            return str_replace('/','\\',$this->value);
-        } else {
-            return str_replace('\\','/',$this->value);
-        }
+//        if (DIRECTORY_SEPARATOR == '/') {
+//            return str_replace('\\','/',$this->value);
+//        } else if (DIRECTORY_SEPARATOR == '\\') {
+//            return str_replace('/','\\',$this->value);
+//        } else {
+//            return str_replace('\\','/',$this->value);
+//        }
+
+        return str_replace('\\','/',$this->value);
     }
 
     function base64Image(){
