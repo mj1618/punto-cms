@@ -38,10 +38,10 @@ class SSOLogin extends Controller {
                                     . ':EXP-RC4-MD5:EXP-RC4-MD5',
                             ]
                         ],
-                        'curl' => [
-                            'CURLOPT_SSLVERSION' => 2,
-                            'CURLOPT_SSL_CIPHER_LIST' => 'TLSv1'
-                        ]
+//                        'curl' => [
+//                            'CURLOPT_SSLVERSION' => 2,
+//                            'CURLOPT_SSL_CIPHER_LIST' => 'TLSv1'
+//                        ]
                     ]
                 ]
             ]);
