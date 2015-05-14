@@ -56,7 +56,7 @@ class SSOLogin extends Controller {
         $code = Input::get('code');
 
         if(!isset($code)){
-            return View::make('ss/error/500');
+            return View::make('admin-ui::error/500');
         }
 //        Log::info(date('H:i:s')." starting request");
         $client = App::make('guzzle-client');
@@ -74,7 +74,7 @@ class SSOLogin extends Controller {
         } catch (ClientException $e) {
 //            return $e->getResponse();
             Log::error($e->getResponse());
-            return View::make('ss/error/500');
+            return View::make('admin-ui::error/500');
         }
 //        Log::info(date('H:i:s')." finished request");
         $tok = json_decode($response->getBody())->access_token;
@@ -87,7 +87,7 @@ class SSOLogin extends Controller {
         } catch (ClientException $e2) {
 //            return $e2->getResponse();
             Log::error($e2->getResponse());
-            return View::make('ss/error/500');
+            return View::make('admin-ui::error/500');
         }
         $email = $response2->getBody();
 
