@@ -65,7 +65,7 @@ class PageSummaryPostsForm extends FormController {
         $attViews[] = ViewUtils::col6([(new PostAttachments($postId))->showTable()]);
 //        $attViews[] = ViewUtils::col12([(new ButtonItem())->cssClass("btn-default btn-sm")->label('New Attachment')->defaultValue("/admin/manage-pages/".$pageId."/posts/".$post->id."/attachments/create")]);
 
-        if($post->section()->get()->first()->has_attachments === 1)
+        if($post->section()->get()->first()->has_attachments == 1)
             $views[] = ViewUtils::col12([ViewUtils::accordion(
                 "".rand(0,100),
                 'Attachments',
