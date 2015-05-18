@@ -65,7 +65,7 @@ class PageSummary extends Controller{
                 $buttons[] = ["label"=>'Edit', "href"=>"/admin/manage-pages/".$page->id."/posts/".$post->id."/edit"];
                 $buttons[] = ["label"=>'Delete', "href"=>"/admin/manage-pages/".$page->id."/posts/".$post->id."/delete"];
 
-                if($sec->single===0){
+                if($sec->single==0){
                     $postName = $post->name;
 
                     if($post->hasContent("Title")){
@@ -93,7 +93,7 @@ class PageSummary extends Controller{
                 }
             }
 
-            if($sec->single===0){
+            if($sec->single==0){
                 $secButtons[] = ["label"=>'Add Post', "href"=>"/admin/manage-pages/".$page->id."/section/$sec->id/add-post"];
                 $icon = 'fa-bars';
             } else if( count($secViews) === 0 ){
