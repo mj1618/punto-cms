@@ -54,7 +54,7 @@ class FeedRoute extends Controller {
                 $feed->pubdate = $posts[0]->created_at;
             $feed->lang = 'en';
             $feed->setShortening(true); // true or false
-            $feed->setTextLimit(100); // maximum length of description text
+//            $feed->setTextLimit(100); // maximum length of description text
 
             foreach ($posts as $post)
             {
