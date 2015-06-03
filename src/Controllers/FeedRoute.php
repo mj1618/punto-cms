@@ -77,7 +77,7 @@ class FeedRoute extends Controller {
                     $title = $post->findContent("Description")->value;
                 }
 
-                if($desc!==null)
+                if($desc!=='')
                     $feed->add($title, null, null, $post->created_at, $desc, null);
             }
 
