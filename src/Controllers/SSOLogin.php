@@ -23,28 +23,7 @@ class SSOLogin extends Controller {
 
     function __construct(){
         App::singleton('guzzle-client',function(){
-            return new Client([
-                'defaults' => [
-                    'config' => [
-                        'stream_context' => [
-                            'ssl' => [
-                                'ciphers' => 'DHE-RSA-AES256-SHA:DHE-DSS-AES256-SHA:AES256-SHA:KRB5-DES-CBC3-MD5:'
-                                    . 'KRB5-DES-CBC3-SHA:EDH-RSA-DES-CBC3-SHA:EDH-DSS-DES-CBC3-SHA:DES-CBC3-SHA:DES-CBC3-MD5:'
-                                    . 'DHE-RSA-AES128-SHA:DHE-DSS-AES128-SHA:AES128-SHA:RC2-CBC-MD5:KRB5-RC4-MD5:KRB5-RC4-SHA:'
-                                    . 'RC4-SHA:RC4-MD5:RC4-MD5:KRB5-DES-CBC-MD5:KRB5-DES-CBC-SHA:EDH-RSA-DES-CBC-SHA:'
-                                    . 'EDH-DSS-DES-CBC-SHA:DES-CBC-SHA:DES-CBC-MD5:EXP-KRB5-RC2-CBC-MD5:EXP-KRB5-DES-CBC-MD5:'
-                                    . 'EXP-KRB5-RC2-CBC-SHA:EXP-KRB5-DES-CBC-SHA:EXP-EDH-RSA-DES-CBC-SHA:EXP-EDH-DSS-DES-CBC-SHA:'
-                                    . 'EXP-DES-CBC-SHA:EXP-RC2-CBC-MD5:EXP-RC2-CBC-MD5:EXP-KRB5-RC4-MD5:EXP-KRB5-RC4-SHA'
-                                    . ':EXP-RC4-MD5:EXP-RC4-MD5',
-                            ]
-                        ],
-//                        'curl' => [
-//                            'CURLOPT_SSLVERSION' => 2,
-//                            'CURLOPT_SSL_CIPHER_LIST' => 'TLSv1'
-//                        ]
-                    ]
-                ]
-            ]);
+            return new Client();
         });
     }
 
@@ -56,7 +35,7 @@ class SSOLogin extends Controller {
         $code = Input::get('code');
 
         if(!isset($code)){
-            return View::make('ss/error/500');
+            return View::make('admin-ui::error/500');
         }
 //        Log::info(date('H:i:s')." starting request");
         $client = App::make('guzzle-client');
@@ -74,7 +53,7 @@ class SSOLogin extends Controller {
         } catch (ClientException $e) {
 //            return $e->getResponse();
             Log::error($e->getResponse());
-            return View::make('ss/error/500');
+            return View::make('admin-ui::error/500');
         }
 //        Log::info(date('H:i:s')." finished request");
         $tok = json_decode($response->getBody())->access_token;
@@ -87,7 +66,7 @@ class SSOLogin extends Controller {
         } catch (ClientException $e2) {
 //            return $e2->getResponse();
             Log::error($e2->getResponse());
-            return View::make('ss/error/500');
+            return View::make('admin-ui::error/500');
         }
         $email = $response2->getBody();
 

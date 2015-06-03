@@ -59,11 +59,11 @@ class TemplateSections extends Table2 {
                     'single'=>(new Checkbox())
                         ->id('single')
                         ->label('Single Post?')
-                        ->defaultValue($row?$row->single:0),
+                        ->defaultValue($row?$row->single:''),
                     'has_attachments'=>(new Checkbox())
                         ->id('has_attachments')
                         ->label('Has Attachments?')
-                        ->defaultValue($row?$row->has_attachments:0)
+                        ->defaultValue($row?$row->has_attachments:'')
                 ];
         });
         $this->parentHeader='Template';

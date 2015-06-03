@@ -21,10 +21,10 @@ class Section extends Model {
     }
 
     function getHasAttachmentsFormattedAttribute(){
-        return $this->has_attachments === 1?'Yes':'No';
+        return $this->has_attachments == 1?'Yes':'No';
     }
     function getSingleFormattedAttribute(){
-        return $this->single === 1?'Yes':'No';
+        return $this->single == 1?'Yes':'No';
     }
 
     protected $appends = array('has_attachments_formatted','single_formatted');
