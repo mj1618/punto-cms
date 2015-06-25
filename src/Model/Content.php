@@ -25,6 +25,7 @@ class Content extends Model {
         return $this->belongsTo('App\AUI\Model\Item');
     }
 
+
     function url(){
 
 //        if (DIRECTORY_SEPARATOR == '/') {
