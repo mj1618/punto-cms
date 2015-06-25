@@ -93,6 +93,16 @@ Route::group(['middleware' => ['editorauth']], function(){
 
     (new PageSummaryPostsCreateForm())->routes();
 
+    (new App\AUI\Controllers\StoreProducts())->routes();
+    (new App\AUI\Controllers\StoreProducts())->breadcrumbs();
+    (new App\AUI\Controllers\StoreProductCategories())->routes();
+    (new App\AUI\Controllers\StoreProductCategories())->breadcrumbs();
+    (new App\AUI\Controllers\StoreProductSubcategories())->routes();
+    (new App\AUI\Controllers\StoreProductSubcategories())->breadcrumbs();
+    (new App\AUI\Controllers\StoreProductTypes())->routes();
+    (new App\AUI\Controllers\StoreProductTypes())->breadcrumbs();
+    (new App\AUI\Controllers\StoreProductTypePrices())->routes();
+    (new App\AUI\Controllers\StoreProductTypePrices())->breadcrumbs();
 //    (new PageSummaryNewAttachmentForm())->routes();
 //    (new PageSummaryNewAttachmentForm())->breadcrumbs();
 

@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 use MJ1618\AdminUI\Controller\Menu;
 use Zizaco\Entrust\Entrust;
+use Config;
 
 class AUIMenu implements Menu{
 
@@ -23,15 +24,36 @@ class AUIMenu implements Menu{
         $menus = [];
 
         if(Auth::user()!==null && Auth::user()->hasRole('editor')){
+            $si=[];
+            $si[] =
+                [
+                    'name'=>'Manage Page Content',
+                    'url'=>'/admin/manage-pages'
+                ];
+
+            if(Config::get('punto-cms.store')===true){
+
+                $si[] = [
+                    'name'=>'Store Products',
+                    'url'=>'/admin/store-products'
+                ];
+
+                $si[] = [
+                    'name'=>'Store Product Pricing',
+                    'url'=>'/admin/store-types'
+                ];
+
+                $si[] = [
+                    'name'=>'Store Product Categories',
+                    'url'=>'/admin/store-categories'
+                ];
+            }
+
             $items = [
                 [
                     'name'=>'Edit Content',
-                    'subItems'=>[
-                        [
-                            'name'=>'Manage Page Content',
-                            'url'=>'/admin/manage-pages'
-                        ]
-                    ]
+                    'subItems'=> $si
+
                 ]
             ];
 
