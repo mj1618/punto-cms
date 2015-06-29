@@ -20,7 +20,9 @@ use Log;
 use MJ1618\AdminUI\Controller\Table2;
 use MJ1618\AdminUI\Form\Checkbox;
 use MJ1618\AdminUI\Form\DropDown;
+use MJ1618\AdminUI\Form\FileInput;
 use MJ1618\AdminUI\Form\HiddenInput;
+use MJ1618\AdminUI\Form\ImageInput;
 use MJ1618\AdminUI\Form\MetaItem;
 use MJ1618\AdminUI\Form\NumberInput;
 use MJ1618\AdminUI\Form\PasswordInput;
@@ -61,10 +63,18 @@ class StoreProducts extends Table2 {
                     ->id('name')
                     ->label('Name')
                     ->defaultValue($row?$row->name:''),
+                'short_description' => (new PlainTextAreaBox())
+                    ->id('short_description')
+                    ->label('Short Description')
+                    ->defaultValue($row?$row->short_description:''),
                 'description' => (new PlainTextAreaBox())
                     ->id('description')
                     ->label('Description')
                     ->defaultValue($row?$row->description:''),
+                'image'=>(new ImageInput())
+                    ->id('image')
+                    ->label('Image')
+                    ->defaultValue($row?$row->image:''),
                 'store_type_id' => (new DropDown())
                     ->id('store_type_id')
                     ->nullable(false)

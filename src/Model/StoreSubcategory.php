@@ -18,4 +18,7 @@ class StoreSubcategory extends Model {
 
     protected $table = 'store_subcategory';
 
+    public function products(){
+        return $this->belongsToMany('App\AUI\Model\StoreProduct','store_product_subcategory','store_subcategory_id','store_product_id');
+    }
 }

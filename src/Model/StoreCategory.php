@@ -18,4 +18,9 @@ class StoreCategory extends Model {
 
     protected $table = 'store_category';
 
+    public function subCategories()
+    {
+        return $this->hasMany('App\AUI\Model\StoreSubcategory');
+    }
+
 }
