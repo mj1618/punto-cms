@@ -6,6 +6,7 @@ use App\AUI\Model\Coach;
 use App\AUI\Model\Family;
 use App\AUI\Model\Role;
 use App\AUI\Model\RoleUser;
+use App\AUI\Model\StoreProductSubcategory;
 use App\AUI\Model\Template;
 use App\AUI\Model\User;
 use Auth;
@@ -35,7 +36,7 @@ class StoreProductSubcategories extends Table2 {
         parent::headerSingular('Store Product Sub-Category');
         parent::baseRoute('/admin/store-categories/{id1}');
         parent::ajaxBaseRoute('/ajax/admin/store-categories/{id1}');
-        parent::table(new StoreProductSubcategories());
+        parent::table(new StoreProductSubcategory());
         parent::tableName('store_product_subcategory');
         $this->level=2;
         $this->parentHeader='Store Product Category';
