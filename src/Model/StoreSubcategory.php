@@ -14,11 +14,8 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Log;
 use Zizaco\Entrust\Traits\EntrustUserTrait;
 use File;
-class StoreProductSubcategory extends Model {
+class StoreSubcategory extends Model {
 
-    protected $table = 'store_product_subcategory';
-    public function storeSubcategory()
-    {
-        return $this->belongsTo('App\AUI\Model\StoreSubcategory');
-    }
+    protected $table = 'store_subcategory';
+
 }

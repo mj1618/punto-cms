@@ -95,14 +95,18 @@ Route::group(['middleware' => ['editorauth']], function(){
 
     (new App\AUI\Controllers\StoreProducts())->routes();
     (new App\AUI\Controllers\StoreProducts())->breadcrumbs();
-    (new App\AUI\Controllers\StoreProductCategories())->routes();
-    (new App\AUI\Controllers\StoreProductCategories())->breadcrumbs();
+    (new App\AUI\Controllers\StoreCategories())->routes();
+    (new App\AUI\Controllers\StoreCategories())->breadcrumbs();
+    (new App\AUI\Controllers\StoreSubcategories())->routes();
+    (new App\AUI\Controllers\StoreSubcategories())->breadcrumbs();
     (new App\AUI\Controllers\StoreProductSubcategories())->routes();
     (new App\AUI\Controllers\StoreProductSubcategories())->breadcrumbs();
-    (new App\AUI\Controllers\StoreProductTypes())->routes();
-    (new App\AUI\Controllers\StoreProductTypes())->breadcrumbs();
-    (new App\AUI\Controllers\StoreProductTypePrices())->routes();
-    (new App\AUI\Controllers\StoreProductTypePrices())->breadcrumbs();
+    (new App\AUI\Controllers\StoreTypes())->routes();
+    (new App\AUI\Controllers\StoreTypes())->breadcrumbs();
+    (new App\AUI\Controllers\StoreTypePrices())->routes();
+    (new App\AUI\Controllers\StoreTypePrices())->breadcrumbs();
+
+
     (new PageSummaryNewAttachmentForm())->routes();
     (new PageSummaryNewAttachmentForm())->breadcrumbs();
 

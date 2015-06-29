@@ -14,8 +14,8 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Log;
 use Zizaco\Entrust\Traits\EntrustUserTrait;
 use File;
-class StoreProductTypePrice extends Model {
+class StoreCategory extends Model {
 
-    protected $table = 'store_product_type_price';
+    protected $table = 'store_category';
 
 }

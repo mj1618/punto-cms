@@ -6,6 +6,7 @@ use App\AUI\Model\Coach;
 use App\AUI\Model\Family;
 use App\AUI\Model\Role;
 use App\AUI\Model\RoleUser;
+use App\AUI\Model\StoreCategory;
 use App\AUI\Model\StoreProductCategory;
 use App\AUI\Model\Template;
 use App\AUI\Model\User;
@@ -26,17 +27,17 @@ use MJ1618\AdminUI\Form\TextBox;
 use MJ1618\AdminUI\Utils\ViewUtils;
 use MJ1618\AdminUI\Controller\Table;
 
-class StoreProductCategories extends Table2 {
+class StoreCategories extends Table2 {
 
 
     function __construct(){
-        parent::controllerClass('StoreProductCategories');
-        parent::headerPlural('Store Product Categories');
-        parent::headerSingular('Store Product Category');
+        parent::controllerClass('StoreCategories');
+        parent::headerPlural('Store Categories');
+        parent::headerSingular('Store Category');
         parent::baseRoute('/admin/store-categories');
         parent::ajaxBaseRoute('/ajax/admin/store-categories');
-        parent::table(new StoreProductCategory());
-        parent::tableName('store_product_category');
+        parent::table(new StoreCategory());
+        parent::tableName('store_category');
         parent::attributes([
             [
                 'title'=>'ID',
@@ -60,7 +61,7 @@ class StoreProductCategories extends Table2 {
 
     function getViewViews(){
         return [
-            (new StoreProductSubcategories())->showAllView()
+            (new StoreSubcategories())->showAllView()
         ];
     }
 

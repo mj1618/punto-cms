@@ -7,6 +7,7 @@ use App\AUI\Model\Family;
 use App\AUI\Model\Role;
 use App\AUI\Model\RoleUser;
 use App\AUI\Model\StoreProductType;
+use App\AUI\Model\StoreType;
 use App\AUI\Model\Template;
 use App\AUI\Model\User;
 use Illuminate\Support\Facades\Auth;
@@ -26,16 +27,16 @@ use MJ1618\AdminUI\Form\TextBox;
 use MJ1618\AdminUI\Utils\ViewUtils;
 use MJ1618\AdminUI\Controller\Table;
 
-class StoreProductTypes extends Table2 {
+class StoreTypes extends Table2 {
 
 
     function __construct(){
-        parent::controllerClass('StoreProductTypes');
-        parent::headerPlural('Store Product Types');
-        parent::headerSingular('Store Product Type');
+        parent::controllerClass('StoreTypes');
+        parent::headerPlural('Store Types');
+        parent::headerSingular('Store Type');
         parent::baseRoute('/admin/store-types');
         parent::ajaxBaseRoute('/ajax/admin/store-types');
-        parent::table(new StoreProductType());
+        parent::table(new StoreType());
         parent::attributes([
             [
                 'title'=>'ID',
@@ -54,12 +55,12 @@ class StoreProductTypes extends Table2 {
                     ->defaultValue($row?$row->name:'')
             ];
         });
-        parent::tableName('store_product_type');
+        parent::tableName('store_type');
     }
 
     function getViewViews(){
         return [
-            (new StoreProductTypePrices())->showAllView()
+            (new StoreTypePrices())->showAllView()
         ];
     }
 

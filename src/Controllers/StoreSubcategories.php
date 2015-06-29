@@ -6,7 +6,8 @@ use App\AUI\Model\Coach;
 use App\AUI\Model\Family;
 use App\AUI\Model\Role;
 use App\AUI\Model\RoleUser;
-use App\AUI\Model\StoreProductTypePrice;
+use App\AUI\Model\StoreProductSubcategory;
+use App\AUI\Model\StoreSubcategory;
 use App\AUI\Model\Template;
 use App\AUI\Model\User;
 use Auth;
@@ -27,20 +28,20 @@ use MJ1618\AdminUI\Form\TextBox;
 use MJ1618\AdminUI\Utils\ViewUtils;
 use MJ1618\AdminUI\Controller\Table;
 
-class StoreProductTypePrices extends Table2 {
+class StoreSubcategories extends Table2 {
 
 
     function __construct(){
-        parent::controllerClass('StoreProductTypePrices');
-        parent::headerPlural('Store Product Type Prices');
-        parent::headerSingular('Store Product Type Price');
-        parent::baseRoute('/admin/store-types/{id1}/price');
-        parent::ajaxBaseRoute('/ajax/admin/users/{id1}/price');
+        parent::controllerClass('StoreSubcategories');
+        parent::headerPlural('Store Sub-Categories');
+        parent::headerSingular('Store Sub-Category');
+        parent::baseRoute('/admin/store-categories/{id1}');
+        parent::ajaxBaseRoute('/ajax/admin/store-categories/{id1}');
+        parent::table(new StoreSubcategory());
+        parent::tableName('store_subcategory');
         $this->level=2;
-        $this->parentHeader='Store Product Type';
-        $this->foreignKeyField='store_product_type_id';
-        parent::table(new StoreProductTypePrice());
-        parent::tableName('store_product_type_price');
+        $this->parentHeader='Store Category';
+        $this->foreignKeyField='store_category_id';
         parent::attributes([
             [
                 'title'=>'ID',
@@ -49,22 +50,17 @@ class StoreProductTypePrices extends Table2 {
             [
                 'title'=>'Name',
                 'id'=>'name'
-            ],
-            [
-                'title'=>'Price',
-                'id'=>'price'
             ]
         ]);
         parent::inputs(function($row) {
             return [
+                'store_category_id'=>(new MetaItem())
+                    ->id('store_category_id')
+                    ->defaultValue(Request::route('id1')),
                 'name' => (new TextBox)
                     ->id('name')
                     ->label('Name')
-                    ->defaultValue($row?$row->name:''),
-                'price' => (new NumberInput())
-                    ->id('price')
-                    ->label('Price')
-                    ->defaultValue($row?$row->price:'')
+                    ->defaultValue($row?$row->name:'')
             ];
 
         });
@@ -72,7 +68,7 @@ class StoreProductTypePrices extends Table2 {
 
 
     function dataAll(){
-        return $this->table->where('store_product_type_id','=',Request::route('id1'))->get();
+        return $this->table->where('store_category_id','=',Request::route('id1'))->get();
     }
 
 }

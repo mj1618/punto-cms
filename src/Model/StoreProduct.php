@@ -18,4 +18,8 @@ class StoreProduct extends Model {
 
     protected $table = 'store_product';
 
+    public function storeType()
+    {
+        return $this->belongsTo('App\AUI\Model\StoreType');
+    }
 }

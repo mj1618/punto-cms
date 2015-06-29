@@ -8,6 +8,8 @@ use App\AUI\Model\Role;
 use App\AUI\Model\RoleUser;
 use App\AUI\Model\StoreProduct;
 use App\AUI\Model\StoreProductCategory;
+use App\AUI\Model\StoreProductType;
+use App\AUI\Model\StoreType;
 use App\AUI\Model\Template;
 use App\AUI\Model\User;
 use Illuminate\Support\Facades\Auth;
@@ -16,6 +18,7 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Password;
 use Log;
 use MJ1618\AdminUI\Controller\Table2;
+use MJ1618\AdminUI\Form\Checkbox;
 use MJ1618\AdminUI\Form\DropDown;
 use MJ1618\AdminUI\Form\HiddenInput;
 use MJ1618\AdminUI\Form\MetaItem;
@@ -46,6 +49,10 @@ class StoreProducts extends Table2 {
             [
                 'title'=>'Name',
                 'id'=>'name'
+            ],
+            [
+                'title'=>'Pricing Type',
+                'id'=>'store_type.name'
             ]
         ]);
         parent::inputs(function($row) {
@@ -53,7 +60,19 @@ class StoreProducts extends Table2 {
                 'name' => (new TextBox)
                     ->id('name')
                     ->label('Name')
-                    ->defaultValue($row?$row->name:'')
+                    ->defaultValue($row?$row->name:''),
+                'description' => (new PlainTextAreaBox())
+                    ->id('description')
+                    ->label('Description')
+                    ->defaultValue($row?$row->description:''),
+                'store_type_id' => (new DropDown())
+                    ->id('store_type_id')
+                    ->nullable(false)
+                    ->label('Pricing Type')
+                    ->idField('id')
+                    ->nameField('name')
+                    ->rows(StoreType::all())
+                    ->defaultValue($row?$row->store_type_id:'')
             ];
         });
     }
@@ -65,7 +84,7 @@ class StoreProducts extends Table2 {
     }
 
     function dataAll(){
-        return $this->table->get();
+        return $this->table->with('storeType')->get();
     }
 
 }

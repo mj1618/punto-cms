@@ -7,6 +7,7 @@ use App\AUI\Model\Family;
 use App\AUI\Model\Role;
 use App\AUI\Model\RoleUser;
 use App\AUI\Model\StoreProductSubcategory;
+use App\AUI\Model\StoreSubcategory;
 use App\AUI\Model\Template;
 use App\AUI\Model\User;
 use Auth;
@@ -34,40 +35,55 @@ class StoreProductSubcategories extends Table2 {
         parent::controllerClass('StoreProductSubcategories');
         parent::headerPlural('Store Product Sub-Categories');
         parent::headerSingular('Store Product Sub-Category');
-        parent::baseRoute('/admin/store-categories/{id1}');
-        parent::ajaxBaseRoute('/ajax/admin/store-categories/{id1}');
+        parent::baseRoute('/admin/store-products/{id1}/subcategories');
+        parent::ajaxBaseRoute('/ajax/admin/store-products/{id1}/subcategories');
         parent::table(new StoreProductSubcategory());
         parent::tableName('store_product_subcategory');
         $this->level=2;
-        $this->parentHeader='Store Product Category';
-        $this->foreignKeyField='store_product_category_id';
+        $this->parentHeader='Store Product';
+        $this->foreignKeyField='store_product_id';
         parent::attributes([
             [
                 'title'=>'ID',
                 'id'=>'id'
             ],
             [
-                'title'=>'Name',
-                'id'=>'name'
+                'title'=>'Sub-category',
+                'id'=>'store_subcategory.name'
             ]
         ]);
         parent::inputs(function($row) {
             return [
-                'store_product_category_id'=>(new MetaItem())
-                    ->id('store_product_category_id')
+                'store_product_id'=>(new MetaItem())
+                    ->id('store_product_id')
                     ->defaultValue(Request::route('id1')),
-                'name' => (new TextBox)
-                    ->id('name')
-                    ->label('Name')
-                    ->defaultValue($row?$row->name:'')
+                'store_subcategory_id' => (new DropDown())
+                    ->id('store_subcategory_id')
+                    ->nullable(false)
+                    ->label('Sub-category')
+                    ->idField('id')
+                    ->nameField('name')
+                    ->rows(StoreSubcategory::all())
+                    ->defaultValue($row?$row->store_subcategory_id:'')
             ];
 
         });
     }
 
+    function buttons(){
+        return [
+            "create" => [
+                'id'=>$this->getHeaderSingular()."-create",
+                'text'=>'Add',
+                'requiresSelect'=>'false',
+                'url'=>$this->getCreateUrl(),
+                'float'=>'left'
+            ]
+        ];
+    }
 
     function dataAll(){
-        return $this->table->where('store_product_category_id','=',Request::route('id1'))->get();
+        return $this->table->with('storeSubcategory')->where('store_product_id','=',Request::route('id1'))->get();
     }
 
 }
