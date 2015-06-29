@@ -105,6 +105,10 @@ Route::group(['middleware' => ['editorauth']], function(){
     (new App\AUI\Controllers\StoreTypes())->breadcrumbs();
     (new App\AUI\Controllers\StoreTypePrices())->routes();
     (new App\AUI\Controllers\StoreTypePrices())->breadcrumbs();
+    (new App\AUI\Controllers\StoreSelections())->routes();
+    (new App\AUI\Controllers\StoreSelections())->breadcrumbs();
+    (new App\AUI\Controllers\StoreSelectItems())->routes();
+    (new App\AUI\Controllers\StoreSelectItems())->breadcrumbs();
 
 
     (new PageSummaryNewAttachmentForm())->routes();

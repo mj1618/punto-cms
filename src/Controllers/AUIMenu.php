@@ -47,6 +47,10 @@ class AUIMenu implements Menu{
                     'name'=>'Store Product Categories',
                     'url'=>'/admin/store-categories'
                 ];
+                $si[] = [
+                    'name'=>'Store Dropdown Selections',
+                    'url'=>'/admin/store-selections'
+                ];
             }
 
             $items = [
