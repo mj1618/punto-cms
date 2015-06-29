@@ -63,73 +63,7 @@ class PageSummaryPostsCreateForm extends FormController {
         $sectionId = Request::route('id2');
 
         foreach(Item::where('section_id','=',$sectionId)->get() as $item){
-//            $content = $item->content()->where('post_id','=',$post->id)->get()->first();
-            $content = null;
-            switch($item->itemType()->first()->short_name){
-                case "textbox":
-                    $is[] =
-                        (new TextBox())
-                            ->id($item->id)
-                            ->label($item->name)
-                            ->valueField('value')
-                            ->defaultValue($content?$content->value:'');
-                    break;
-                case "textarea":
-                    $is[] =
-                        (new TextAreaBox())
-                            ->id($item->id)
-                            ->label($item->name)
-                            ->valueField('value')
-                            ->defaultValue($content?$content->value:'');
-                    break;
-                case "plaintextarea":
-                    $is[] =
-                        (new PlainTextAreaBox())
-                            ->id($item->id)
-                            ->label($item->name)
-                            ->valueField('value')
-                            ->defaultValue($content?$content->value:'');
-                    break;
-                case "dropdown":
-                    $is[] =
-                        (new DropDown())
-                            ->id($item->id)
-                            ->label($item->name)
-                            ->idField('id')
-                            ->nameField('value')
-                            ->valueField('value')
-                            ->rows(ItemValue::where('item_id','=',$item->id)->get())
-                            ->printValue($content&&ItemValue::find($content->value)?ItemValue::find($content->value)->value:'')
-                            ->defaultValue($content?$content->value:'');
-                    break;
-                case "checkbox":
-                    $is[] =
-                        (new Checkbox())
-                            ->id($item->id)
-                            ->valueField('value')
-                            ->label($item->name)
-                            ->defaultValue($content?$content->value:0);
-                    break;
-                case "image":
-                    $is[] =
-                        (new ImageInput())
-                            ->id($item->id)
-                            ->valueField('value')
-                            ->label($item->name)
-                            ->filename($content?$content->filename:'')
-                            ->defaultValue($content?$content->value:'');
-                    break;
-                case "file":
-                    $is[] =
-                        (new FileInput())
-                            ->id($item->id)
-                            ->valueField('value')
-                            ->label($item->name)
-                            ->filename($content?$content->value:'')
-                            ->defaultValue($content?$content->value:'');
-                    break;
-            }
-
+            $is = $item->render($is,null);
         }
 
         return $is;
