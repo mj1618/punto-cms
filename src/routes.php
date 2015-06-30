@@ -52,7 +52,9 @@ use Log;
 \Debugbar::disable();
 
 
-
+if(Config::get('punto-cms.store')===true) {
+    (new App\AUI\Controllers\StoreCart())->routes();
+}
 
 if(Config::get('punto-cms.c2go-login')===true)
     (new SSOLogin())->routes();
@@ -94,6 +96,7 @@ Route::group(['middleware' => ['editorauth']], function(){
     (new PageSummaryPostsCreateForm())->routes();
 
     if(Config::get('punto-cms.store')===true){
+
         (new App\AUI\Controllers\StoreProducts())->routes();
         (new App\AUI\Controllers\StoreProducts())->breadcrumbs();
         (new App\AUI\Controllers\StoreCategories())->routes();
@@ -111,7 +114,6 @@ Route::group(['middleware' => ['editorauth']], function(){
         (new App\AUI\Controllers\StoreSelectItems())->routes();
         (new App\AUI\Controllers\StoreSelectItems())->breadcrumbs();
 
-        (new App\AUI\Controllers\StoreCart())->routes();
     }
 
 
