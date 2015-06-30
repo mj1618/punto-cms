@@ -18,4 +18,7 @@ class StoreType extends Model {
 
     protected $table = 'store_type';
 
+    public function prices(){
+        return $this->hasMany('App\AUI\Model\StoreTypePrice');
+    }
 }

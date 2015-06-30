@@ -18,4 +18,7 @@ class StoreSelect extends Model {
 
     protected $table = 'store_select';
 
+    public function items(){
+        return $this->hasMany('App\AUI\Model\StoreSelectItem');
+    }
 }

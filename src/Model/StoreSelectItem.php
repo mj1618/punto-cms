@@ -17,5 +17,4 @@ use File;
 class StoreSelectItem extends Model {
 
     protected $table = 'store_select_item';
-
 }

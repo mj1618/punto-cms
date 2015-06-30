@@ -8,7 +8,8 @@
       "roumen/feed": "~2.9",
       "om/icalparser": "0.0.5",
       "mj1618/admin-ui":"0.1.*",
-      "guzzlehttp/guzzle": "~5.0"
+      "guzzlehttp/guzzle": "~5.0",
+      "gloudemans/shoppingcart": "~1.3"
     },
     "authors": [
         {

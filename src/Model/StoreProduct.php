@@ -22,4 +22,8 @@ class StoreProduct extends Model {
     {
         return $this->belongsTo('App\AUI\Model\StoreType');
     }
+    public function storeSelect()
+    {
+        return $this->belongsTo('App\AUI\Model\StoreSelect');
+    }
 }
