@@ -9,6 +9,7 @@ use App\AUI\Model\RoleUser;
 use App\AUI\Model\StoreProduct;
 use App\AUI\Model\StoreProductCategory;
 use App\AUI\Model\StoreProductType;
+use App\AUI\Model\StoreSelect;
 use App\AUI\Model\StoreType;
 use App\AUI\Model\Template;
 use App\AUI\Model\User;
@@ -82,7 +83,15 @@ class StoreProducts extends Table2 {
                     ->idField('id')
                     ->nameField('name')
                     ->rows(StoreType::all())
-                    ->defaultValue($row?$row->store_type_id:'')
+                    ->defaultValue($row?$row->store_type_id:''),
+                'store_select_id' => (new DropDown())
+                    ->id('store_select_id')
+                    ->nullable(false)
+                    ->label('Select Options')
+                    ->idField('id')
+                    ->nameField('name')
+                    ->rows(StoreSelect::all())
+                    ->defaultValue($row?$row->store_select_id:'')
             ];
         });
     }

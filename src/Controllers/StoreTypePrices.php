@@ -58,6 +58,7 @@ class StoreTypePrices extends Table2 {
         ]);
         parent::inputs(function($row) {
             return [
+                'store_type_id'=>(new MetaItem())->id('store_type_id')->defaultValue(Request::route('id1')),
                 'name' => (new TextBox)
                     ->id('name')
                     ->label('Name')
