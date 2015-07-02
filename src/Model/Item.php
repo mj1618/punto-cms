@@ -103,6 +103,17 @@ class Item extends Model {
                         ->filename($content?$content->value:'')
                         ->defaultValue($content?$content->value:'');
                 break;
+            case "file-existing":
+                $is[] =
+                    (new DropDown())
+                        ->id($this->id)
+                        ->label($this->name)
+                        ->idField('id')
+                        ->nameField('filename')
+                        ->valueField('value')
+                        ->rows(File::all())
+                        ->defaultValue($content?$content->value:null);
+                break;
         }
         return $is;
     }

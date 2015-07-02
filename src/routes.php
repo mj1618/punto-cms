@@ -7,6 +7,7 @@
  */
 
 use App;
+use App\AUI\Controllers\Files;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use App\AUI\Controllers\Logout;
@@ -94,6 +95,10 @@ Route::group(['middleware' => ['editorauth']], function(){
     (new PageSummaryAttachmentsDeleteForm())->routes();
 
     (new PageSummaryPostsCreateForm())->routes();
+
+    (new Files())->routes();
+    (new Files())->breadcrumbs();
+
 
     if(Config::get('punto-cms.store')===true){
 

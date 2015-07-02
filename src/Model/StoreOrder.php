@@ -14,11 +14,11 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Log;
 use Zizaco\Entrust\Traits\EntrustUserTrait;
 
-class StoreSelect extends Model {
+class StoreOrder extends Model {
 
-    protected $table = 'store_select';
+    protected $table = 'store_order';
 
-    public function items(){
-        return $this->hasMany('App\AUI\Model\StoreSelectItem');
+    public function products(){
+        return $this->hasMany('App\AUI\Model\StoreOrderProduct');
     }
 }
