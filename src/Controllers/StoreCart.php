@@ -219,7 +219,7 @@ class StoreCart extends Controller {
     function paypalComplete(){
         $token = Input::get('token');
         $paypal = new Paypal();
-        $checkoutDetails = $paypal->request('GetExpressCheckoutDetails', array('TOKEN' => $_GET['token']));
+        $checkoutDetails = $paypal->request('GetExpressCheckoutDetails', array('TOKEN' => $token));
         Log::info($checkoutDetails);
         $shipping=Session::get('shipping-review');
         // Complete the checkout transaction
@@ -237,6 +237,8 @@ class StoreCart extends Controller {
             // We'll fetch the transaction ID for internal bookkeeping
             $transactionId = $response['PAYMENTINFO_0_TRANSACTIONID'];
             Log::info('payment success: '.$transactionId);
+            $checkoutDetails = $paypal->request('GetExpressCheckoutDetails', array('TOKEN' => $token));
+            Log::info($checkoutDetails);
             return $this->complete($checkoutDetails);
         } else {
             return $this->cancel();
@@ -251,7 +253,7 @@ class StoreCart extends Controller {
     function complete($checkoutDetails){
         Session::flash('success','Your order has been successfully completed and paid. You will receive an invoice at the email you provided and your order will be shipped as soon as possible.');
 
-        Log::info('order completed: '.json_encode($checkoutDetails).json_encode(Cart::instance('review')->content()).json_encode(Session::get('shipping-review')));
+        Log::info('order completed: '.json_encode($checkoutDetails, JSON_PRETTY_PRINT).json_encode(Cart::instance('review')->content(), JSON_PRETTY_PRINT).json_encode(Session::get('shipping-review'), JSON_PRETTY_PRINT));
 
         Cart::instance('complete')->destroy();
         foreach(Cart::instance('review')->content()->toArray() as $key => $val){
@@ -265,7 +267,7 @@ class StoreCart extends Controller {
         Session::remove('shipping');
 
         $order = new StoreOrder();
-        $order->fields = json_encode($checkoutDetails);
+        $order->fields = json_encode($checkoutDetails, JSON_PRETTY_PRINT);
         $order->shipping = Session::get('shipping-complete');
         $order->total = Cart::instance('complete')->total() + Session::get('shipping-complete');
         $order->completed = 1;

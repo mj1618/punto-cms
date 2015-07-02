@@ -30,6 +30,10 @@ class AUIMenu implements Menu{
                     'name'=>'Manage Page Content',
                     'url'=>'/admin/manage-pages'
                 ];
+            $si[] = [
+                'name'=>'Files/Images',
+                'url'=>'/admin/files'
+            ];
 
             if(Config::get('punto-cms.store')===true){
 
@@ -50,6 +54,10 @@ class AUIMenu implements Menu{
                 $si[] = [
                     'name'=>'Store Dropdown Selections',
                     'url'=>'/admin/store-selections'
+                ];
+                $si[] = [
+                    'name'=>'Store Orders',
+                    'url'=>'/admin/store-orders'
                 ];
             }
 
