@@ -268,7 +268,21 @@ class StoreCart extends Controller {
 
         $order = new StoreOrder();
         $order->fields = json_encode($checkoutDetails, JSON_PRETTY_PRINT);
-        $order->shipping = Session::get('shipping-complete');
+        $order->email = @$checkoutDetails["EMAIL"] ?: '';
+        $order->payer_id = @$checkoutDetails["PAYERID"] ?: '';
+        $order->payer_status = @$checkoutDetails["PAYERSTATUS"] ?: '';
+        $order->first_name = @$checkoutDetails["FIRSTNAME"] ?: '';
+        $order->last_name = @$checkoutDetails["LASTNAME"] ?: '';
+        $order->country_code = @$checkoutDetails["COUNTRYCODE"] ?: '';
+        $order->ship_to_name = @$checkoutDetails["SHIPTONAME"] ?: '';
+        $order->ship_to_street = @$checkoutDetails["SHIPTOSTREET"] ?: '';
+        $order->ship_to_city = @$checkoutDetails["SHIPTOCITY"] ?: '';
+        $order->ship_to_state = @$checkoutDetails["SHIPTOSTATE"] ?: '';
+        $order->ship_to_zip = @$checkoutDetails["SHIPTOZIP"] ?: '';
+        $order->ship_to_country = @$checkoutDetails["SHIPTOCOUNTRYNAME"] ?: '';
+        $order->currecncy_code = @$checkoutDetails["CURRENCYCODE"] ?: '';
+        $order->note = @$checkoutDetails["PAYMENTREQUEST_0_NOTETEXT"] ?: '';
+        $order->shipping = Session::get('shipping-complete') ?: null;
         $order->total = Cart::instance('complete')->total() + Session::get('shipping-complete');
         $order->completed = 1;
         $order->save();
@@ -301,7 +315,7 @@ class StoreCart extends Controller {
 
         Route::get('/cart/paypal','StoreCart@paypal');
         Route::get('/cart/paypal/return','StoreCart@paypalReturn');
-        Route::get('/cart/paypal/complete','StoreCart@paypalComplete');
+        Route::post('/cart/paypal/complete','StoreCart@paypalComplete');
         Route::get('/cart/paypal/cancel','StoreCart@cancel');
         //http://localhost:8000/paypal/return?token=EC-8YB61756R7325594X&PayerID=Z2PMSNVCD68JE
     }

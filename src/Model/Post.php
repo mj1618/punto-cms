@@ -8,7 +8,7 @@ use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Zizaco\Entrust\Traits\EntrustUserTrait;
-
+use Log;
 class Post extends Model {
 
     protected $table = 'post';
@@ -41,6 +41,27 @@ class Post extends Model {
             ->count();
 
         return $n > 0;
+    }
+
+    function findImage($name,$def=''){
+
+        $c = $this
+            ->contents()
+            ->whereIn(
+                'item_id',
+                $this->section()->first()
+                    ->items()
+                    ->where('name','=',$name)
+                    ->lists('id'))
+            ->first();
+
+        $i = File::find($c->value);
+
+        if(!isset($i) || $i->value===''){
+            return $def;
+        }
+
+        return str_replace('\\','/',$i->value);
     }
 
     function findContent($name,$def=''){
