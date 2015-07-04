@@ -5,6 +5,7 @@ use App\AUI\Model\Page;
 use App\AUI\Model\Post;
 use App\AUI\Model\User;
 use App\AUI\Model\UserCookie;
+use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Input;
@@ -15,9 +16,12 @@ use Illuminate\Support\Facades\Session;
 use MJ1618\AdminUI\Controller\Controller;
 use View;
 use Log;
+
 class PageRoute extends Controller {
 
     function show(){
+
+//        dd(Page::all()->toArray());
 
         $page = Page::orWhere(function($query){
             $query->where('url', '=', Request::path());
@@ -25,9 +29,12 @@ class PageRoute extends Controller {
             $query->where('url', '=', '/'.Request::path());
         })->orWhere(function($query){
             $query->where('url', '=', Request::url());
+        })->orWhere(function($query){
+            $query->where('url', '=', Request::route()->getPath());
+        })->orWhere(function($query){
+            $query->where('url', '=', '/'.Request::route()->getPath());
         })->get()->first();
 
-//        Log::info(json_encode($page));
 
         $ps = Post::where('page_id','=',$page->id)->get();
 

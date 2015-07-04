@@ -22,9 +22,15 @@ class Page extends Model {
     }
 
     function findPost($name){
-
         return Post::where('page_id','=',$this->id)->where('name','=',$name)->get()->first();
     }
+
+
+    function findPostById($id){
+        Log::info('####'.$id);
+        return Post::where('page_id','=',$this->id)->where('id','=',$id)->get()->first();
+    }
+
     function findPosts($name){
 
         $ps = Post::where('page_id','=',$this->id)->whereIn('section_id',Section::where('name','=',$name)->lists('id'))->get();
