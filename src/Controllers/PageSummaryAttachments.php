@@ -91,7 +91,7 @@ class PageSummaryAttachments extends Table2 {
         return ViewUtils::blank();
     }
 
-    function getCreateReturnUrl(){
+    function getCreateReturnUrl($id){
         return "/admin/manage-pages/".Request::route('id1')."/content";
     }
     function getEditReturnUrl(){

@@ -78,7 +78,7 @@ class StoreProducts extends Table2 {
                     ->defaultValue($row?$row->image:''),
                 'store_type_id' => (new DropDown())
                     ->id('store_type_id')
-                    ->nullable(false)
+                    ->nullable(true)
                     ->label('Pricing Type')
                     ->idField('id')
                     ->nameField('name')
@@ -86,12 +86,16 @@ class StoreProducts extends Table2 {
                     ->defaultValue($row?$row->store_type_id:''),
                 'store_select_id' => (new DropDown())
                     ->id('store_select_id')
-                    ->nullable(false)
+                    ->nullable(true)
                     ->label('Select Options')
                     ->idField('id')
                     ->nameField('name')
                     ->rows(StoreSelect::all())
-                    ->defaultValue($row?$row->store_select_id:'')
+                    ->defaultValue($row?$row->store_select_id:''),
+                'price'=>(new NumberInput())
+                    ->id('price')
+                    ->label('Price (for single price only)')
+                    ->defaultValue($row?$row->price:'0')
             ];
         });
     }
