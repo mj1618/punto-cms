@@ -45,19 +45,6 @@ class Post extends Model {
 
     function findImage($name,$def=''){
 
-        $item = $this
-            ->contents()
-            ->whereIn(
-                'item_id',
-                $this->section()->first()
-                    ->items()
-                    ->where('name','=',$name)
-                    ->lists('id'))
-            ->first();
-        if(isset($item) && $item!==''){
-            return $item->value;
-        }
-
         $c = $this
             ->contents()
             ->whereIn(
@@ -66,15 +53,26 @@ class Post extends Model {
                     ->items()
                     ->where('name','=',$name)
                     ->lists('id'))
+            ->get()
             ->first();
 
-        $i = File::find($c->value);
+        $item = $this->section()->first()
+            ->items()
+            ->where('name','=',$name)->get()->first();
 
-        if(!isset($i) || $i->value===''){
-            return $def;
+        if($item->itemType()->first()->short_name==='file-existing'){
+
+            $i = File::find($c->value);
+
+            if(!isset($i) || $i->value===''){
+                return $def;
+            }
+
+            return str_replace('\\','/',$i->value);
+        } else {
+            return $c->value;
         }
 
-        return str_replace('\\','/',$i->value);
     }
 
     function findContent($name,$def=''){
