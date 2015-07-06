@@ -45,6 +45,19 @@ class Post extends Model {
 
     function findImage($name,$def=''){
 
+        $item = $this
+            ->contents()
+            ->whereIn(
+                'item_id',
+                $this->section()->first()
+                    ->items()
+                    ->where('name','=',$name)
+                    ->lists('id'))
+            ->first();
+        if(isset($item) && $item!==''){
+            return $item->value;
+        }
+
         $c = $this
             ->contents()
             ->whereIn(
