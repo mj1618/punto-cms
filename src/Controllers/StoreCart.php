@@ -171,7 +171,7 @@ class StoreCart extends Controller {
         foreach(Cart::instance('main')->content() as $item){
 
             $items = $items + [
-                    'L_PAYMENTREQUEST_0_NAME'.$i => StoreProduct::find($item["name"])->name." - ".StoreSelectItem::find($item["options"]["select"])->name,
+                    'L_PAYMENTREQUEST_0_NAME'.$i => StoreProduct::find($item["name"])->name." - ".(StoreTypePrice::find($item["options"]["price"])!=null?StoreSelectItem::find($item["options"]["select"])->name:''),
                     'L_PAYMENTREQUEST_0_DESC'.$i => (StoreTypePrice::find($item["options"]["price"])!=null)?StoreTypePrice::find($item["options"]["price"])->name:'$'.StoreProduct::find($item["name"])->price,
                     'L_PAYMENTREQUEST_0_AMT'.$i => $item["price"],
                     'L_PAYMENTREQUEST_0_QTY'.$i => $item["qty"]
@@ -292,7 +292,7 @@ class StoreCart extends Controller {
             $product = new StoreOrderProduct();
             $product->store_order_id = $order->id;
             $product->product = StoreProduct::find($row["options"]["product"])->name;
-            $product->select = StoreSelectItem::find($row["options"]["select"])->name;
+            $product->select = StoreSelectItem::find($row["options"]["select"])!==null?StoreSelectItem::find($row["options"]["select"])->name:'';
             $product->type_price = (StoreTypePrice::find($row["options"]["price"])!=null?StoreTypePrice::find($row["options"]["price"])->name:'');
             $product->quantity = $row["qty"];
             $product->price = $row["price"];
