@@ -64,11 +64,7 @@ class StoreProductSubcategories extends Table2 {
                     ->idField('id')
                     ->nameField('name')
                     ->rows(StoreSubcategory::all())
-                    ->defaultValue($row?$row->store_subcategory_id:''),
-                'description' => (new TextAreaBox())
-                    ->id('description')
-                    ->label('description')
-                    ->defaultValue($row?$row->description:''),
+                    ->defaultValue($row?$row->store_subcategory_id:'')
             ];
 
         });

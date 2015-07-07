@@ -60,7 +60,11 @@ class StoreSubcategories extends Table2 {
                 'name' => (new TextBox)
                     ->id('name')
                     ->label('Name')
-                    ->defaultValue($row?$row->name:'')
+                    ->defaultValue($row?$row->name:''),
+                'description' => (new TextAreaBox())
+                    ->id('description')
+                    ->label('description')
+                    ->defaultValue($row?$row->description:'')
             ];
 
         });
