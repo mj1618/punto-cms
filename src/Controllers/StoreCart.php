@@ -3,6 +3,7 @@
 use App\AUI\Model\StoreOrder;
 use App\AUI\Model\StoreOrderProduct;
 use App\AUI\Model\StoreProduct;
+use App\AUI\Model\StoreSelect;
 use App\AUI\Model\StoreSelectItem;
 use App\AUI\Model\StoreTypePrice;
 use Redirect;
@@ -19,12 +20,18 @@ class StoreCart extends Controller {
     function add(){
 
 //        dd(Input::all());
+        $product = StoreProduct::find(Input::get('product'));
+        if($product===null){
+            Session::flash('error','Sorry, a problem occurred');
+        }
+        $price = StoreTypePrice::find(Input::get('price'));
+        $select =StoreSelectItem::find(Input::get('select'));
 
         $col = Cart::search([
-            'name' => Input::get('product'),
+            'name' => $product->id,
             'options' => [
-                'price'=>Input::get('price'),
-                'select' => Input::get('select')
+                'price'=>$price!==null?$price->id:null,
+                'select' => $select!==null?$select->id:null
             ]
         ]);
 
@@ -34,11 +41,11 @@ class StoreCart extends Controller {
             $c = Cart::get($col[0]);
         } else {
             $id = uniqid();
-            Cart::add($id, Input::get('product'), Input::get('quantity'), (StoreTypePrice::find(Input::get('price'))?StoreTypePrice::find(Input::get('price'))->price:StoreProduct::find(Input::get('product'))->price), Input::all() );
+            Cart::add($id, $product->id, Input::get('quantity'), ($price!==null?$price->price:$product->price), Input::all() );
             $c = Cart::get(Cart::search(['id'=>$id])[0]);
         }
 
-        Session::flash('success','Successfully added '.StoreProduct::find($c["name"])->name.' - '.(StoreSelectItem::find($c["options"]["select"])!==null?StoreSelectItem::find($c["options"]["select"])->name:'').' to your shopping cart.');
+        Session::flash('success','Successfully added '.$product->name.($select!==null?' - '.$select->name:'').' to your shopping cart.');
         if(Input::has('return'))
             return Redirect::to(Input::get('return'));
         else
@@ -171,8 +178,8 @@ class StoreCart extends Controller {
         foreach(Cart::instance('main')->content() as $item){
 
             $items = $items + [
-                    'L_PAYMENTREQUEST_0_NAME'.$i => StoreProduct::find($item["name"])->name." - ".(StoreTypePrice::find($item["options"]["price"])!=null?StoreSelectItem::find($item["options"]["select"])->name:''),
-                    'L_PAYMENTREQUEST_0_DESC'.$i => (StoreTypePrice::find($item["options"]["price"])!=null)?StoreTypePrice::find($item["options"]["price"])->name:'$'.StoreProduct::find($item["name"])->price,
+                    'L_PAYMENTREQUEST_0_NAME'.$i => StoreProduct::find($item["name"])->name.(isset($item["options"]["select"])&&StoreSelectItem::find($item["options"]["select"])!=null?" - ".StoreSelectItem::find($item["options"]["select"])->name:''),
+                    'L_PAYMENTREQUEST_0_DESC'.$i => (isset($item["options"]["price"])&&StoreTypePrice::find($item["options"]["price"])!=null)?StoreTypePrice::find($item["options"]["price"])->name:'$'.StoreProduct::find($item["name"])->price,
                     'L_PAYMENTREQUEST_0_AMT'.$i => $item["price"],
                     'L_PAYMENTREQUEST_0_QTY'.$i => $item["qty"]
                 ];
@@ -292,8 +299,8 @@ class StoreCart extends Controller {
             $product = new StoreOrderProduct();
             $product->store_order_id = $order->id;
             $product->product = StoreProduct::find($row["options"]["product"])->name;
-            $product->select = StoreSelectItem::find($row["options"]["select"])!==null?StoreSelectItem::find($row["options"]["select"])->name:'';
-            $product->type_price = (StoreTypePrice::find($row["options"]["price"])!=null?StoreTypePrice::find($row["options"]["price"])->name:'');
+            $product->select = isset($row["options"]["select"])&&StoreSelectItem::find($row["options"]["select"])!==null?StoreSelectItem::find($row["options"]["select"])->name:'';
+            $product->type_price = (isset($row["options"]["price"])&&StoreTypePrice::find($row["options"]["price"])!=null?StoreTypePrice::find($row["options"]["price"])->name:'');
             $product->quantity = $row["qty"];
             $product->price = $row["price"];
             $product->save();
