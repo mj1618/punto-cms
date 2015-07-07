@@ -70,7 +70,7 @@ class Post extends Model {
 
             return str_replace('\\','/',$i->value);
         } else {
-            return $c->value;
+            return str_replace('\\','/',$c->value);
         }
 
     }
