@@ -25,6 +25,7 @@ use MJ1618\AdminUI\Form\PasswordInput;
 use MJ1618\AdminUI\Form\PlainTextAreaBox;
 use MJ1618\AdminUI\Form\TextAreaBox;
 use MJ1618\AdminUI\Form\TextBox;
+use MJ1618\AdminUI\Form\Checkbox;
 use MJ1618\AdminUI\Utils\ViewUtils;
 use MJ1618\AdminUI\Controller\Table;
 
@@ -41,8 +42,20 @@ class StoreOrders extends Table2 {
         parent::tableName('store_order');
         parent::attributes([
             [
+                'title'=>'Finished',
+                'id'=>'finished'
+            ],
+            [
                 'title'=>'Created',
                 'id'=>'created_at'
+            ],
+            [
+                'title'=>'First Name',
+                'id'=>'first_name'
+            ],
+            [
+                'title'=>'Last Name',
+                'id'=>'last_name'
             ],
             [
                 'title'=>'Total',
@@ -115,6 +128,10 @@ class StoreOrders extends Table2 {
                     ->id('total')
                     ->label('Total')
                     ->defaultValue($row?$row->total:''),
+                'finished' => (new Checkbox())
+                    ->id('Finished')
+                    ->label('finished')
+                    ->defaultValue($row?$row->finished:''),
 
             ];
 
