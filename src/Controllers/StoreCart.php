@@ -186,7 +186,7 @@ class StoreCart extends Controller {
         if(is_array($response) && $response['ACK'] == 'Success') { //Request successful
             Log::info($response);
             $token = $response['TOKEN'];
-            return Redirect::to('https://www.sandbox.paypal.com/webscr?cmd=_express-checkout&token=' . urlencode($token) );
+            return Redirect::to(Config::get('punto-cms.paypal-redirect').'?cmd=_express-checkout&token=' . urlencode($token) );
         } else {
 
             Log::error($response);
