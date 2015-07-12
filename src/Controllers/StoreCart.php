@@ -302,7 +302,7 @@ class StoreCart extends Controller {
             $product->select = isset($row["options"]["select"])&&StoreSelectItem::find($row["options"]["select"])!==null?StoreSelectItem::find($row["options"]["select"])->name:'';
             $product->type_price = (isset($row["options"]["price"])&&StoreTypePrice::find($row["options"]["price"])!=null?StoreTypePrice::find($row["options"]["price"])->name:'');
             $product->quantity = $row["qty"];
-            $product->price = $row["price"];
+            $product->price = $row["subtotal"];
             $product->save();
 
         }
