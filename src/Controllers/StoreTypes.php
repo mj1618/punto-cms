@@ -52,7 +52,11 @@ class StoreTypes extends Table2 {
                 'name' => (new TextBox)
                     ->id('name')
                     ->label('Name')
-                    ->defaultValue($row?$row->name:'')
+                    ->defaultValue($row?$row->name:''),
+                'description' => (new PlainTextAreaBox())
+                    ->id('description')
+                    ->label('Description')
+                    ->defaultValue($row?$row->description:'')
             ];
         });
         parent::tableName('store_type');
