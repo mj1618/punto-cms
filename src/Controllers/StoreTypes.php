@@ -45,6 +45,10 @@ class StoreTypes extends Table2 {
             [
                 'title'=>'Name',
                 'id'=>'name'
+            ],
+            [
+                'title'=>'Description',
+                'id'=>'description'
             ]
         ]);
         parent::inputs(function($row) {
