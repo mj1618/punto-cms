@@ -8,6 +8,7 @@
 
 use App;
 use App\AUI\Controllers\Files;
+use App\AUI\Controllers\StoreProductSort;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use App\AUI\Controllers\Logout;
@@ -119,6 +120,8 @@ Route::group(['middleware' => ['editorauth']], function(){
         (new App\AUI\Controllers\StoreSelectItems())->routes();
         (new App\AUI\Controllers\StoreSelectItems())->breadcrumbs();
 
+        (new App\AUI\Controllers\StoreSubcategorySort())->routes();
+        (new StoreProductSort())->routes();
 
         (new App\AUI\Controllers\StoreOrders())->routes();
         (new App\AUI\Controllers\StoreOrders())->breadcrumbs();
