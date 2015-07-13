@@ -36,7 +36,7 @@ class StoreSubcategorySort extends Controller {
             [
                 ViewUtils::box('Sort Subcategories',
                     [
-                        \View::make('punto-cms::sort')->with('actionUrl','/admin/store-categories/'.Request::route('id1').'/sort')->with('items',StoreSubcategory::where('store_category_id','=',Request::route('id1'))->orderBy('sort','ASC')->get())
+                        \View::make('punto-cms::sort')->with('actionUrl','/admin/store-categories/'.Request::route('id1').'/sort')->with('items',StoreSubcategory::where('store_category_id','=',Request::route('id1'))->orderBy('sort','ASC')->orderBy('id','ASC')->get())
                     ])
             ]);
     }

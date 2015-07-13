@@ -37,7 +37,7 @@ class StoreProductSort extends Controller {
             [
                 ViewUtils::box('Sort Products',
                     [
-                        \View::make('punto-cms::sort')->with('actionUrl','/admin/store-products/sort')->with('items',StoreProduct::orderBy('sort','ASC')->get())
+                        \View::make('punto-cms::sort')->with('actionUrl','/admin/store-products/sort')->with('items',StoreProduct::orderBy('sort','ASC')->orderBy('id','ASC')->get())
                     ])
             ]);
     }
