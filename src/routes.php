@@ -100,6 +100,8 @@ Route::group(['middleware' => ['editorauth']], function(){
     (new Files())->routes();
     (new Files())->breadcrumbs();
 
+    (new App\AUI\Controllers\EditPagesSort())->routes();
+
 
     if(Config::get('punto-cms.store')===true){
 

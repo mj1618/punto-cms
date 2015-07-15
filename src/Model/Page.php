@@ -17,6 +17,9 @@ class Page extends Model {
     function template(){
         return $this->belongsTo('App\AUI\Model\Template');
     }
+    function language(){
+        return $this->belongsTo('App\AUI\Model\Language');
+    }
     function posts(){
         return $this->hasMany('App\AUI\Model\Post');
     }

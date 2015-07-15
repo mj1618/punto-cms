@@ -4,6 +4,7 @@
 use App\AUI\Model\Category;
 use App\AUI\Model\Coach;
 use App\AUI\Model\Family;
+use App\AUI\Model\Language;
 use App\AUI\Model\Page;
 use App\AUI\Model\Role;
 use App\AUI\Model\RoleUser;
@@ -56,6 +57,10 @@ class Pages extends Table2 {
             [
                 'title'=>'Template',
                 'id'=>'template.name'
+            ],
+            [
+                'title'=>'Language',
+                'id'=>'language.name'
             ]
         ]);
         parent::inputs(function($row) {
@@ -79,7 +84,15 @@ class Pages extends Table2 {
                     ->idField('id')
                     ->nameField('name')
                     ->rows(Template::get())
-                    ->defaultValue($row ? $row->template_id : '')
+                    ->defaultValue($row ? $row->template_id : ''),
+                'language_id' => (new DropDown())
+                    ->id('language_id')
+                    ->nullable(false)
+                    ->label('Language')
+                    ->idField('id')
+                    ->nameField('name')
+                    ->rows(Language::get())
+                    ->defaultValue($row ? $row->language_id : '')
             ];
         });
         parent::tableName('page');
@@ -94,7 +107,7 @@ class Pages extends Table2 {
     }
 
     function dataAll(){
-        return $this->table->with('template')->get();
+        return $this->table->with('template')->with('language')->get();
     }
 
 }
