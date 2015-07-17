@@ -257,7 +257,7 @@ class StoreCart extends Controller {
     }
 
     function complete($checkoutDetails){
-        Session::flash('success','Your order has been successfully completed and paid. You will receive an invoice at the email you provided and your order will be shipped as soon as possible.');
+        Session::flash('success','Your order has been successfully completed and paid. You will receive an invoice at the email you provided and your order will be prepared and (if you selected) shipped as soon as possible.');
 
         Log::info('order completed: '.json_encode($checkoutDetails, JSON_PRETTY_PRINT).json_encode(Cart::instance('main')->content(), JSON_PRETTY_PRINT).json_encode(Session::get('shipping'), JSON_PRETTY_PRINT));
 
