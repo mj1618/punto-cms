@@ -310,8 +310,7 @@ class StoreCart extends Controller {
             return Redirect::to(Config::get('punto-cms.complete-url'));
     }
 
-
-
+    
     function routes(){
         Route::post('/cart','StoreCart@add');
         Route::post('/cart/update','StoreCart@update');
