@@ -311,7 +311,6 @@ class StoreCart extends Controller {
     }
 
 
-
     function routes(){
         Route::post('/cart','StoreCart@add');
         Route::post('/cart/update','StoreCart@update');
