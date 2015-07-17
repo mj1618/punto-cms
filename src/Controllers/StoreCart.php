@@ -27,7 +27,7 @@ class StoreCart extends Controller {
         $price = StoreTypePrice::find(Input::get('price'));
         $select =StoreSelectItem::find(Input::get('select'));
 
-        $col = Cart::search([
+        $col = Cart::instance('main')->search([
             'name' => $product->id,
             'options' => [
                 'price'=>$price!==null?$price->id:null,
@@ -37,12 +37,12 @@ class StoreCart extends Controller {
 
         $c = null;
         if($col!==false){
-            Cart::update($col[0], Cart::get($col[0])["qty"]+Input::get('quantity'));
-            $c = Cart::get($col[0]);
+            Cart::instance('main')->update($col[0], Cart::get($col[0])["qty"]+Input::get('quantity'));
+            $c = Cart::instance('main')->get($col[0]);
         } else {
             $id = uniqid();
-            Cart::add($id, $product->id, Input::get('quantity'), ($price!==null?$price->price:$product->price), Input::all() );
-            $c = Cart::get(Cart::search(['id'=>$id])[0]);
+            Cart::instance('main')->add($id, $product->id, Input::get('quantity'), ($price!==null?$price->price:$product->price), Input::all() );
+            $c = Cart::instance('main')->get(Cart::instance('main')->search(['id'=>$id])[0]);
         }
 
         Session::flash('success','Successfully added '.$product->name.($select!==null?' - '.$select->name:'').' to your shopping cart.');
@@ -53,7 +53,7 @@ class StoreCart extends Controller {
     }
 
     function remove(){
-        Cart::remove(Input::get('id'));
+        Cart::instance('main')->remove(Input::get('id'));
         return Redirect::back();
     }
 
@@ -62,7 +62,7 @@ class StoreCart extends Controller {
         foreach(Input::all() as $key => $val){
             if(starts_with($key,'rowid-')){
                 $rowid = substr($key,strlen('rowid-'));
-                Cart::update($rowid,$val);
+                Cart::instance('main')->update($rowid,$val);
             }
         }
 
