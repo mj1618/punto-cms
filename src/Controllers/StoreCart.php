@@ -257,7 +257,7 @@ class StoreCart extends Controller {
     }
 
     function complete($checkoutDetails){
-        Session::flash('success','Your order has been successfully completed and paid. You will receive an invoice at the email you provided and your order will be shipped as soon as possible.');
+        Session::flash('success','Your order has been successfully completed and paid. You will receive an invoice at the email you provided and your order will be prepared and (if you selected) shipped as soon as possible.');
 
         Log::info('order completed: '.json_encode($checkoutDetails, JSON_PRETTY_PRINT).json_encode(Cart::instance('main')->content(), JSON_PRETTY_PRINT).json_encode(Session::get('shipping'), JSON_PRETTY_PRINT));
 
@@ -266,7 +266,7 @@ class StoreCart extends Controller {
             Cart::instance('complete')->add($val);
         }
         Cart::instance('main')->destroy();
-        
+
         Session::put('shipping-complete',Session::get('shipping'));
         Session::remove('shipping');
 
@@ -310,7 +310,7 @@ class StoreCart extends Controller {
             return Redirect::to(Config::get('punto-cms.complete-url'));
     }
 
-
+    
     function routes(){
         Route::post('/cart','StoreCart@add');
         Route::post('/cart/update','StoreCart@update');
