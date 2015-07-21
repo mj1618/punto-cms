@@ -27,7 +27,7 @@ class StoreCart extends Controller {
         $price = StoreTypePrice::find(Input::get('price'));
         $select =StoreSelectItem::find(Input::get('select'));
 
-        $col = Cart::search([
+        $col = Cart::instance('main')->search([
             'name' => $product->id,
             'options' => [
                 'price'=>$price!==null?$price->id:null,
@@ -37,12 +37,12 @@ class StoreCart extends Controller {
 
         $c = null;
         if($col!==false){
-            Cart::update($col[0], Cart::get($col[0])["qty"]+Input::get('quantity'));
-            $c = Cart::get($col[0]);
+            Cart::instance('main')->update($col[0], Cart::get($col[0])["qty"]+Input::get('quantity'));
+            $c = Cart::instance('main')->get($col[0]);
         } else {
             $id = uniqid();
-            Cart::add($id, $product->id, Input::get('quantity'), ($price!==null?$price->price:$product->price), Input::all() );
-            $c = Cart::get(Cart::search(['id'=>$id])[0]);
+            Cart::instance('main')->add($id, $product->id, Input::get('quantity'), ($price!==null?$price->price:$product->price), Input::all() );
+            $c = Cart::instance('main')->get(Cart::instance('main')->search(['id'=>$id])[0]);
         }
 
         Session::flash('success','Successfully added '.$product->name.($select!==null?' - '.$select->name:'').' to your shopping cart.');
@@ -53,7 +53,7 @@ class StoreCart extends Controller {
     }
 
     function remove(){
-        Cart::remove(Input::get('id'));
+        Cart::instance('main')->remove(Input::get('id'));
         return Redirect::back();
     }
 
@@ -62,7 +62,7 @@ class StoreCart extends Controller {
         foreach(Input::all() as $key => $val){
             if(starts_with($key,'rowid-')){
                 $rowid = substr($key,strlen('rowid-'));
-                Cart::update($rowid,$val);
+                Cart::instance('main')->update($rowid,$val);
             }
         }
 
@@ -142,16 +142,13 @@ class StoreCart extends Controller {
 
         $shipping = Session::has('shipping')?Session::get('shipping'):0;
 
-        Session::put('shipping-review',$shipping);
-        Cart::instance('review')->destroy();
-        foreach(Cart::instance('main')->content()->toArray() as $key => $val){
-            Cart::instance('review')->add($val);
-        }
 
         //Our request parameters
         $requestParams = array(
             'RETURNURL' => Config::get('punto-cms.paypal-return'),
-            'CANCELURL' => Config::get('punto-cms.paypal-cancel')
+            'CANCELURL' => Config::get('punto-cms.paypal-cancel'),
+            'LOGOIMG' => Config::get('punto-cms.paypal-logo'),
+            'CARTBORDERCOLOR'=> Config::get('punto-cms.paypal-colour')
         );
 
 
@@ -167,10 +164,10 @@ class StoreCart extends Controller {
         }
 
         $orderParams = [
-            'PAYMENTREQUEST_0_AMT' => (Cart::instance('review')->total()+$shipping),
+            'PAYMENTREQUEST_0_AMT' => (Cart::instance('main')->total()+$shipping),
             'PAYMENTREQUEST_0_SHIPPINGAMT' => $shipping,
             'PAYMENTREQUEST_0_CURRENCYCODE' => 'AUD',
-            'PAYMENTREQUEST_0_ITEMAMT' => Cart::instance('review')->total()
+            'PAYMENTREQUEST_0_ITEMAMT' => Cart::instance('main')->total()
         ];
 
         $items = [];
@@ -193,7 +190,7 @@ class StoreCart extends Controller {
         if(is_array($response) && $response['ACK'] == 'Success') { //Request successful
             Log::info($response);
             $token = $response['TOKEN'];
-            return Redirect::to('https://www.sandbox.paypal.com/webscr?cmd=_express-checkout&token=' . urlencode($token) );
+            return Redirect::to(Config::get('punto-cms.paypal-redirect').'?useraction=commit&cmd=_express-checkout&token=' . urlencode($token) );
         } else {
 
             Log::error($response);
@@ -214,8 +211,7 @@ class StoreCart extends Controller {
             $checkoutDetails = $paypal->request('GetExpressCheckoutDetails', array('TOKEN' => $token));
             Log::info($checkoutDetails);
 
-            Session::flash('warning','You must review your order and press the button below for your payment/order to be finalised!');
-            return Redirect::to(Config::get('punto-cms.review-url')."?token=$token&PayerID=$payer");
+            return $this->paypalComplete();
         } else {
 
             Session::flash('error','Sorry, payment was not processed, please try again or contact info@bigbrew.com');
@@ -228,15 +224,18 @@ class StoreCart extends Controller {
         $paypal = new Paypal();
         $checkoutDetails = $paypal->request('GetExpressCheckoutDetails', array('TOKEN' => $token));
         Log::info($checkoutDetails);
-        $shipping=Session::get('shipping-review');
+        $shipping=Session::get('shipping');
         // Complete the checkout transaction
         $requestParams = array(
             'TOKEN' => $token,
             'PAYMENTACTION' => 'Sale',
             'PAYERID' => Input::get('PayerID'),
             'PAYMENTREQUEST_0_AMT' => (Cart::instance('main')->total()+$shipping), // Same amount as in the original request
-            'PAYMENTREQUEST_0_CURRENCYCODE' => 'AUD' // Same currency as the original request
+            'PAYMENTREQUEST_0_SHIPPINGAMT' => $shipping,
+            'PAYMENTREQUEST_0_CURRENCYCODE' => 'AUD', // Same currency as the original request
+            'PAYMENTREQUEST_0_ITEMAMT' => Cart::instance('main')->total()
         );
+
 
         $response = $paypal->request('DoExpressCheckoutPayment', $requestParams);
         Log::info($response);
@@ -258,19 +257,17 @@ class StoreCart extends Controller {
     }
 
     function complete($checkoutDetails){
-        Session::flash('success','Your order has been successfully completed and paid. You will receive an invoice at the email you provided and your order will be shipped as soon as possible.');
+        Session::flash('success','Your order has been successfully completed and paid. You will receive an invoice at the email you provided and your order will be prepared and (if you selected) shipped as soon as possible.');
 
-        Log::info('order completed: '.json_encode($checkoutDetails, JSON_PRETTY_PRINT).json_encode(Cart::instance('review')->content(), JSON_PRETTY_PRINT).json_encode(Session::get('shipping-review'), JSON_PRETTY_PRINT));
+        Log::info('order completed: '.json_encode($checkoutDetails, JSON_PRETTY_PRINT).json_encode(Cart::instance('main')->content(), JSON_PRETTY_PRINT).json_encode(Session::get('shipping'), JSON_PRETTY_PRINT));
 
         Cart::instance('complete')->destroy();
-        foreach(Cart::instance('review')->content()->toArray() as $key => $val){
+        foreach(Cart::instance('main')->content()->toArray() as $key => $val){
             Cart::instance('complete')->add($val);
         }
-        Cart::instance('review')->destroy();
         Cart::instance('main')->destroy();
-        
-        Session::put('shipping-complete',Session::get('shipping-review'));
-        Session::remove('shipping-review');
+
+        Session::put('shipping-complete',Session::get('shipping'));
         Session::remove('shipping');
 
         $order = new StoreOrder();
@@ -302,7 +299,7 @@ class StoreCart extends Controller {
             $product->select = isset($row["options"]["select"])&&StoreSelectItem::find($row["options"]["select"])!==null?StoreSelectItem::find($row["options"]["select"])->name:'';
             $product->type_price = (isset($row["options"]["price"])&&StoreTypePrice::find($row["options"]["price"])!=null?StoreTypePrice::find($row["options"]["price"])->name:'');
             $product->quantity = $row["qty"];
-            $product->price = $row["price"];
+            $product->price = $row["subtotal"];
             $product->save();
 
         }
@@ -313,18 +310,14 @@ class StoreCart extends Controller {
             return Redirect::to(Config::get('punto-cms.complete-url'));
     }
 
-
-
+    
     function routes(){
         Route::post('/cart','StoreCart@add');
         Route::post('/cart/update','StoreCart@update');
         Route::get('/cart/remove','StoreCart@remove');
-
         Route::get('/cart/paypal','StoreCart@paypal');
         Route::get('/cart/paypal/return','StoreCart@paypalReturn');
-        Route::post('/cart/paypal/complete','StoreCart@paypalComplete');
         Route::get('/cart/paypal/cancel','StoreCart@cancel');
-        //http://localhost:8000/paypal/return?token=EC-8YB61756R7325594X&PayerID=Z2PMSNVCD68JE
     }
 
 }

@@ -4,6 +4,7 @@
 use App\AUI\Model\Category;
 use App\AUI\Model\Coach;
 use App\AUI\Model\Family;
+use App\AUI\Model\Language;
 use App\AUI\Model\Page;
 use App\AUI\Model\Role;
 use App\AUI\Model\RoleUser;
@@ -39,11 +40,11 @@ class EditPages extends Table2 {
         parent::baseRoute('/admin/edit-pages');
         parent::ajaxBaseRoute('/ajax/admin/edit-pages');
         parent::table(new Page());
-        $this->useEditButton=false;
+//        $this->useEditButton=false;
         parent::attributes([
             [
-                'title'=>'ID',
-                'id'=>'id'
+                'title'=>'Order',
+                'id'=>'sort'
             ],
             [
                 'title'=>'Name',
@@ -60,6 +61,10 @@ class EditPages extends Table2 {
             [
                 'title'=>'Template',
                 'id'=>'template.name'
+            ],
+            [
+                'title'=>'Language',
+                'id'=>'language.name'
             ]
         ]);
         parent::inputs(function($row) {
@@ -83,7 +88,15 @@ class EditPages extends Table2 {
                     ->idField('id')
                     ->nameField('name')
                     ->rows(Template::get())
-                    ->defaultValue($row ? $row->template_id : '')
+                    ->defaultValue($row ? $row->template_id : ''),
+                'language_id' => (new DropDown())
+                    ->id('language_id')
+                    ->nullable(false)
+                    ->label('Language')
+                    ->idField('id')
+                    ->nameField('name')
+                    ->rows(Language::get())
+                    ->defaultValue($row ? $row->language_id : '')
             ];
         });
         parent::tableName('page');
@@ -91,11 +104,12 @@ class EditPages extends Table2 {
 
     function buttons(){
         return [
-            "edit" => [
-                'id'=>$this->getHeaderSingular()."-edit",
-                'text'=>'Edit',
-                'requiresSelect'=>'true',
-                'url'=>$this->getEditPartialRoute()
+            "sort" => [
+                'id'=>$this->getHeaderSingular()."-sort",
+                'text'=>'Sort',
+                'requiresSelect'=>'false',
+                'float'=>'left',
+                'url'=>$this->getBaseUrl()."/sort"
             ],
             "open" => [
                 'id'=>$this->getHeaderSingular()."-open",
@@ -129,6 +143,9 @@ class EditPages extends Table2 {
     function routes(){
         parent::routes();
         Route::get("$this->baseRoute/{id$this->level}/open","EditPages@openPage");
+
+
+
     }
 
     function openPage(){
@@ -150,9 +167,9 @@ class EditPages extends Table2 {
     function dataAll(){
 
         if(Auth::user()->userPages()->count()===0){
-            return $this->table->with('template')->get();
+            return $this->table->with('template')->with('language')->get();
         } else {
-            return $this->table->whereIn('id', Auth::user()->userPages()->lists('id'))->with('template')->get();
+            return $this->table->whereIn('id', Auth::user()->userPages()->lists('id'))->with('template')->with('language')->get();
         }
 
     }

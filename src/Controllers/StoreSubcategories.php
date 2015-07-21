@@ -44,8 +44,8 @@ class StoreSubcategories extends Table2 {
         $this->foreignKeyField='store_category_id';
         parent::attributes([
             [
-                'title'=>'ID',
-                'id'=>'id'
+                'title'=>'Order',
+                'id'=>'sort'
             ],
             [
                 'title'=>'Name',
@@ -68,6 +68,32 @@ class StoreSubcategories extends Table2 {
             ];
 
         });
+    }
+
+
+    function buttons(){
+        return [
+            "view" => [
+                'id'=>$this->getHeaderSingular()."-view",
+                'text'=>'View/Edit',
+                'requiresSelect'=>'true',
+                'url'=>$this->getViewPartialRoute()
+            ],
+            "create" => [
+                'id'=>$this->getHeaderSingular()."-create",
+                'text'=>'Create',
+                'requiresSelect'=>'false',
+                'url'=>$this->getCreateUrl(),
+                'float'=>'left'
+            ],
+            "Sort" => [
+                'id'=>$this->getHeaderSingular()."-sort",
+                'text'=>'Sort',
+                'requiresSelect'=>'false',
+                'url'=>$this->getBaseUrl()."/sort",
+                'float'=>'left'
+            ]
+        ];
     }
 
 

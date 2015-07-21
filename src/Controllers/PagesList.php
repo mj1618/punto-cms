@@ -56,9 +56,9 @@ class PagesList extends ListController {
         $items = [];
         $pages=null;
         if(Auth::user()->userPages()->count()===0)
-            $pages = Page::get();
+            $pages = Page::orderBy('sort','ASC')->orderBy('id','ASC')->get();
         else
-            $pages = Page::whereIn('id',Auth::user()->userPages()->lists('page_id'))->get();
+            $pages = Page::whereIn('id',Auth::user()->userPages()->lists('page_id'))->orderBy('sort','ASC')->orderBy('id','ASC')->get();
 
         $pages->each(function($page) use(&$items){
                 $labels = [];

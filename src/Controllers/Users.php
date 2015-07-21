@@ -50,11 +50,7 @@ class Users extends Table2 {
                 'username' => (new TextBox)
                     ->id('username')
                     ->label('Username')
-                    ->defaultValue($row?$row->username:''),
-                'password' => (new PasswordInput())
-                    ->id('password')
-                    ->label('Password')
-                    ->defaultValue($row?$row->password:'')
+                    ->defaultValue($row?$row->username:'')
             ];
 
         });

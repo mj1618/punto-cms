@@ -46,8 +46,8 @@ class StoreProducts extends Table2 {
         parent::tableName('store_product');
         parent::attributes([
             [
-                'title'=>'ID',
-                'id'=>'id'
+                'title'=>'Order',
+                'id'=>'sort'
             ],
             [
                 'title'=>'Name',
@@ -56,6 +56,10 @@ class StoreProducts extends Table2 {
             [
                 'title'=>'Pricing Type',
                 'id'=>'store_type.name'
+            ],
+            [
+                'title'=>'Short Description',
+                'id'=>'short_description'
             ]
         ]);
         parent::inputs(function($row) {
@@ -106,6 +110,30 @@ class StoreProducts extends Table2 {
         ];
     }
 
+    function buttons(){
+        return [
+            "view" => [
+                'id'=>$this->getHeaderSingular()."-view",
+                'text'=>'View/Edit',
+                'requiresSelect'=>'true',
+                'url'=>$this->getViewPartialRoute()
+            ],
+            "create" => [
+                'id'=>$this->getHeaderSingular()."-create",
+                'text'=>'Create',
+                'requiresSelect'=>'false',
+                'url'=>$this->getCreateUrl(),
+                'float'=>'left'
+            ],
+            "Sort" => [
+                'id'=>$this->getHeaderSingular()."-sort",
+                'text'=>'Sort',
+                'requiresSelect'=>'false',
+                'url'=>$this->getBaseUrl()."/sort",
+                'float'=>'left'
+            ]
+        ];
+    }
     function dataAll(){
         return $this->table->with('storeType')->get();
     }
