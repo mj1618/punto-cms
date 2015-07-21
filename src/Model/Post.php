@@ -28,19 +28,8 @@ class Post extends Model {
     }
 
 
-    function hasContent($name,$def=''){
-
-        $n = $this
-            ->contents()
-            ->whereIn(
-                'item_id',
-                $this->section()->first()
-                    ->items()
-                    ->where('name','=',$name)
-                    ->lists('id'))
-            ->count();
-
-        return $n > 0;
+    function hasContent($name){
+        return $this->findContent($name,null)!==null && strlen($this->findContent($name,null)->value)>0;
     }
 
     function findImage($name,$def=''){
@@ -85,6 +74,7 @@ class Post extends Model {
                     ->items()
                     ->where('name','=',$name)
                     ->lists('id'))
+            ->get()
             ->first();
 
         if(!isset($c) || $c->value===''){

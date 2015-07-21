@@ -52,6 +52,34 @@ class Content extends Model {
     }
 
 
+    function getImage(){
+
+//        if (DIRECTORY_SEPARATOR == '/') {
+//            return str_replace('\\','/',$this->value);
+//        } else if (DIRECTORY_SEPARATOR == '\\') {
+//            return str_replace('/','\\',$this->value);
+//        } else {
+//            return str_replace('\\','/',$this->value);
+//        }
+
+        $f = File::find($this->value);
+        return $f===null?'':str_replace('\\','/',$f->value);
+    }
+
+    function getDropdownItem(){
+
+//        if (DIRECTORY_SEPARATOR == '/') {
+//            return str_replace('\\','/',$this->value);
+//        } else if (DIRECTORY_SEPARATOR == '\\') {
+//            return str_replace('/','\\',$this->value);
+//        } else {
+//            return str_replace('\\','/',$this->value);
+//        }
+
+        $i = ItemValue::find($this->value);
+        return $i;
+    }
+
 
     function events(){
 

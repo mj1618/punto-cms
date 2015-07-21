@@ -57,7 +57,8 @@ class PageSummaryPostsForm extends FormController {
         $post = Post::find($postId);
 
         foreach($this->inputs($post) as $i){
-            $views[] = new ViewWrapper(function() use($i) { return $i->renderView12(); });
+//            $views[] = new ViewWrapper(function() use($i) { return $i->renderView12(); });
+            $views[] = $i->renderView12();
         }
 
         $attViews=[];
@@ -72,7 +73,7 @@ class PageSummaryPostsForm extends FormController {
                 [
                     [
                         "header"=> 'Attachments',
-                        "body"=> ViewUtils::row($attViews),
+                        "body"=> $attViews,
                         "id"=> "".rand(0,100),
                         "buttons"=>[(new ButtonItem())->cssClass("btn-default btn-sm")->label('New Attachment')->defaultValue("/admin/manage-pages/".$pageId."/posts/".$post->id."/attachments/create")],
                         "icon"=>"fa-file"

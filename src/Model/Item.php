@@ -111,7 +111,7 @@ class Item extends Model {
                         ->idField('id')
                         ->nameField('filename')
                         ->valueField('value')
-                        ->rows(File::all())
+                        ->rows(File::orderBy('created_at','DESC')->get())
                         ->defaultValue($content?$content->value:null);
                 break;
         }

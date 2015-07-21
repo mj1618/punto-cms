@@ -45,6 +45,9 @@ class Page extends Model {
 
         return $posts;
     }
+    function countPosts($name){
+        return Post::where('page_id','=',$this->id)->whereIn('section_id',Section::where('name','=',$name)->lists('id'))->count();
+    }
 
     function copy($name, $desc, $url){
         $page = new Page();
