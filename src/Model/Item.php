@@ -21,7 +21,7 @@ use MJ1618\AdminUI\Form\PlainDropDown;
 use MJ1618\AdminUI\Form\PlainTextAreaBox;
 use MJ1618\AdminUI\Form\TextAreaBox;
 use MJ1618\AdminUI\Form\TextBox;
-use MJ1618\AdminUI\Form\TimeInput;
+use MJ1618\AdminUI\Form\ImageSelect;
 class Item extends Model {
 
     protected $table = 'item';
@@ -105,7 +105,7 @@ class Item extends Model {
                 break;
             case "file-existing":
                 $is[] =
-                    (new DropDown())
+                    (new ImageSelect())
                         ->id($this->id)
                         ->label($this->name)
                         ->idField('id')
