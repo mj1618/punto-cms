@@ -9,7 +9,7 @@ use App\AUI\Model\Role;
 use App\AUI\Model\RoleUser;
 use App\AUI\Model\Template;
 use App\AUI\Model\User;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use Input;
 use MJ1618\AdminUI\Form\FileInput;
 use Password;
@@ -38,6 +38,8 @@ class Files extends Table2 {
         parent::table(new File());
         $this->level=2;
         parent::tableName('file');
+
+
         parent::attributes([
             [
                 'title'=>'ID',
@@ -77,6 +79,43 @@ class Files extends Table2 {
         return [
 //            (new UserRoles())->showAllView()
         ];
+    }
+
+
+    function buttons(){
+
+        if(Auth::user()->hasRole('admin')===false){
+            $this->useDeleteButton=false;
+            $this->useEditButton=false;
+        }
+
+        if(Auth::user()->hasRole('admin')){
+            return [
+                "view" => [
+                    'id'=>$this->getHeaderSingular()."-view",
+                    'text'=>'View/Edit',
+                    'requiresSelect'=>'true',
+                    'url'=>$this->getViewPartialRoute()
+                ],
+                "create" => [
+                    'id'=>$this->getHeaderSingular()."-create",
+                    'text'=>'Create',
+                    'requiresSelect'=>'false',
+                    'url'=>$this->getCreateUrl(),
+                    'float'=>'left'
+                ]
+            ];
+        } else {
+            return [
+                "create" => [
+                    'id'=>$this->getHeaderSingular()."-create",
+                    'text'=>'Create',
+                    'requiresSelect'=>'false',
+                    'url'=>$this->getCreateUrl(),
+                    'float'=>'left'
+                ]
+            ];
+        }
     }
 
     function dataAll(){
