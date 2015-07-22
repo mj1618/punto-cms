@@ -14,6 +14,9 @@ use MJ1618\AdminUI\Controller\Controller;
 use Config;
 class Logout extends Controller
 {
+    function getLogout(){
+        return $this->get();
+    }
     function get()
     {
         $url = '/';
