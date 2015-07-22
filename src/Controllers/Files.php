@@ -75,6 +75,43 @@ class Files extends Table2 {
         });
     }
 
+    function buttons(){
+
+        if(Auth::user()->hasRole('admin')===false){
+            $this->useDeleteButton=false;
+            $this->useEditButton=false;
+        }
+
+        if(Auth::user()->hasRole('admin')){
+            return [
+                "view" => [
+                    'id'=>$this->getHeaderSingular()."-view",
+                    'text'=>'View/Edit',
+                    'requiresSelect'=>'true',
+                    'url'=>$this->getViewPartialRoute()
+                ],
+                "create" => [
+                    'id'=>$this->getHeaderSingular()."-create",
+                    'text'=>'Create',
+                    'requiresSelect'=>'false',
+                    'url'=>$this->getCreateUrl(),
+                    'float'=>'left'
+                ]
+            ];
+        } else {
+            return [
+                "create" => [
+                    'id'=>$this->getHeaderSingular()."-create",
+                    'text'=>'Create',
+                    'requiresSelect'=>'false',
+                    'url'=>$this->getCreateUrl(),
+                    'float'=>'left'
+                ]
+            ];
+        }
+    }
+
+
     function getViewViews(){
         return [
 //            (new UserRoles())->showAllView()
