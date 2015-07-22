@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Log;
 use Zizaco\Entrust\Traits\EntrustUserTrait;
+use ICal;
 
 class Content extends Model {
 
@@ -53,23 +54,20 @@ class Content extends Model {
 
 
 
-    function events(){
+    function events($limit = null){
 
         $events = '';
 
         if(Cache::has($this->value)){
             $events = Cache::get($this->value);
         } else {
-            $cal = new \om\IcalParser();
-            $cal->parseFile($this->value);
-            $events = array_filter($cal->getSortedEvents(),function($e){
-                $tz = new DateTimeZone(Config::get('app.timezone'));
-                $e['DTSTART']->setTimezone($tz);
-                $e['DTEND']->setTimezone($tz);
-
-                return $e['DTSTART'] >= (new DateTime("now"));
-            });
+            $ical   = new ICal($this->value);
+            $events = $ical->sortEventsWithOrder($ical->eventsFromRange('now'));
             Cache::put($this->value, $events, 10);
+        }
+
+        if(isset($limit)){
+            $events = array_slice($events,0,$limit);
         }
 
         return $events;
