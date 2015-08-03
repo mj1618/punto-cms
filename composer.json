@@ -9,7 +9,8 @@
       "mj1618/admin-ui":"0.1.*",
       "guzzlehttp/guzzle": "~5.0",
       "gloudemans/shoppingcart": "~1.3",
-      "johngrogg/ics-parser": "dev-master"
+      "johngrogg/ics-parser": "dev-master",
+      "barryvdh/laravel-elfinder": "^0.3.4"
       
     },
     "authors": [

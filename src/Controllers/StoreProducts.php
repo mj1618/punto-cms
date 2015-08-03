@@ -76,7 +76,7 @@ class StoreProducts extends Table2 {
                     ->id('description')
                     ->label('Description')
                     ->defaultValue($row?$row->description:''),
-                'image'=>(new ImageInput())
+                'image'=>(new ElfinderImageInput())
                     ->id('image')
                     ->label('Image')
                     ->defaultValue($row?$row->image:''),

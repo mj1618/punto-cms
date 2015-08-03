@@ -22,6 +22,8 @@ use MJ1618\AdminUI\Form\PlainTextAreaBox;
 use MJ1618\AdminUI\Form\TextAreaBox;
 use MJ1618\AdminUI\Form\TextBox;
 use MJ1618\AdminUI\Form\ImageSelect;
+use MJ1618\AdminUI\Form\ElfinderImageInput;
+use MJ1618\AdminUI\Form\ElfinderFileInput;
 class Item extends Model {
 
     protected $table = 'item';
@@ -86,34 +88,28 @@ class Item extends Model {
                         ->label($item->name)
                         ->defaultValue($content?$content->value:0);
                 break;
-            case "image":
-                $is[] =
-                    (new ImageInput())
-                        ->id($item->id)
-                        ->valueField('value')
-                        ->label($item->name)
-                        ->filename($content?$content->filename:'')
-                        ->defaultValue($content?$content->value:'');
-                break;
             case "file":
                 $is[] =
-                    (new FileInput())
+                    (new ElfinderFileInput())
                         ->id($item->id)
                         ->valueField('value')
-                        ->label($item->name)
-                        ->filename($content?$content->value:'')
-                        ->defaultValue($content?$content->value:'');
+                        ->label($this->name)
+                        ->defaultValue($content?$content->value:null);
                 break;
+
+            case "image":
             case "file-existing":
                 $is[] =
-                    (new ImageSelect())
-                        ->id($this->id)
-                        ->label($this->name)
-                        ->idField('id')
-                        ->nameField('filename')
+                    (new ElfinderImageInput())
+                        ->id($item->id)
                         ->valueField('value')
-                        ->rows(File::orderBy('created_at','DESC')->get())
+                        ->label($this->name)
                         ->defaultValue($content?$content->value:null);
+
+//                ->idField('id')
+//                ->nameField('filename')
+//                ->valueField('value')
+//                ->rows(File::orderBy('created_at','DESC')->get())
                 break;
         }
         return $is;

@@ -97,8 +97,7 @@ Route::group(['middleware' => ['editorauth']], function(){
 
     (new PageSummaryPostsCreateForm())->routes();
 
-    (new Files())->routes();
-    (new Files())->breadcrumbs();
+    (new App\AUI\Controllers\ElfinderView())->routes();
 
     (new App\AUI\Controllers\EditPagesSort())->routes();
 
