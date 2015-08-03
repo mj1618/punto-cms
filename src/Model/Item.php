@@ -54,6 +54,7 @@ class Item extends Model {
                     (new TextAreaBox())
                         ->id($item->id)
                         ->label($item->name)
+                        ->images(File::all())
                         ->valueField('value')
                         ->defaultValue($content?$content->value:'');
                 break;
