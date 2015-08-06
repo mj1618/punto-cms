@@ -17,6 +17,7 @@ use MJ1618\AdminUI\Form\DropDown;
 use MJ1618\AdminUI\Form\FileInput;
 use MJ1618\AdminUI\Form\MetaItem;
 use MJ1618\AdminUI\Form\PlainTextAreaBox;
+use MJ1618\AdminUI\Form\ElfinderFileInput;
 use MJ1618\AdminUI\Form\TextBox;
 use MJ1618\AdminUI\Utils\ViewUtils;
 use MJ1618\AdminUI\Controller\ChildTable;
@@ -67,11 +68,11 @@ class PageSummaryAttachments extends Table2 {
                             ->id('post_id')
                             ->defaultValue($post->id),
                     'file' =>
-                        (new FileInput())
+                        (new ElfinderFileInput())
                             ->id('value')
                             ->valueField('value')
                             ->label('File')
-                            ->filename($row?$row->value:'')
+//                            ->filename($row?$row->value:'')
                             ->defaultValue($row?$row->value:''),
                     'item_type_id' => (new DropDown())
                         ->id('item_type_id')
