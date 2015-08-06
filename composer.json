@@ -23,5 +23,15 @@
       "psr-4": {
         "App\\AUI\\": "src/"
       }
+    },
+    "scripts": {
+      "post-install-cmd": [
+        "php artisan elfinder:publish"
+      ],
+      "post-update-cmd": [
+        "php artisan vendor:publish --tag=punto-cms-public --force",
+        "php artisan vendor:publish --tag=admin-ui-public --force",
+        "php artisan elfinder:publish"
+      ]
     }
 }
