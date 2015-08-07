@@ -1,5 +1,6 @@
 <?php namespace App\AUI\Model;
 
+use App\AUI\PuntoCMS;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Auth\Passwords\CanResetPassword;
@@ -110,6 +111,9 @@ class Item extends Model {
 //                ->nameField('filename')
 //                ->valueField('value')
 //                ->rows(File::orderBy('created_at','DESC')->get())
+                break;
+            case "custom-dropdown":
+                $is[] = call_user_func(PuntoCMS::$dropdownFn,$item,$content);
                 break;
         }
         return $is;

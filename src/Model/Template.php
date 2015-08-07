@@ -16,4 +16,7 @@ class Template extends Model {
     function sections(){
         return $this->hasMany('App\AUI\Model\Section');
     }
+    function pages(){
+        return $this->hasMany('App\AUI\Model\Page');
+    }
 }
