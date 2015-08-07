@@ -63,8 +63,11 @@ class Content extends Model {
 //            return str_replace('\\','/',$this->value);
 //        }
 
-        $f = File::find($this->value);
-        return $f===null?'':str_replace('\\','/',$f->value);
+        if(is_numeric($this->value))
+            $f = File::find($this->value)->value;
+        else
+            $f = $this->value;
+        return $f===null?'':str_replace('\\','/',$f);
     }
 
     function getDropdownItem(){
