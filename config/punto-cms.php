@@ -5,5 +5,6 @@ return [
     'store'=>false,
     'stripe-secret'=>'',
     'stripe-publish'=>'',
-    'editor-new-page'=>false
+    'editor-new-page'=>false,
+    'editor-sort-pages'=>false
 ];

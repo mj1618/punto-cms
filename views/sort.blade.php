@@ -19,7 +19,7 @@
 
 <ul class="sortable">
     @foreach($items as $i)
-        <li id="{{$i->id}}">{{ $i->{$key?$key:'name'} }}</li>
+        <li id="{{$i->id}}">{{ $i->{isset($key)?$key:'name'} }}</li>
     @endforeach
 </ul>
 

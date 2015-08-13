@@ -3,6 +3,7 @@
 use App\AUI\Model\Category;
 use App\AUI\Model\Coach;
 use App\AUI\Model\Family;
+use App\AUI\Model\Page;
 use App\AUI\Model\Post;
 use App\AUI\Model\Role;
 use App\AUI\Model\RoleUser;
@@ -31,17 +32,23 @@ use MJ1618\AdminUI\Utils\ViewUtils;
 use MJ1618\AdminUI\Controller\Table;
 use MJ1618\AdminUI\Controller\Controller;
 use Session;
-class PageSummaryPostSort extends Controller {
+class PagesSort extends Controller {
 
     function get(){
+        $pages=null;
+        if(Auth::user()->userPages()->count()===0)
+            $pages = Page::orderBy('sort','ASC')->orderBy('id','ASC')->get();
+        else
+            $pages = Page::whereIn('id',Auth::user()->userPages()->lists('page_id'))->orderBy('sort','ASC')->orderBy('id','ASC')->get();
+
         return ViewUtils::page(
             [
-                ViewUtils::box('Sort Posts',
+                ViewUtils::box('Sort Pages',
                     [
                         \View::make('punto-cms::sort')
-                            ->with('actionUrl','/admin/manage-pages/'.Request::route('id1').'/section/'.Request::route('id2').'/sort')
-                            ->with('items',Post::where('page_id','=',Request::route('id1'))->where('section_id','=',Request::route('id2'))->orderBy('sort','ASC')->orderBy('id','ASC')->get())
-                            ->with('key','name_formatted')
+                            ->with('actionUrl','/admin/sort-pages')
+                            ->with('items',$pages)
+                            ->with('key','name')
                     ])
             ]);
     }
@@ -50,19 +57,19 @@ class PageSummaryPostSort extends Controller {
     function post(){
 
         foreach(json_decode(Input::get('json')) as $i){
-            $c = Post::find($i->id);
+            $c = Page::find($i->id);
             $c->sort=$i->sort;
             $c->save();
         }
 
         Session::flash('Success Message','Saved sort order');
-        return \Redirect::to("/admin/manage-pages/".Request::route('id1')."/content");
+        return \Redirect::to("/admin/manage-pages");
     }
 
 
     function routes(){
-        Route::get('/admin/manage-pages/{id1}/section/{id2}/sort','PageSummaryPostSort@get');
-        Route::post('/admin/manage-pages/{id1}/section/{id2}/sort','PageSummaryPostSort@post');
+        Route::get('/admin/sort-pages','PagesSort@get');
+        Route::post('/admin/sort-pages','PagesSort@post');
     }
 
 }

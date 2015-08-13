@@ -49,12 +49,16 @@ class PagesList extends ListController {
     }
 
     function getCrumbs(){
+        $views = [];
         if(Config::get('punto-cms.editor-new-page')==true){
-            return (new ButtonItem())->label('New')->defaultValue('/admin/new-page');
+            $views[] = (new ButtonItem())->label('New')->defaultValue('/admin/new-page');
         }
-        else{
-            return ViewUtils::blank();
+
+        if(Config::get('punto-cms.editor-sort-pages')==true){
+            $views[] = (new ButtonItem())->label('Sort')->defaultValue('/admin/sort-pages');
         }
+
+        return ViewUtils::plain($views);
     }
 
 
