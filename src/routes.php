@@ -85,6 +85,8 @@ Route::group(['middleware' => ['editorauth']], function(){
     (new PageSummary())->routes();
 //    (new PageSummary())->breadcrumbs();
 
+    (new App\AUI\Controllers\PageSummaryPostSort())->routes();
+
     (new PageSummaryPostsForm())->routes();
     (new PageSummaryPostsForm())->breadcrumbs();
     (new PageSummaryPostsDeleteForm())->routes();

@@ -1,0 +1,2 @@
+ALTER TABLE `post`
+	ADD COLUMN `sort` INT NULL DEFAULT NULL AFTER `description`;
