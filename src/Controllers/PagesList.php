@@ -1,6 +1,6 @@
 <?php namespace App\AUI\Controllers;
 
-
+use Config;
 use App\AUI\Model\Page;
 use App\SS\Model\Enrolment;
 use App\SS\Model\Form;
@@ -33,6 +33,7 @@ use MJ1618\AdminUI\Form\TextAreaBox;
 use MJ1618\AdminUI\Form\TextBox;
 use MJ1618\AdminUI\Form\TextOutputItem;
 use MJ1618\AdminUI\Form\TimeInput;
+use MJ1618\AdminUI\Form\ButtonItem;
 use MJ1618\AdminUI\Utils\ViewUtils;
 use MJ1618\AdminUI\Controller\ChildTable;
 use Request;
@@ -48,7 +49,12 @@ class PagesList extends ListController {
     }
 
     function getCrumbs(){
-        return ViewUtils::blank();
+        if(Config::get('punto-cms.editor-new-page')==true){
+            return (new ButtonItem())->label('New')->defaultValue('/admin/new-page');
+        }
+        else{
+            return ViewUtils::blank();
+        }
     }
 
 

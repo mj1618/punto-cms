@@ -59,7 +59,7 @@ class PageSummary extends Controller{
             $secButtons=[];
             $icon=null;
 
-            foreach($page->posts()->where('section_id','=',$sec->id)->orderBy('sort','ASC')->get() as $post){
+            foreach($page->posts()->where('section_id','=',$sec->id)->orderBy('sort','ASC')->orderBy('id','ASC')->get() as $post){
 
                 $buttons=[];
                 $buttons[] = ["label"=>'Edit', "href"=>"/admin/manage-pages/".$page->id."/posts/".$post->id."/edit"];
