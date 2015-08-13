@@ -36,7 +36,7 @@ class Page extends Model {
 
     function findPosts($name){
 
-        $ps = Post::where('page_id','=',$this->id)->whereIn('section_id',Section::where('name','=',$name)->lists('id'))->get();
+        $ps = Post::where('page_id','=',$this->id)->whereIn('section_id',Section::where('name','=',$name)->lists('id'))->orderBy('sort','ASC')->orderBy('id','ASC')->get();
 
         $posts = [];
         foreach($ps as $p){
