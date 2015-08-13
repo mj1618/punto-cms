@@ -59,31 +59,18 @@ class PageSummary extends Controller{
             $secButtons=[];
             $icon=null;
 
-            foreach($page->posts()->where('section_id','=',$sec->id)->get() as $post){
+            foreach($page->posts()->where('section_id','=',$sec->id)->orderBy('sort','ASC')->get() as $post){
 
                 $buttons=[];
                 $buttons[] = ["label"=>'Edit', "href"=>"/admin/manage-pages/".$page->id."/posts/".$post->id."/edit"];
                 $buttons[] = ["label"=>'Delete', "href"=>"/admin/manage-pages/".$page->id."/posts/".$post->id."/delete"];
 
                 if($sec->single==0){
-                    $postName = $post->name;
 
-                    if($post->hasContent("Title")){
-                        $postName = $post->findContent("Title")->value;
-                    } else if($post->hasContent("Name")){
-                        $postName = $post->findContent("Name")->value;
-                    }else if($post->hasContent("Description")){
 
-                        $desc = $post->findContent("Description")->value;
-                        if (strlen($desc) > 20)
-                            $desc = substr($desc, 0, 17) . '...';
-                        $postName = $desc;
-
-                    }
-
-                    $secViews[] = ViewUtils::box($postName,(new PageSummaryPostsForm())->postViews($post->id),null,null,true,$buttons,'fa-angle-double-right');
+                    $secViews[] = ViewUtils::box($post->name_formatted,(new PageSummaryPostsForm())->postViews($post->id),null,null,true,$buttons,'fa-angle-double-right');
                 } else {
-                    $header = $post->section()->first()->name;//$post->name." - ".
+                    $header = $post->section()->first()->name;//$post->name_formatted." - ".
 
 
                     $secViews[] = ViewUtils::plain((new PageSummaryPostsForm())->postViews($post->id));
@@ -95,6 +82,7 @@ class PageSummary extends Controller{
 
             if($sec->single==0){
                 $secButtons[] = ["label"=>'Add Post', "href"=>"/admin/manage-pages/".$page->id."/section/$sec->id/add-post"];
+                $secButtons[] = ["label"=>'Sort', "href"=>"/admin/manage-pages/".$page->id."/section/$sec->id/sort"];
                 $icon = 'fa-bars';
             } else if( count($secViews) === 0 ){
                 $secButtons[] = ["label"=>'Create', "href"=>"/admin/manage-pages/".$page->id."/section/$sec->id/add-post"];

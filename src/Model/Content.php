@@ -25,7 +25,13 @@ class Content extends Model {
     function item(){
         return $this->belongsTo('App\AUI\Model\Item');
     }
-
+    function itemType(){
+        $i = $this->item()->get()->first();
+        if($i){
+            return $i->itemType()->get()->first();
+        }
+        return null;
+    }
 
     function url(){
 

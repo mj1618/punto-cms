@@ -84,4 +84,29 @@ class Post extends Model {
 
         return $c;
     }
+
+    function getNameFormattedAttribute(){
+        $postName = $this->name;
+
+        if($this->hasContent("Title")){
+            $postName = $this->findContent("Title")->value;
+        } else if($this->hasContent("Name")){
+            $postName = $this->findContent("Name")->value;
+        }else if($this->hasContent("Description")){
+            $desc = $this->findContent("Description")->value;
+            if (strlen($desc) > 20)
+                $desc = substr($desc, 0, 17) . '...';
+            $postName = $desc;
+        } else {
+            foreach($this->contents()->get() as $c){
+                $type = $c->itemType();
+                if($type && $type->short_name=='textbox' && $c->value!=null){
+                    $postName=$c->value;
+                }
+            }
+        }
+        return $postName;
+    }
+
+    protected $appends = array('name_formatted');
 }
