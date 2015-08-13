@@ -40,7 +40,7 @@ class PageSummaryPostSort extends Controller {
                     [
                         \View::make('punto-cms::sort')
                             ->with('actionUrl','/admin/manage-pages/'.Request::route('id1').'/section/'.Request::route('id2').'/sort')
-                            ->with('items',Post::where('section_id','=',Request::route('id2'))->orderBy('sort','ASC')->orderBy('id','ASC')->get())
+                            ->with('items',Post::where('page_id','=',Request::route('id1'))->where('section_id','=',Request::route('id2'))->orderBy('sort','ASC')->orderBy('id','ASC')->get())
                             ->with('key','name_formatted')
                     ])
             ]);
