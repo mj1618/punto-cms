@@ -36,7 +36,7 @@ class PageRoute extends Controller {
         })->get()->first();
 
 
-        $ps = Post::where('page_id','=',$page->id)->get();
+        $ps = Post::where('page_id','=',$page->id)->orderBy('sort','ASC')->orderBy('id','ASC')->get();
 
         $posts = [];
         foreach($page->template()->first()->sections() as $sec){
