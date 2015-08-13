@@ -36,7 +36,7 @@ class PageSummaryPostSort extends Controller {
     function get(){
         return ViewUtils::page(
             [
-                ViewUtils::box('Sort Posts',
+                ViewUtils::box('Sort Products',
                     [
                         \View::make('punto-cms::sort')
                             ->with('actionUrl','/admin/manage-pages/'.Request::route('id1').'/section/'.Request::route('id2').'/sort')
