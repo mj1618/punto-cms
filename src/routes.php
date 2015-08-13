@@ -102,6 +102,7 @@ Route::group(['middleware' => ['editorauth']], function(){
     (new App\AUI\Controllers\ElfinderView())->routes();
 
     (new App\AUI\Controllers\EditPagesSort())->routes();
+    (new App\AUI\Controllers\PageNew())->routes();
 
 
     if(Config::get('punto-cms.store')===true){

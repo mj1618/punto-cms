@@ -4,5 +4,6 @@ return [
     'c2go-redirect-logout'=>'http://localhost:8000/logout',
     'store'=>false,
     'stripe-secret'=>'',
-    'stripe-publish'=>''
+    'stripe-publish'=>'',
+    'editor-new-page'=>false
 ];
