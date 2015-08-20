@@ -26,7 +26,7 @@
             <content:encoded><![CDATA[{!! $item['content'] !!}]]></content:encoded>
 {{--    --}}@endif
 {{--    --}}{{--<dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">{{ $item['author'] }}</dc:creator>--}}
-            <pubDate>{{ str_replace('+0800','AWST',$item['pubdate']) }}</pubDate>
+            <pubDate>{{ DateTime::createFromFormat('Y-m-d\TH:i:sP',str_replace('+0800','AWST',$item['pubdate']))->format('D, d M Y H:i:s O') }}</pubDate>
         </item>
 {{----}}@endforeach
     </channel>
