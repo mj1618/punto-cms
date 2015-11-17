@@ -22,8 +22,19 @@ use GuzzleHttp\Exception\ClientException;
 class SSOLogin extends Controller {
 
     function __construct(){
-        App::singleton('guzzle-client',function(){
-            return new Client();
+
+        $opts = [];
+
+        if(env(PROXY)){
+            $opts = [
+                'defaults' => [
+                    'proxy'=>env(PROXY)
+                ]
+            ];
+        }
+
+        App::singleton('guzzle-client',function() use ($opts){
+            return new Client($opts);
         });
     }
 
