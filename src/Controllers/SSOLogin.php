@@ -25,10 +25,10 @@ class SSOLogin extends Controller {
 
         $opts = [];
 
-        if(env(PROXY)){
+        if(env('PROXY')){
             $opts = [
                 'defaults' => [
-                    'proxy'=>env(PROXY)
+                    'proxy'=>env('PROXY')
                 ]
             ];
         }
