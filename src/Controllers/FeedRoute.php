@@ -31,7 +31,7 @@ class FeedRoute extends Controller {
             $query->where('url', '=', Request::url());
         })->get()->first();
 
-        $feed = \Feed::make();
+        $feed = new \Feed;
         $feed->setTextLimit(10000);
         $feed->setView('punto-cms::rss');
         // cache the feed for 60 minutes (second parameter is optional)
