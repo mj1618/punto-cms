@@ -54,7 +54,7 @@ class Post extends Model {
             $i = File::find($c->value);
 
             if(!isset($i) || $i->value===''){
-                return $def;
+                return $c->value;
             }
 
             return str_replace('\\','/',$i->value);

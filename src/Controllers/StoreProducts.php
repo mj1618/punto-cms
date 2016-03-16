@@ -33,6 +33,7 @@ use MJ1618\AdminUI\Form\TextBox;
 use MJ1618\AdminUI\Utils\ViewUtils;
 use MJ1618\AdminUI\Controller\Table;
 
+use MJ1618\AdminUI\Form\ElfinderImageInput;
 class StoreProducts extends Table2 {
 
 
